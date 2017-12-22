@@ -1,0 +1,35 @@
+{
+  "name": "league",
+  "version": "1.0.0",
+  "description": "motogp league",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm-run-all --parallel dev-server dev-css",
+    "dev-server": "lite-server index.html",
+    "dev-css": "node-sass-chokidar src/ -o src/ --watch --recursive --source-map true",
+    "test": "test",
+    "build": "parcel build index.html --out-dir build",
+    "prod-server": "lite-server build/index.html",
+    "prod": "npm-run-all build prod-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.motogp.net:axelclaver/league.git"
+  },
+  "keywords": [
+    "state",
+    "management",
+    "es6",
+    "testing"
+  ],
+  "author": "Axel claver",
+  "license": "ISC",
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-preset-stage-2": "^6.24.1",
+    "lite-server": "^2.3.0",
+    "node-sass-chokidar": "0.0.3",
+    "npm-run-all": "^4.1.2",
+    "parcel-bundler": "^1.2.1"
+  }
+}
