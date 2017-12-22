@@ -1,12 +1,28 @@
-const routes = [{ url: "/" }, { url: "/user" }, { url: "/user/:username" }];
+import { actions, dispatch } from './store.js';
 
-function router(ev) {
-    const params = getParams(location.pathname);
+let routes = [];
+
+export function initRouter(routesArr){
+    routes = routesArr;
+    console.log("routes ", routes);
+}
+
+export function go(route){
+    console.log("routes ", routes);
+    history.pushState(null, '', route);
+    dispatch({
+        type: actions.SET_LOCATION,
+        data: {
+            route: route,
+            params: getParams(route)
+        }
+    })
 }
 
 function getParams(url) {
     let params;
 
+    console.log("routes ", routes);
     routes.forEach(function(route) {
         const routeReduce = route.url.replace(/(:\w+)/g, "([\\w-]+)");
         const routeMatch = url.match(`^${routeReduce}$`)
@@ -25,19 +41,3 @@ function getParams(url) {
 
     return { ...params };
 }
-
-function computeParams(route, url) {
-    var routeParts = route.split("/");
-    var urlParts = url.split("/");
-    var options = {};
-
-    for (var i = 0, nbOfParts = routeParts.length; i < nbOfParts; i++) {
-        if (urlParts[i] && ~routeParts[i].indexOf(":")) {
-            options[routeParts[i].slice(1)] = urlParts[i];
-        }
-    }
-
-    return options;
-}
-
-router();

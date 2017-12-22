@@ -2,6 +2,11 @@ import { userReducer } from './reducers.js';
 
 const stateEvent = new CustomEvent('state');
 
+export const actions = {
+    SET_LOCATION: 'SET_LOCATION',
+    GET_USER_SESSION: 'GET_USER_SESSION'
+}
+
 export let store = {
     user: {
         name: 'anonymous',

@@ -1,9 +1,4 @@
-import { dispatch } from './store.js';
-
-
-export const actions = {
-    GET_USER_SESSION: 'GET_USER_SESSION'
-}
+import { dispatch, actions } from './store.js';
 
 export function getUserSession() {
     const userSessionURL = "http://axelclaverwww.motogp.com:8080/es/xml/game/sessget/";
