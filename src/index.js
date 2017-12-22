@@ -4,6 +4,8 @@ import User from './components/User/User.js';
 import "./Store/router.js";
 import "./Store/logger.js";
 
+const user = new User(document.querySelector('.User'));
+
 initRouter([
     { url: "/" },
     { url: "/user" },
@@ -11,6 +13,3 @@ initRouter([
 ]);
 
 
-const user = new User(document.querySelector('.User'));
-
-go('/user/lalala');

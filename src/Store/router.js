@@ -2,19 +2,24 @@ import { actions, dispatch } from './store.js';
 
 let routes = [];
 
-export function initRouter(routesArr){
-    routes = routesArr;
-}
-
-export function go(route){
-    history.pushState(null, '', route);
-    dispatch({
+function goAction(route){
+    return {
         type: actions.SET_LOCATION,
         data: {
             route: route,
             params: getParams(route)
         }
-    })
+    }
+}
+
+export function initRouter(routesArr){
+    routes = routesArr;
+    dispatch(goAction(location.pathname))
+}
+
+export function go(route){
+    history.pushState(null, '', route);
+    dispatch(goAction(route))
 }
 
 function getParams(url) {
