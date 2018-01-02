@@ -15,10 +15,13 @@ export function addReducer(reducerObj){
     Object.keys(reducerObj).forEach(key => {
         reducers[key] = reducerObj[key];
     });
-    console.log("reducers ", reducers);
 }
 
 export function dispatch(action){    
     state = reducers[action.type] ? reducers[action.type](state, action) : state;
     document.dispatchEvent(new CustomEvent('state', {detail: action}));
+}
+
+export function dispatchError(error){
+    document.dispatchEvent(new CustomEvent('error', {detail: error}));
 }

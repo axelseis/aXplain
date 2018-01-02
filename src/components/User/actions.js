@@ -1,5 +1,4 @@
-import { dispatch } from '../../lib/store.js';
-import { actions as storeActions } from '../../lib/actions.js';
+import { dispatch, dispatchError } from '../../lib/store.js';
 
 export function getUserSession() {
     const userSessionURL = "http://axelclaverwww.motogp.com:8080/en/xml/game/sessget/";
@@ -12,10 +11,10 @@ export function getUserSession() {
                 dispatch(actions.GET_USER_SESSION(data));
             })
             .catch(err => {
-                dispatch(storeActions.ERROR({
-                    type: 'fetch',
-                    message: `Ops, can't connect to ${userSessionURL}`
-                }))
+                dispatchError({
+                    type: err,
+                    message: `Can't connect to ${userSessionURL}`
+                })
             })
 }
 

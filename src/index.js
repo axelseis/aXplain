@@ -5,6 +5,8 @@ import "./lib/logger.js";
 import User from './components/User/User.js';
 import { reducers as userReducer } from './components/User/actions.js';
 
+const user = new User(document.querySelector('.User'));
+
 const initialState = {
     user: {
         name: 'anonymous',
@@ -12,14 +14,13 @@ const initialState = {
     }
 }
 
-const user = new User(document.querySelector('.User'));
-
-initStore(userReducer, initialState);
-
-initRouter([
+const routes = [
     { url: "/",  },
     { url: "/user" },
     { url: "/user/:username" }
-]);
+]
+
+initStore(userReducer, initialState);
+initRouter(routes);
 
 

@@ -6,10 +6,6 @@ export const actions = {
             route: route,
             params: params
         }
-    }),
-    ERROR: (error) => ({
-        type: 'ON_ERROR',
-        error: error
     })
 }
 
@@ -20,12 +16,5 @@ export const reducers = {
             ...state.router,
             ...action.location
         }
-    }),
-    ON_ERROR: (state, action) => ({
-        ...state,
-        errors: [
-            ...(state.errors || []),
-            action.error
-        ]
     })
 }
