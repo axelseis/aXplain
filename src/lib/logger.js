@@ -1,4 +1,4 @@
-import { store as state } from './store.js'
+import { state } from './store.js'
 
 document.addEventListener('action', (ev) => {
     console.log('action', ev.detail)

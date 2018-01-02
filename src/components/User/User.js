@@ -1,48 +1,33 @@
-import {store as state, dispatch} from '../../Store/store.js';
-import {getUserSession} from '../../Store/actions.js';
+import Component from '../../lib/Component.js'
+import { state } from '../../lib/store.js'
+
+import { getUserSession } from './actions.js';
 
 
-export default class User {
+export default class User extends Component {
     constructor(refClip){
-        this.$clip = refClip;
-        document.addEventListener('state', (ev) => this._checkProps())
-        this.props = {}
+        super(refClip);
     }
 
     stateToprops() {
         this.props = {...state.user};
     }
 
-    onClickUsername(ev){
+    onClickUsername(ev) {
         getUserSession()
     }
 
-    onClickSession(ev){
+    onClickSession(ev) {
         console.log("onClickSession: ", ev);
     }
 
     render() {
-
         return (`
             <div class="User__name" onClick="onClickUsername">${this.props.name}:</div>
-            ${this.props.session ?
+            ${this.props.session &&
                 `<div class="User__session" onclick="onClickSession">${this.props.session}</div>`
-                : ''
             }
         `)
-    }
-
-    _checkProps() {
-        const oldProps = JSON.stringify(this.props);
-        this.stateToprops();
-        if(JSON.stringify(this.props) !== oldProps){
-            this.$clip.innerHTML = this.render();
-            this.$clip.querySelectorAll('[onClick]').forEach(element => {
-                const clickFunc = element.getAttribute("onclick")
-                element.setAttribute('onclick','')
-                element.onclick = this[clickFunc].bind(this);
-            });
-        }
     }
 }
 

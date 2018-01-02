@@ -1,4 +1,4 @@
-import {actions} from './store.js'
+import {actions} from './actions.js'
 
 export function userReducer(state, action) {
     switch(action.type) {
@@ -7,11 +7,11 @@ export function userReducer(state, action) {
                 ...state,
                 router: {
                     ...state.router,
-                    ...action.data
+                    ...action.payload
                 }
             }
         case actions.GET_USER_SESSION:
-            const {session} = {...action.data}
+            const {session} = {...action.payload}
             return {
                 ...state,
                 user: {

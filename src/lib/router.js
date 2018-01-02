@@ -1,11 +1,16 @@
-import { actions, dispatch } from './store.js';
+import { dispatch } from './store.js';
+
+const actions = {
+    SET_LOCATION: 'SET_LOCATION',
+}
 
 let routes = [];
 
 function goAction(route){
+ console.log("goAction: ", route);
     return {
         type: actions.SET_LOCATION,
-        data: {
+        payload: {
             route: route,
             params: getParams(route)
         }
