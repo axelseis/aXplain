@@ -3,7 +3,7 @@ import { initRouter, go } from './lib/router.js';
 import "./lib/logger.js";
 
 import User from './components/User/User.js';
-import { reducer as userReducer } from './components/User/actions.js';
+import { reducers as userReducer } from './components/User/actions.js';
 
 const initialState = {
     user: {
@@ -14,7 +14,7 @@ const initialState = {
 
 const user = new User(document.querySelector('.User'));
 
-initStore([userReducer], initialState);
+initStore(userReducer, initialState);
 
 initRouter([
     { url: "/",  },

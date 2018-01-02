@@ -1,31 +1,31 @@
 
-const actions = {
-    SET_LOCATION: 'SET_LOCATION',
-}
-
-export function setLocation(route, params){
-    console.log("goAction: ", route);
-    return {
-        type: actions.SET_LOCATION,
-        payload: {
+export const actions = {
+    SET_LOCATION: (route,params) => ({
+        type: 'SET_LOCATION',
+        location: {
             route: route,
             params: params
         }
-    }
+    }),
+    ERROR: (error) => ({
+        type: 'ON_ERROR',
+        error: error
+    })
 }
 
-export function routerReducer(state, action) {
-    switch(action.type) {
-        case actions.SET_LOCATION:
-            return {
-                ...state,
-                router: {
-                    ...state.router,
-                    ...action.payload
-                }
-            }
-        default:
-            return {...state}
-    }
+export const reducers = {
+    SET_LOCATION: (state, action) => ({
+        ...state,
+        router: {
+            ...state.router,
+            ...action.location
+        }
+    }),
+    ON_ERROR: (state, action) => ({
+        ...state,
+        errors: [
+            ...(state.errors || []),
+            action.error
+        ]
+    })
 }
-

@@ -1,16 +1,17 @@
-import { dispatch } from './store.js';
-import { setLocation } from './actions.js';
+import { dispatch, addReducer } from './store.js';
+import { actions, reducers } from './actions.js';
 
 let routes = [];
 
 export function initRouter(routesArr){
     routes = routesArr;
-    dispatch(setLocation(location.pathname))
+    addReducer(reducers);
+    dispatch(actions.SET_LOCATION(location.pathname))
 }
 
 export function go(route){
     history.pushState(null, '', route);
-    dispatch(setLocation(route, getParams(route)))
+    dispatch(actions.SET_LOCATION(route, getParams(route)))
 }
 
 function getParams(url) {
