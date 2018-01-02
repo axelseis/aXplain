@@ -28,14 +28,12 @@ const actions = {
 }
 
 export const reducers = {
-    SET_USER_SESSION: (state, action) => {
-        return {
-            ...state,
-            user: {
-                ...state.user,
-                session: action.session
-            }
+    SET_USER_SESSION: (state, action) => ({
+        ...state,
+        user: {
+            ...state.user,
+            session: action.session
         }
-    }
+    })
 }
 
