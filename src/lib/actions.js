@@ -1,11 +1,8 @@
 
 export const actions = {
-    SET_LOCATION: (route,params) => ({
+    SET_LOCATION: (route, params = {}) => ({
         type: 'SET_LOCATION',
-        location: {
-            route: route,
-            params: params
-        }
+        location: { route, params }
     })
 }
 
