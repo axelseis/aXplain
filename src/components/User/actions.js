@@ -18,3 +18,20 @@ export function getUserSession() {
             })
         })
 }
+
+export function reducer(state, action) {
+    switch(action.type) {
+        case actions.GET_USER_SESSION:
+            const {session} = {...action.payload}
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    session: session
+                }
+            }
+        default:
+            return {...state}
+    }
+}
+
