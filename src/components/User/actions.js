@@ -1,38 +1,39 @@
 import { dispatch, dispatchError } from '../../lib/store.js';
 
-export function getUserSession() {
-    const userSessionURL = "http://axelclaverwww.motogp.com:8080/en/xml/game/sessget/";
+let sessionFetch;
 
-        fetch(userSessionURL)
-            .then(response => {
-                response.text()
-            })
-            .then(data => {
-                dispatch(actions.GET_USER_SESSION(data));
-            })
-            .catch(err => {
-                dispatchError({
-                    type: err,
-                    message: `Can't connect to ${userSessionURL}`
-                })
-            })
+export function getUserSession() {
+    const userSessionURL = "http://www.motogp.com";
+
+    sessionFetch = sessionFetch || fetch(userSessionURL)
+        .then(response => {
+            response.text()
+        })
+        .then(data => {
+            dispatch(actions.SET_USER_SESSION(data));
+            sessionFetch = null;
+        })
+        .catch(err => {
+            const tempError = new Error(`${err} (${userSessionURL})`);
+            dispatchError(tempError);
+            sessionFetch = null;
+        })
 }
 
 const actions = {
-    GET_USER_SESSION: (session) => ({
-        type: 'GET_USER_SESSION',
-        payload: {session}
+    SET_USER_SESSION: (session) => ({
+        type: 'SET_USER_SESSION',
+        session: session
     })
 }
 
 export const reducers = {
-    GET_USER_SESSION: (state, action) => {
-        const {session} = {...action.payload}
+    SET_USER_SESSION: (state, action) => {
         return {
             ...state,
             user: {
                 ...state.user,
-                session: session
+                session: action.session
             }
         }
     }
