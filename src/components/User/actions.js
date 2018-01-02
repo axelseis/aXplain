@@ -1,22 +1,23 @@
-import { dispatch, dispatchError } from '../../lib/store.js';
+import { dispatch } from '../../lib/store.js';
 
 let sessionFetch;
 
 export function getUserSession() {
     const userSessionURL = "http://axelclaverwww.motogp.com:8080/en/xml/game/sessget/";
 
+    console.log("sessionFetch ", sessionFetch);
     sessionFetch = sessionFetch || fetch(userSessionURL)
-        .then(response => {
-            response.text()
-        })
-        .then(data => {
-            dispatch(actions.SET_USER_SESSION(data));
-            sessionFetch = null;
-        })
-        .catch(err => {
-            const tempError = new Error(`${err} (${userSessionURL})`);
-            dispatchError(tempError);
-            sessionFetch = null;
+    .then(response => {
+        response.text()
+    })
+    .then(data => {
+        dispatch(actions.SET_USER_SESSION(data));
+        sessionFetch = null;
+    })
+    .catch(err => {
+        const tempError = new Error(`${err} (${userSessionURL})`);
+        sessionFetch = null;
+        throw tempError;
         })
 }
 

@@ -21,7 +21,3 @@ export function dispatch(action){
     state = reducers[action.type] ? reducers[action.type](state, action) : state;
     document.dispatchEvent(new CustomEvent('state', {detail: action}));
 }
-
-export function dispatchError(error){
-    document.dispatchEvent(new CustomEvent('error', {detail: error}));
-}
