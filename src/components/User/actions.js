@@ -3,7 +3,7 @@ import { dispatch, dispatchError } from '../../lib/store.js';
 let sessionFetch;
 
 export function getUserSession() {
-    const userSessionURL = "http://www.motogp.com";
+    const userSessionURL = "http://axelclaverwww.motogp.com:8080/en/xml/game/sessget/";
 
     sessionFetch = sessionFetch || fetch(userSessionURL)
         .then(response => {
