@@ -1,10 +1,10 @@
 
-const env = window.location.hostname === 'localhost' ? 'prod' : 'prod';
+const env = window.location.hostname === 'localhost' ? 'dev' : 'prod';
 const apiServer = env === 'dev' ? './json/' : 'http://axelclaverwww.motogp.com:8080/en/';
 
 const endpoints = {
     userInfo: {
-        dev: 'get_user_info.json',
+        dev: 'get_user_info.jsonTA',
         prod: 'interface/get_user_info_json'
     },
     riders: {
@@ -15,12 +15,12 @@ const endpoints = {
 
 export function getUserInfoJSON(){
     const userInfoURL = apiServer + endpoints.userInfo[env];
-    return get(userInfoURL)
+    return get(userInfoURL).catch(err => { throw err })
 }
 
 export function getRidersJSON() {
     const ridersURL = apiServer + endpoints.riders[env];
-    return get(ridersURL)
+    return get(ridersURL).catch(err => err )
 }
 
 function get(url) {
@@ -53,7 +53,8 @@ function get(url) {
       }
 
       return Promise.reject(new HttpError('HTTP error: ' + response.status));
-    }).catch(error => {
+    })
+    .catch(error => {
       return Promise.reject(new NetworkError(error.message));
     });
   }

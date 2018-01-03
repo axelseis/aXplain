@@ -6,6 +6,10 @@ export function getUserInfo(){
     userInfoFetch.then(response => {
         dispatch(actions.SET_USER_INFO(response));
     })
+    .catch(err => {
+        console.log("err ", err);
+        throw new Error(err)
+    })
 }
 
 export function getRiders(){
