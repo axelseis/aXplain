@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "npm-run-all --parallel dev-server dev-css",
-    "dev-server": "lite-server index.html",
+    "dev-server": "lite-server index.html --serveStatic json --cors",
     "dev-css": "node-sass-chokidar src/ -o src/ --watch --recursive --source-map true",
     "test": "test",
     "build": "parcel build index.html --out-dir build",

@@ -1,40 +1,42 @@
 import { dispatch } from '../../lib/store.js';
+import { getRidersJSON, getUserInfoJSON } from '../../data/motogpAPI.js';
 
-let sessionFetch;
-
-export function getUserSession() {
-    const userSessionURL = "http://axelclaverwww.motogp.com:8080/en/xml/game/sessget/";
-
-    console.log("sessionFetch ", sessionFetch);
-    sessionFetch = sessionFetch || fetch(userSessionURL)
-    .then(response => {
-        response.text()
+export function getUserInfo(){
+    const userInfoFetch = getUserInfoJSON();
+    userInfoFetch.then(response => {
+        dispatch(actions.SET_USER_INFO(response));
     })
-    .then(data => {
-        dispatch(actions.SET_USER_SESSION(data));
-        sessionFetch = null;
+}
+
+export function getRiders(){
+    ridersFetch = getRidersJSON();
+    ridersFetch.then(response => {
+        dispatch(actions.SET_RIDERS(response));
     })
-    .catch(err => {
-        const tempError = new Error(`${err} (${userSessionURL})`);
-        sessionFetch = null;
-        throw tempError;
-        })
 }
 
 const actions = {
-    SET_USER_SESSION: (session) => ({
-        type: 'SET_USER_SESSION',
-        session: session
+    SET_USER_INFO: (userInfo) => ({
+        type: 'SET_USER_INFO',
+        user: userInfo
+    }),
+    SET_RIDERS: (riders) => ({
+        type: 'SET_RIDERS',
+        riders: riders
     })
 }
 
 export const reducers = {
-    SET_USER_SESSION: (state, action) => ({
+    SET_USER_INFO: (state, action) => ({
         ...state,
         user: {
             ...state.user,
-            session: action.session
+            ...action.user
         }
+    }),
+    SET_RIDERS: (state, action) => ({
+        ...state,
+        riders: action.riders
     })
 }
 

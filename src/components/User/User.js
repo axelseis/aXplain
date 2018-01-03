@@ -1,7 +1,7 @@
 import Component from '../../lib/Component.js'
 import { state } from '../../lib/store.js'
 
-import { getUserSession } from './actions.js';
+import { getUserInfo, getRiders } from './actions.js';
 
 
 export default class User extends Component {
@@ -14,7 +14,7 @@ export default class User extends Component {
     }
 
     onClickUsername(ev) {
-        getUserSession()
+        getUserInfo()
     }
 
     onClickSession(ev) {

@@ -1,0 +1,905 @@
+{
+  "classification": [
+    {
+      "pos": "1",
+      "uid": "622140",
+      "nickname": "pegaez2",
+      "country_shortname": "SPA",
+      "country": "SPAIN",
+      "total_score": "1812",
+      "pos_difference": 2
+    },
+    {
+      "pos": "2",
+      "uid": "693187",
+      "nickname": "jommi",
+      "country_shortname": "FIN",
+      "country": "FINLAND",
+      "total_score": "1800",
+      "pos_difference": 0
+    },
+    {
+      "pos": "3",
+      "uid": "621505",
+      "nickname": "carol31",
+      "country_shortname": "GBR",
+      "country": "GREAT BRITAIN",
+      "total_score": "1798",
+      "pos_difference": 5
+    },
+    {
+      "pos": "4",
+      "uid": "1776344",
+      "nickname": "Johnny_Begood",
+      "country_shortname": "FRA",
+      "country": "FRANCE",
+      "total_score": "1796",
+      "pos_difference": 3
+    },
+    {
+      "pos": "5",
+      "uid": "33193",
+      "nickname": "flori39",
+      "country_shortname": "GER",
+      "country": "GERMANY",
+      "total_score": "1792",
+      "pos_difference": -4
+    },
+    {
+      "pos": "6",
+      "uid": "232979",
+      "nickname": "sirbonus",
+      "country_shortname": "USA",
+      "country": "UNITED STATES",
+      "total_score": "1792",
+      "pos_difference": -2
+    },
+    {
+      "pos": "7",
+      "uid": "919712",
+      "nickname": "weedr1",
+      "country_shortname": "AUS",
+      "country": "AUSTRALIA",
+      "total_score": "1789",
+      "pos_difference": -2
+    },
+    {
+      "pos": "8",
+      "uid": "1763615",
+      "nickname": "BikerBill",
+      "country_shortname": "GBR",
+      "country": "GREAT BRITAIN",
+      "total_score": "1789",
+      "pos_difference": -2
+    },
+    {
+      "pos": "9",
+      "uid": "465077",
+      "nickname": "millersmotogpfan",
+      "country_shortname": "USA",
+      "country": "UNITED STATES",
+      "total_score": "1785",
+      "pos_difference": 3
+    },
+    {
+      "pos": "10",
+      "uid": "1776367",
+      "nickname": "camille.castelli33",
+      "country_shortname": "ICE",
+      "country": "ICELAND",
+      "total_score": "1784",
+      "pos_difference": 3
+    },
+    {
+      "pos": "11",
+      "uid": "691579",
+      "nickname": "Rachel",
+      "country_shortname": "GBR",
+      "country": "GREAT BRITAIN",
+      "total_score": "1783",
+      "pos_difference": 6
+    },
+    {
+      "pos": "12",
+      "uid": "929756",
+      "nickname": "Julie",
+      "country_shortname": "GBR",
+      "country": "GREAT BRITAIN",
+      "total_score": "1783",
+      "pos_difference": 6
+    },
+    {
+      "pos": "13",
+      "uid": "890705",
+      "nickname": "Tonio",
+      "country_shortname": "FRA",
+      "country": "FRANCE",
+      "total_score": "1781",
+      "pos_difference": 2
+    },
+    {
+      "pos": "14",
+      "uid": "74030",
+      "nickname": "dirt_bloke",
+      "country_shortname": "AUS",
+      "country": "AUSTRALIA",
+      "total_score": "1780",
+      "pos_difference": -4
+    },
+    {
+      "pos": "15",
+      "uid": "793043",
+      "nickname": "markk83",
+      "country_shortname": "ITA",
+      "country": "ITALY",
+      "total_score": "1780",
+      "pos_difference": 19
+    },
+    {
+      "pos": "16",
+      "uid": "267999",
+      "nickname": "ukhammer",
+      "country_shortname": "GBR",
+      "country": "GREAT BRITAIN",
+      "total_score": "1778",
+      "pos_difference": 3
+    },
+    {
+      "pos": "17",
+      "uid": "589606",
+      "nickname": "josef58",
+      "country_shortname": "CZE",
+      "country": "CZECH REPUBLIC",
+      "total_score": "1778",
+      "pos_difference": 11
+    },
+    {
+      "pos": "18",
+      "uid": "592860",
+      "nickname": "bryson5",
+      "country_shortname": "AUS",
+      "country": "AUSTRALIA",
+      "total_score": "1778",
+      "pos_difference": 14
+    },
+    {
+      "pos": "19",
+      "uid": "598886",
+      "nickname": "chappers2710",
+      "country_shortname": "GBR",
+      "country": "GREAT BRITAIN",
+      "total_score": "1778",
+      "pos_difference": 29
+    },
+    {
+      "pos": "20",
+      "uid": "923418",
+      "nickname": "kraken17",
+      "country_shortname": "ITA",
+      "country": "ITALY",
+      "total_score": "1778",
+      "pos_difference": 18
+    },
+    {
+      "pos": "21",
+      "uid": "938561",
+      "nickname": "james",
+      "country_shortname": "FRA",
+      "country": "FRANCE",
+      "total_score": "1778",
+      "pos_difference": 19
+    },
+    {
+      "pos": "22",
+      "uid": "119034",
+      "nickname": "beabarca",
+      "country_shortname": "SPA",
+      "country": "SPAIN",
+      "total_score": "1777",
+      "pos_difference": -1
+    },
+    {
+      "pos": "23",
+      "uid": "164401",
+      "nickname": "momonga",
+      "country_shortname": "JPN",
+      "country": "JAPAN",
+      "total_score": "1777",
+      "pos_difference": -12
+    },
+    {
+      "pos": "24",
+      "uid": "457944",
+      "nickname": "ceskgarrido",
+      "country_shortname": "SPA",
+      "country": "SPAIN",
+      "total_score": "1777",
+      "pos_difference": 38
+    },
+    {
+      "pos": "25",
+      "uid": "173727",
+      "nickname": "mikel26",
+      "country_shortname": "SPA",
+      "country": "SPAIN",
+      "total_score": "1774",
+      "pos_difference": 5
+    },
+    {
+      "pos": "26",
+      "uid": "725167",
+      "nickname": "sasso",
+      "country_shortname": "ITA",
+      "country": "ITALY",
+      "total_score": "1774",
+      "pos_difference": -3
+    },
+    {
+      "pos": "27",
+      "uid": "1770134",
+      "nickname": "Marco",
+      "country_shortname": "FRA",
+      "country": "FRANCE",
+      "total_score": "1774",
+      "pos_difference": -1
+    },
+    {
+      "pos": "28",
+      "uid": "174777",
+      "nickname": "fbr38",
+      "country_shortname": "FRA",
+      "country": "FRANCE",
+      "total_score": "1773",
+      "pos_difference": 18
+    },
+    {
+      "pos": "29",
+      "uid": "328913",
+      "nickname": "ivher",
+      "country_shortname": "CRO",
+      "country": "CROATIA",
+      "total_score": "1773",
+      "pos_difference": -13
+    },
+    {
+      "pos": "30",
+      "uid": "353256",
+      "nickname": "beatle66",
+      "country_shortname": "AUT",
+      "country": "AUSTRIA",
+      "total_score": "1773",
+      "pos_difference": 12
+    },
+    {
+      "pos": "31",
+      "uid": "353388",
+      "nickname": "mhlfd",
+      "country_shortname": "UKR",
+      "country": "UKRAINE",
+      "total_score": "1773",
+      "pos_difference": 12
+    },
+    {
+      "pos": "32",
+      "uid": "521777",
+      "nickname": "erickroon",
+      "country_shortname": "NED",
+      "country": "NETHERLANDS",
+      "total_score": "1773",
+      "pos_difference": -8
+    },
+    {
+      "pos": "33",
+      "uid": "310589",
+      "nickname": "mofofunc",
+      "country_shortname": "AUS",
+      "country": "AUSTRALIA",
+      "total_score": "1772",
+      "pos_difference": 24
+    },
+    {
+      "pos": "34",
+      "uid": "1238671",
+      "nickname": "Armando",
+      "country_shortname": "ITA",
+      "country": "ITALY",
+      "total_score": "1772",
+      "pos_difference": -25
+    },
+    {
+      "pos": "35",
+      "uid": "1771613",
+      "nickname": "Team Coqui",
+      "country_shortname": "USA",
+      "country": "UNITED STATES",
+      "total_score": "1772",
+      "pos_difference": 81
+    },
+    {
+      "pos": "36",
+      "uid": "822777",
+      "nickname": "Robe54",
+      "country_shortname": "ITA",
+      "country": "ITALY",
+      "total_score": "1771",
+      "pos_difference": -22
+    },
+    {
+      "pos": "37",
+      "uid": "1327987",
+      "nickname": "Michael",
+      "country_shortname": "SPA",
+      "country": "SPAIN",
+      "total_score": "1771",
+      "pos_difference": -12
+    },
+    {
+      "pos": "38",
+      "uid": "132136",
+      "nickname": "zelgius",
+      "country_shortname": "FIN",
+      "country": "FINLAND",
+      "total_score": "1770",
+      "pos_difference": -1
+    },
+    {
+      "pos": "39",
+      "uid": "1349355",
+      "nickname": "Edul",
+      "country_shortname": "GBR",
+      "country": "GREAT BRITAIN",
+      "total_score": "1769",
+      "pos_difference": -19
+    },
+    {
+      "pos": "40",
+      "uid": "1802024",
+      "nickname": "AM",
+      "country_shortname": "ITA",
+      "country": "ITALY",
+      "total_score": "1769",
+      "pos_difference": 1
+    },
+    {
+      "pos": "41",
+      "uid": "255704",
+      "nickname": "vedek",
+      "country_shortname": "NED",
+      "country": "NETHERLANDS",
+      "total_score": "1768",
+      "pos_difference": -14
+    },
+    {
+      "pos": "42",
+      "uid": "188691",
+      "nickname": "leyonsan",
+      "country_shortname": "USA",
+      "country": "UNITED STATES",
+      "total_score": "1767",
+      "pos_difference": -11
+    },
+    {
+      "pos": "43",
+      "uid": "455901",
+      "nickname": "polidis70",
+      "country_shortname": "SPA",
+      "country": "SPAIN",
+      "total_score": "1767",
+      "pos_difference": 47
+    },
+    {
+      "pos": "44",
+      "uid": "699222",
+      "nickname": "Josu\u00e9",
+      "country_shortname": "POR",
+      "country": "PORTUGAL",
+      "total_score": "1767",
+      "pos_difference": 1
+    },
+    {
+      "pos": "45",
+      "uid": "1424406",
+      "nickname": "Captain Slow",
+      "country_shortname": "AUT",
+      "country": "AUSTRIA",
+      "total_score": "1767",
+      "pos_difference": -16
+    },
+    {
+      "pos": "46",
+      "uid": "160800",
+      "nickname": "drg13",
+      "country_shortname": "SPA",
+      "country": "SPAIN",
+      "total_score": "1766",
+      "pos_difference": 46
+    },
+    {
+      "pos": "47",
+      "uid": "165778",
+      "nickname": "lecainri",
+      "country_shortname": "FRA",
+      "country": "FRANCE",
+      "total_score": "1766",
+      "pos_difference": -25
+    },
+    {
+      "pos": "48",
+      "uid": "428456",
+      "nickname": "shlomitc",
+      "country_shortname": "ISR",
+      "country": "ISRAEL",
+      "total_score": "1766",
+      "pos_difference": -1
+    },
+    {
+      "pos": "49",
+      "uid": "786896",
+      "nickname": "michael",
+      "country_shortname": "USA",
+      "country": "UNITED STATES",
+      "total_score": "1766",
+      "pos_difference": 6
+    },
+    {
+      "pos": "50",
+      "uid": "838676",
+      "nickname": "hudcov\u00e1",
+      "country_shortname": "CZE",
+      "country": "CZECH REPUBLIC",
+      "total_score": "1766",
+      "pos_difference": 1
+    },
+    {
+      "pos": "51",
+      "uid": "307850",
+      "nickname": "kbeu",
+      "country_shortname": "GER",
+      "country": "GERMANY",
+      "total_score": "1765",
+      "pos_difference": -1
+    },
+    {
+      "pos": "52",
+      "uid": "328662",
+      "nickname": "slovenec",
+      "country_shortname": "SLO",
+      "country": "SLOVENIA",
+      "total_score": "1765",
+      "pos_difference": 43
+    },
+    {
+      "pos": "53",
+      "uid": "398649",
+      "nickname": "zfb",
+      "country_shortname": "USA",
+      "country": "UNITED STATES",
+      "total_score": "1765",
+      "pos_difference": 48
+    },
+    {
+      "pos": "54",
+      "uid": "695986",
+      "nickname": "Gerard",
+      "country_shortname": "POR",
+      "country": "PORTUGAL",
+      "total_score": "1765",
+      "pos_difference": -21
+    },
+    {
+      "pos": "55",
+      "uid": "799293",
+      "nickname": "dd848",
+      "country_shortname": "FRA",
+      "country": "FRANCE",
+      "total_score": "1765",
+      "pos_difference": 29
+    },
+    {
+      "pos": "56",
+      "uid": "924343",
+      "nickname": "mario",
+      "country_shortname": "ITA",
+      "country": "ITALY",
+      "total_score": "1765",
+      "pos_difference": -17
+    },
+    {
+      "pos": "57",
+      "uid": "72644",
+      "nickname": "morjooslo",
+      "country_shortname": "NOR",
+      "country": "NORWAY",
+      "total_score": "1764",
+      "pos_difference": 8
+    },
+    {
+      "pos": "58",
+      "uid": "374680",
+      "nickname": "mortske",
+      "country_shortname": "SWE",
+      "country": "SWEDEN",
+      "total_score": "1764",
+      "pos_difference": 3
+    },
+    {
+      "pos": "59",
+      "uid": "861183",
+      "nickname": "yellowBlue",
+      "country_shortname": "ITA",
+      "country": "ITALY",
+      "total_score": "1764",
+      "pos_difference": -24
+    },
+    {
+      "pos": "60",
+      "uid": "1230354",
+      "nickname": "Ducemeister",
+      "country_shortname": "AUS",
+      "country": "AUSTRALIA",
+      "total_score": "1764",
+      "pos_difference": -24
+    },
+    {
+      "pos": "61",
+      "uid": "2036457",
+      "nickname": "dziki",
+      "country_shortname": "POL",
+      "country": "POLAND",
+      "total_score": "1764",
+      "pos_difference": 9
+    },
+    {
+      "pos": "62",
+      "uid": "1759620",
+      "nickname": "M22",
+      "country_shortname": "USA",
+      "country": "UNITED STATES",
+      "total_score": "1763",
+      "pos_difference": 23
+    },
+    {
+      "pos": "63",
+      "uid": "418067",
+      "nickname": "657elf657",
+      "country_shortname": "IRL",
+      "country": "IRELAND",
+      "total_score": "1762",
+      "pos_difference": 15
+    },
+    {
+      "pos": "64",
+      "uid": "445488",
+      "nickname": "spungebobsqpants",
+      "country_shortname": "GBR",
+      "country": "GREAT BRITAIN",
+      "total_score": "1762",
+      "pos_difference": -10
+    },
+    {
+      "pos": "65",
+      "uid": "1259774",
+      "nickname": "zega",
+      "country_shortname": "SWI",
+      "country": "SWITZERLAND",
+      "total_score": "1762",
+      "pos_difference": -7
+    },
+    {
+      "pos": "66",
+      "uid": "387214",
+      "nickname": "russellbenne",
+      "country_shortname": "GBR",
+      "country": "GREAT BRITAIN",
+      "total_score": "1761",
+      "pos_difference": 30
+    },
+    {
+      "pos": "67",
+      "uid": "981105",
+      "nickname": "fb_wagner_nunes",
+      "country_shortname": "BRA",
+      "country": "BRAZIL",
+      "total_score": "1761",
+      "pos_difference": -18
+    },
+    {
+      "pos": "68",
+      "uid": "1457394",
+      "nickname": "bazza",
+      "country_shortname": "GBR",
+      "country": "GREAT BRITAIN",
+      "total_score": "1761",
+      "pos_difference": -15
+    },
+    {
+      "pos": "69",
+      "uid": "40880",
+      "nickname": "leslol",
+      "country_shortname": "FRA",
+      "country": "FRANCE",
+      "total_score": "1760",
+      "pos_difference": 17
+    },
+    {
+      "pos": "70",
+      "uid": "239078",
+      "nickname": "dfowley",
+      "country_shortname": "USA",
+      "country": "UNITED STATES",
+      "total_score": "1760",
+      "pos_difference": 1
+    },
+    {
+      "pos": "71",
+      "uid": "1059633",
+      "nickname": "Mick",
+      "country_shortname": "NED",
+      "country": "NETHERLANDS",
+      "total_score": "1760",
+      "pos_difference": -8
+    },
+    {
+      "pos": "72",
+      "uid": "289345",
+      "nickname": "giberjon22",
+      "country_shortname": "BEL",
+      "country": "BELGIUM",
+      "total_score": "1759",
+      "pos_difference": -13
+    },
+    {
+      "pos": "73",
+      "uid": "355390",
+      "nickname": "xray46",
+      "country_shortname": "USA",
+      "country": "UNITED STATES",
+      "total_score": "1759",
+      "pos_difference": -13
+    },
+    {
+      "pos": "74",
+      "uid": "594351",
+      "nickname": "ninie14",
+      "country_shortname": "FRA",
+      "country": "FRANCE",
+      "total_score": "1759",
+      "pos_difference": 5
+    },
+    {
+      "pos": "75",
+      "uid": "1208214",
+      "nickname": "zlo",
+      "country_shortname": "SRB",
+      "country": "SERBIA",
+      "total_score": "1759",
+      "pos_difference": -9
+    },
+    {
+      "pos": "76",
+      "uid": "1283196",
+      "nickname": "Sonia",
+      "country_shortname": "ITA",
+      "country": "ITALY",
+      "total_score": "1759",
+      "pos_difference": -24
+    },
+    {
+      "pos": "77",
+      "uid": "1455797",
+      "nickname": "GoHabs",
+      "country_shortname": "CAN",
+      "country": "CANADA",
+      "total_score": "1759",
+      "pos_difference": 17
+    },
+    {
+      "pos": "78",
+      "uid": "1660223",
+      "nickname": "ThomiFF",
+      "country_shortname": "INA",
+      "country": "INDONESIA",
+      "total_score": "1759",
+      "pos_difference": -22
+    },
+    {
+      "pos": "79",
+      "uid": "166719",
+      "nickname": "nicootjen",
+      "country_shortname": "BEL",
+      "country": "BELGIUM",
+      "total_score": "1758",
+      "pos_difference": 9
+    },
+    {
+      "pos": "80",
+      "uid": "456422",
+      "nickname": "thomas72",
+      "country_shortname": "SPA",
+      "country": "SPAIN",
+      "total_score": "1758",
+      "pos_difference": -7
+    },
+    {
+      "pos": "81",
+      "uid": "631397",
+      "nickname": "derekstacey",
+      "country_shortname": "GBR",
+      "country": "GREAT BRITAIN",
+      "total_score": "1758",
+      "pos_difference": 26
+    },
+    {
+      "pos": "82",
+      "uid": "934538",
+      "nickname": "JUAN",
+      "country_shortname": "SPA",
+      "country": "SPAIN",
+      "total_score": "1758",
+      "pos_difference": -8
+    },
+    {
+      "pos": "83",
+      "uid": "965388",
+      "nickname": "tanyazzr",
+      "country_shortname": "RUS",
+      "country": "RUSSIA",
+      "total_score": "1758",
+      "pos_difference": 71
+    },
+    {
+      "pos": "84",
+      "uid": "219550",
+      "nickname": "llomismo",
+      "country_shortname": "SPA",
+      "country": "SPAIN",
+      "total_score": "1757",
+      "pos_difference": -2
+    },
+    {
+      "pos": "85",
+      "uid": "233724",
+      "nickname": "borntowheel",
+      "country_shortname": "FRA",
+      "country": "FRANCE",
+      "total_score": "1757",
+      "pos_difference": 15
+    },
+    {
+      "pos": "86",
+      "uid": "443115",
+      "nickname": "larsgp",
+      "country_shortname": "NED",
+      "country": "NETHERLANDS",
+      "total_score": "1757",
+      "pos_difference": -19
+    },
+    {
+      "pos": "87",
+      "uid": "1955777",
+      "nickname": "Loreta",
+      "country_shortname": "USA",
+      "country": "UNITED STATES",
+      "total_score": "1757",
+      "pos_difference": -18
+    },
+    {
+      "pos": "88",
+      "uid": "38710",
+      "nickname": "reinhard s.",
+      "country_shortname": "GER",
+      "country": "GERMANY",
+      "total_score": "1756",
+      "pos_difference": -24
+    },
+    {
+      "pos": "89",
+      "uid": "43343",
+      "nickname": "cashondeo",
+      "country_shortname": "SPA",
+      "country": "SPAIN",
+      "total_score": "1756",
+      "pos_difference": -8
+    },
+    {
+      "pos": "90",
+      "uid": "224828",
+      "nickname": "fmed",
+      "country_shortname": "FRA",
+      "country": "FRANCE",
+      "total_score": "1756",
+      "pos_difference": 3
+    },
+    {
+      "pos": "91",
+      "uid": "353136",
+      "nickname": "ito301",
+      "country_shortname": "JPN",
+      "country": "JAPAN",
+      "total_score": "1756",
+      "pos_difference": -8
+    },
+    {
+      "pos": "92",
+      "uid": "1499558",
+      "nickname": "PrinceIple",
+      "country_shortname": "GBR",
+      "country": "GREAT BRITAIN",
+      "total_score": "1756",
+      "pos_difference": 25
+    },
+    {
+      "pos": "93",
+      "uid": "353901",
+      "nickname": "hodgson100",
+      "country_shortname": "CAN",
+      "country": "CANADA",
+      "total_score": "1755",
+      "pos_difference": -16
+    },
+    {
+      "pos": "94",
+      "uid": "388335",
+      "nickname": "holy rider",
+      "country_shortname": "SWE",
+      "country": "SWEDEN",
+      "total_score": "1755",
+      "pos_difference": 15
+    },
+    {
+      "pos": "95",
+      "uid": "442795",
+      "nickname": "shumy23",
+      "country_shortname": "ROU",
+      "country": "ROMANIA",
+      "total_score": "1755",
+      "pos_difference": 15
+    },
+    {
+      "pos": "96",
+      "uid": "1238697",
+      "nickname": "MiG",
+      "country_shortname": "ARG",
+      "country": "ARGENTINA",
+      "total_score": "1754",
+      "pos_difference": 9
+    },
+    {
+      "pos": "97",
+      "uid": "1250473",
+      "nickname": "Valentino",
+      "country_shortname": "CRO",
+      "country": "CROATIA",
+      "total_score": "1754",
+      "pos_difference": 44
+    },
+    {
+      "pos": "98",
+      "uid": "227258",
+      "nickname": "mikewheel",
+      "country_shortname": "SPA",
+      "country": "SPAIN",
+      "total_score": "1753",
+      "pos_difference": 1
+    },
+    {
+      "pos": "99",
+      "uid": "593034",
+      "nickname": "johnnygasgas",
+      "country_shortname": "CAN",
+      "country": "CANADA",
+      "total_score": "1753",
+      "pos_difference": 22
+    },
+    {
+      "pos": "100",
+      "uid": "641751",
+      "nickname": "gstrickland46",
+      "country_shortname": "THA",
+      "country": "THAILAND",
+      "total_score": "1753",
+      "pos_difference": -20
+    }
+  ],
+  "total": "7424"
+}

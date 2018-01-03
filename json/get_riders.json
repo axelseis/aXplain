@@ -1,0 +1,258 @@
+{
+  "_12": {
+    "rid": "8823",
+    "name": "Takuya",
+    "surname": "TSUDA",
+    "dorsal": "12",
+    "nation": "JPN",
+    "sponsoredteam": "Team SUZUKI ECSTAR"
+  },
+  "_17": {
+    "rid": "6867",
+    "name": "Karel",
+    "surname": "ABRAHAM",
+    "dorsal": "17",
+    "nation": "CZE",
+    "sponsoredteam": "Pull~Bear Aspar Team"
+  },
+  "_19": {
+    "rid": "4323",
+    "name": "Alvaro",
+    "surname": "BAUTISTA",
+    "dorsal": "19",
+    "nation": "SPA",
+    "sponsoredteam": "Pull~Bear Aspar Team"
+  },
+  "_21": {
+    "rid": "6170",
+    "name": "Katsuyuki",
+    "surname": "NAKASUGA",
+    "dorsal": "21",
+    "nation": "JPN",
+    "sponsoredteam": "Yamalube Yamaha Factory Racing"
+  },
+  "_22": {
+    "rid": "8469",
+    "name": "Sam",
+    "surname": "LOWES",
+    "dorsal": "22",
+    "nation": "GBR",
+    "sponsoredteam": "Aprilia Racing Team Gresini"
+  },
+  "_23": {
+    "rid": "5623",
+    "name": "Broc",
+    "surname": "PARKES",
+    "dorsal": "23",
+    "nation": "AUS",
+    "sponsoredteam": "Monster Yamaha Tech 3"
+  },
+  "_25": {
+    "rid": "7409",
+    "name": "Maverick",
+    "surname": "VI\u00d1ALES",
+    "dorsal": "25",
+    "nation": "SPA",
+    "sponsoredteam": "Movistar Yamaha MotoGP"
+  },
+  "_26": {
+    "rid": "5515",
+    "name": "Dani",
+    "surname": "PEDROSA",
+    "dorsal": "26",
+    "nation": "SPA",
+    "sponsoredteam": "Repsol Honda Team"
+  },
+  "_29": {
+    "rid": "6848",
+    "name": "Andrea",
+    "surname": "IANNONE",
+    "dorsal": "29",
+    "nation": "ITA",
+    "sponsoredteam": "Team SUZUKI ECSTAR"
+  },
+  "_31": {
+    "rid": "8237",
+    "name": "Kohta",
+    "surname": "NOZANE",
+    "dorsal": "31",
+    "nation": "JPN",
+    "sponsoredteam": "Monster Yamaha Tech 3"
+  },
+  "_35": {
+    "rid": "8010",
+    "name": "Cal",
+    "surname": "CRUTCHLOW",
+    "dorsal": "35",
+    "nation": "GBR",
+    "sponsoredteam": "LCR Honda CASTROL"
+  },
+  "_36": {
+    "rid": "5938",
+    "name": "Mika",
+    "surname": "KALLIO",
+    "dorsal": "36",
+    "nation": "FIN",
+    "sponsoredteam": "Red Bull KTM Factory Racing"
+  },
+  "_38": {
+    "rid": "7030",
+    "name": "Bradley",
+    "surname": "SMITH",
+    "dorsal": "38",
+    "nation": "GBR",
+    "sponsoredteam": "Red Bull KTM Factory Racing"
+  },
+  "_4": {
+    "rid": "5885",
+    "name": "Andrea",
+    "surname": "DOVIZIOSO",
+    "dorsal": "4",
+    "nation": "ITA",
+    "sponsoredteam": "Ducati Team"
+  },
+  "_41": {
+    "rid": "6854",
+    "name": "Aleix",
+    "surname": "ESPARGARO",
+    "dorsal": "41",
+    "nation": "SPA",
+    "sponsoredteam": "Aprilia Racing Team Gresini"
+  },
+  "_42": {
+    "rid": "8150",
+    "name": "Alex",
+    "surname": "RINS",
+    "dorsal": "42",
+    "nation": "SPA",
+    "sponsoredteam": "Team SUZUKI ECSTAR"
+  },
+  "_43": {
+    "rid": "8049",
+    "name": "Jack",
+    "surname": "MILLER",
+    "dorsal": "43",
+    "nation": "AUS",
+    "sponsoredteam": "OCTO Pramac Racing"
+  },
+  "_44": {
+    "rid": "7086",
+    "name": "Pol",
+    "surname": "ESPARGARO",
+    "dorsal": "44",
+    "nation": "SPA",
+    "sponsoredteam": "Red Bull KTM Factory Racing"
+  },
+  "_45": {
+    "rid": "7173",
+    "name": "Scott",
+    "surname": "REDDING",
+    "dorsal": "45",
+    "nation": "GBR",
+    "sponsoredteam": "Aprilia Racing Team Gresini"
+  },
+  "_46": {
+    "rid": "158",
+    "name": "Valentino",
+    "surname": "ROSSI",
+    "dorsal": "46",
+    "nation": "ITA",
+    "sponsoredteam": "Movistar Yamaha MotoGP"
+  },
+  "_5": {
+    "rid": "7236",
+    "name": "Johann",
+    "surname": "ZARCO",
+    "dorsal": "5",
+    "nation": "FRA",
+    "sponsoredteam": "Monster Yamaha Tech 3"
+  },
+  "_50": {
+    "rid": "5687",
+    "name": "Sylvain",
+    "surname": "GUINTOLI",
+    "dorsal": "50",
+    "nation": "FRA",
+    "sponsoredteam": "Team SUZUKI ECSTAR"
+  },
+  "_51": {
+    "rid": "6231",
+    "name": "Michele",
+    "surname": "PIRRO",
+    "dorsal": "51",
+    "nation": "ITA",
+    "sponsoredteam": "Ducati Team"
+  },
+  "_53": {
+    "rid": "7013",
+    "name": "Tito",
+    "surname": "RABAT",
+    "dorsal": "53",
+    "nation": "SPA",
+    "sponsoredteam": "Reale Avintia Racing"
+  },
+  "_60": {
+    "rid": "7171",
+    "name": "Michael",
+    "surname": "VAN DER MARK",
+    "dorsal": "60",
+    "nation": "NED",
+    "sponsoredteam": "Monster Yamaha Tech 3"
+  },
+  "_7": {
+    "rid": "5863",
+    "name": "Hiroshi",
+    "surname": "AOYAMA",
+    "dorsal": "7",
+    "nation": "JPN",
+    "sponsoredteam": "EG 0,0 Marc VDS"
+  },
+  "_76": {
+    "rid": "7018",
+    "name": "Loris",
+    "surname": "BAZ",
+    "dorsal": "76",
+    "nation": "FRA",
+    "sponsoredteam": "Reale Avintia Racing"
+  },
+  "_8": {
+    "rid": "6066",
+    "name": "Hector",
+    "surname": "BARBERA",
+    "dorsal": "8",
+    "nation": "SPA",
+    "sponsoredteam": "Reale Avintia Racing"
+  },
+  "_9": {
+    "rid": "8148",
+    "name": "Danilo",
+    "surname": "PETRUCCI",
+    "dorsal": "9",
+    "nation": "ITA",
+    "sponsoredteam": "OCTO Pramac Racing"
+  },
+  "_93": {
+    "rid": "7444",
+    "name": "Marc",
+    "surname": "MARQUEZ",
+    "dorsal": "93",
+    "nation": "SPA",
+    "sponsoredteam": "Repsol Honda Team"
+  },
+  "_94": {
+    "rid": "7174",
+    "name": "Jonas",
+    "surname": "FOLGER",
+    "dorsal": "94",
+    "nation": "GER",
+    "sponsoredteam": "Monster Yamaha Tech 3"
+  },
+  "_99": {
+    "rid": "6060",
+    "name": "Jorge",
+    "surname": "LORENZO",
+    "dorsal": "99",
+    "nation": "SPA",
+    "sponsoredteam": "Ducati Team"
+  }
+}
