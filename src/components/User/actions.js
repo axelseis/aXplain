@@ -1,18 +1,20 @@
 import { dispatch } from '../../lib/store.js';
 import { getRidersJSON, getUserInfoJSON } from '../../data/motogpAPI.js';
 
-export function getUserInfo(){
-    const userInfoFetch = getUserInfoJSON();
-    userInfoFetch.then(response => {
-        dispatch(actions.SET_USER_INFO(response));
-    })
-    .catch(err => {
-        console.log("err ", err);
-        throw new Error(err)
-    })
+export function getUserInfo() {
+    //const userInfoFetch = getUserInfoJSON();
+    getUserInfoJSON()
+        .then(response => {
+            dispatch(actions.SET_USER_INFO(response));
+        })
+        .catch(onFetchError)
 }
 
-export function getRiders(){
+function onFetchError(err) {
+    console.log("fetch error: ", err);
+}
+
+export function getRiders() {
     ridersFetch = getRidersJSON();
     ridersFetch.then(response => {
         dispatch(actions.SET_RIDERS(response));
