@@ -4,13 +4,13 @@
   "description": "motogp league",
   "main": "index.js",
   "scripts": {
-    "start": "npm-run-all --parallel dev-server dev-css",
-    "dev-server": "lite-server index.html --serveStatic json --cors",
+    "start": "set NODE_ENV=dev && npm-run-all --parallel dev-server dev-css",
+    "dev-server": "lite-server index.html --serveStatic json",
     "dev-css": "node-sass-chokidar src/ -o src/ --watch --recursive --source-map true",
     "test": "test",
     "build": "parcel build index.html --out-dir build",
     "prod-server": "lite-server build/index.html",
-    "prod": "npm-run-all build prod-server"
+    "prod": "set NODE_ENV=prod && npm-run-all build prod-server"
   },
   "repository": {
     "type": "git",
