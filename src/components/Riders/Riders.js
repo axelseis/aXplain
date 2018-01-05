@@ -9,7 +9,8 @@ export default class Riders extends Component {
 
     stateToprops() {
         this.props = { 
-            riders: {...state.riders} 
+            riders: {...state.riders},
+            inputstr: state.user.inputstr
         };
     }
 
@@ -20,7 +21,7 @@ export default class Riders extends Component {
                     const rider = this.props.riders[key];
                     return (
                         `<div class="Riders__rider">
-                            ${rider.name} ${rider.surname}
+                            ${rider.name} ${rider.surname} - ${this.props.inputstr}
                         </div>`
                     )
                 }).join('')}
