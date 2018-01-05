@@ -1,4 +1,14 @@
 .User {
   background-color: #633737; }
+  .User .User__inputstr {
+    -webkit-animation: fadeindom 2s infinite; }
+
+@keyframes fadeindom {
+  0% {
+    opacity: 0; }
+  50% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
 
 /*# sourceMappingURL=user.css.map */

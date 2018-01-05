@@ -2,7 +2,6 @@
 
 
 module.exports = {
-    tunnel: 'leaguemotogp',
     snippetOptions: {
         rule: {
             match: /<\/body>/i,

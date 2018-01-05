@@ -21,10 +21,14 @@ export function getRiders() {
     })
 }
 
-const actions = {
-    SET_USER_INFO: (userInfo) => ({
+export const actions = {
+    SET_USER_INFO: (userData) => ({
         type: 'SET_USER_INFO',
-        user: userInfo
+        data: userData
+    }),
+    SET_USER_INPUTSTR: (userData) => ({
+        type: 'SET_USER_INPUTSTR',
+        data: userData
     }),
     SET_RIDERS: (riders) => ({
         type: 'SET_RIDERS',
@@ -32,14 +36,20 @@ const actions = {
     })
 }
 
-export const reducers = {
-    SET_USER_INFO: (state, action) => ({
+function setUserData(state,action){
+    return ({
         ...state,
         user: {
             ...state.user,
-            ...action.user
+            ...action.data
         }
-    }),
+    })
+}
+
+export const reducers = {
+    SET_USER_INFO: setUserData,
+    SET_USER_INPUTSTR: setUserData,
+    SET_USER_DATA: setUserData,
     SET_RIDERS: (state, action) => ({
         ...state,
         riders: action.riders

@@ -18,6 +18,12 @@ export function addReducer(reducerObj){
 }
 
 export function dispatch(action){    
+    if(!reducers[action.type]){
+        throw new Error(`
+            Do not exist a reducer with name ${action.type}
+            The state will not change
+        `)
+    }
     state = reducers[action.type] ? reducers[action.type](state, action) : state;
     document.dispatchEvent(new CustomEvent('state', {detail: action}));
 }
