@@ -34,6 +34,9 @@ export default class Component {
                 oldDom.appendChild(element.cloneNode(true));
             }
             else {
+                if(element.value !== oldElement.value){
+                    oldElement.value = element.value;
+                }
                 if(element.children.length){
                     this._checkDomData(element,oldElement)
                 }

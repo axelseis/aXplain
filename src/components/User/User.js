@@ -1,5 +1,5 @@
 import Component from '../../lib/Component.js'
-import { state, dispatch } from '../../lib/store.js'
+import { state, dispatchAction } from '../../lib/store.js'
 import { escape } from '../../lib/utils.js'
 import { getUserInfo, getRiders, actions } from './actions.js';
 
@@ -16,7 +16,7 @@ export default class User extends Component {
     }
 
     onClickUsername(ev) {
-        getUserInfo()
+        getRiders()
     }
 
     onClickSession(ev) {
@@ -26,7 +26,11 @@ export default class User extends Component {
     onChangeInput(ev){
         const actpos = ev.target.selectionStart;
         const onInputIn = ev.target.className.indexOf('input-in') != -1;
-        dispatch(actions.SET_USER_INPUTSTR({inputstr: ev.target.value}))
+        
+        dispatchAction (
+            actions.SET_USER_INPUTSTR,
+            { inputstr: ev.target.value }
+        )
         
         if(onInputIn){
             const $input = this.$clip.querySelector('.User__input.input-in');
