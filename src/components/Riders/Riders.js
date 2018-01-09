@@ -8,23 +8,35 @@ export default class Riders extends Component {
     }
 
     stateToprops() {
-        this.props = { 
-            riders: {...state.riders},
-            inputstr: state.user.inputstr
+        const { inputstr, filter } = { ...state.user }
+        this.props = {
+            riders: { ...state.riders },
+            inputstr, filter
         };
     }
 
     render() {
+        const filterStr = (this.props.filter || '').toLowerCase();
+
         return `
             <div class="Riders">
-                ${Object.keys(this.props.riders).map((key) => {
+            ${Object.keys(this.props.riders)
+                .filter(key => {
+                    const rider = this.props.riders[key];
+                    const name = (`${rider.name} ${rider.surname}`).toLowerCase()
+                    return name.indexOf(filterStr) != -1
+                        || rider.surname.toLowerCase().indexOf(filterStr) != -1
+                })
+                .map((key) => {
                     const rider = this.props.riders[key];
                     return (
                         `<div class="Riders__rider">
-                            ${rider.name} ${rider.surname} - ${this.props.inputstr}
-                        </div>`
+                                ${rider.name} ${rider.surname} - ${this.props.inputstr}
+                            </div>`
                     )
-                }).join('')}
+                })
+                .join('')
+            }
             </div>
         `
     }

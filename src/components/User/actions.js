@@ -2,6 +2,7 @@ import { dispatch, dispatchAction } from '../../lib/store.js';
 import { getRidersJSON, getUserInfoJSON } from '../../data/motogpAPI.js';
 
 export const actions = {
+    SET_FILTER: 'SET_FILTER',
     SET_USER_INFO: 'SET_USER_INFO',
     SET_USER_INPUTSTR: 'SET_USER_INPUTSTR',
     SET_RIDERS: 'SET_RIDERS'
@@ -35,6 +36,7 @@ function onFetchError(err) {
 }
 
 export const reducers = {
+    [actions.SET_FILTER]: setUserData,
     [actions.SET_USER_INFO]: setUserData,
     [actions.SET_USER_INPUTSTR]: setUserData,
     [actions.SET_USER_DATA]: setUserData,

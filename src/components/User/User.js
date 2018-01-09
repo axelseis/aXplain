@@ -7,8 +7,12 @@ import { getUserInfo, getRiders, actions } from './actions.js';
 export default class User extends Component {
     constructor(refClip) {
         super(refClip);
+        this.initDomObjects();
+    }
+    
+    initDomObjects(){
         this.$inputOut = document.querySelector('.User__input.input-out')
-        this.$inputOut.onkeyup = this.onChangeInput.bind(this);
+        this.$inputOut.onkeyup = this.setFilter.bind(this);
     }
 
     stateToprops() {
@@ -39,11 +43,14 @@ export default class User extends Component {
         }
     }
 
-    render() {
-        if(this.$inputOut.value !== this.props.inputstr){
-            this.$inputOut.value = this.props.inputstr;
-        }
+    setFilter(ev){
+        dispatchAction (
+            actions.SET_FILTER,
+            { filter: ev.target.value }
+        )
+    }
 
+    render() {
         return `
             <div class="User__name" onclick="onClickUsername">
                 <input class="User__input input-in" onkeyup="onChangeInput" value="${this.props.inputstr}"/>${this.props.name}:

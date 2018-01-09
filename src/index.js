@@ -9,7 +9,8 @@ import Riders from './components/Riders/Riders.js';
 import { reducers as userReducer } from './components/User/actions.js';
 
 const user = new User(document.querySelector('.User'));
-const riders = new Riders(document.querySelector('.League__Riders'))
+const riders = new Riders(document.querySelector('.League__Riders'));
+
 const routes = [
     { url: "/",  },
     { url: "/user" },
