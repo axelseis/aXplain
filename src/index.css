@@ -8,11 +8,14 @@
 
 .League .League__content {
   display: block; }
+  .League .League__content > * {
+    opacity: 0;
+    display: none; }
   .League .League__content .showing {
     opacity: 1;
+    display: inherit;
     transition: opacity 2s; }
     .League .League__content .showing.transition--init {
-      display: inherit;
       opacity: 0; }
   .League .League__content .hidden {
     opacity: 0;

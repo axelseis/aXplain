@@ -24,23 +24,20 @@ export default class Component {
     }
 
     show() {
+        this._startAnimation('showing','hidden');
+    }
+    _startAnimation(inClass,outClass){
         this.$clip.classList.remove('transition--end');
         this.$clip.classList.add('transition--init');
-        this.$clip.classList.add('showing');
-        this.$clip.classList.remove('hidden');
+        this.$clip.classList.remove(outClass);
+        this.$clip.classList.add(inClass);
+    
         setTimeout(() => {
             this.$clip.classList.remove('transition--init');            
         }, 1);
     }
-    
     hide() {
-        this.$clip.classList.remove('transition--end');
-        this.$clip.classList.add('transition--init');
-        this.$clip.classList.add('hidden');
-        this.$clip.classList.remove('showing');
-        setTimeout(() => {
-            this.$clip.classList.remove('transition--init');            
-        }, 1);
+        this._startAnimation('hidden','showing');
     }
 
     _checkProps() {

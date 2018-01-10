@@ -12,11 +12,15 @@
 
     .League__content {
         display: block;
+        &>*{
+            opacity: 0;
+            display: none;
+        }
         .showing{
             opacity: 1;
+            display: inherit;
             transition: opacity 2s;
             &.transition--init{
-                display: inherit;
                 opacity: 0;
             }
         }
