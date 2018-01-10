@@ -1,17 +1,12 @@
 import Component from '../../lib/Component.js'
 import { escape } from '../../lib/utils.js'
-import { getUserInfo, getRiders, setUserInputstr, setFilterValue } from './actions.js';
+import { getUserInfo, setUserInputstr } from './actions.js';
 
 
 export default class User extends Component {
+    
     constructor(refClip) {
         super(refClip);
-        this.initDomObjects();
-    }
-    
-    initDomObjects(){
-        this.$inputOut = document.querySelector('.User__input.input-out')
-        this.$inputOut.onkeyup = this.setFilter.bind(this);
     }
 
     stateToprops(state) {
@@ -39,10 +34,6 @@ export default class User extends Component {
         }
     }
 
-    setFilter(ev){
-        setFilterValue(ev.target.value)
-    }
-    
     render() {
         return `
             <div class="User__name" onclick="onClickUsername">

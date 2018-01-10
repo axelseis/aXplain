@@ -8,9 +8,9 @@
     "dev-server": "lite-server index.html --serveStatic json",
     "dev-css": "node-sass-chokidar src/ -o src/ --watch --recursive --source-map true",
     "test": "test",
-    "build": "parcel build index.html --out-dir build",
-    "prod-server": "lite-server build/index.html",
-    "prod": "set NODE_ENV=prod && npm-run-all build prod-server"
+    "build": "parcel build index.html --out-dir dist",
+    "prod-server": "lite-server dist/index.html",
+    "prod": "set NODE_ENV=prod && parcel index.html --out-dir dist"
   },
   "repository": {
     "type": "git",
@@ -26,6 +26,7 @@
   "license": "ISC",
   "devDependencies": {
     "babel": "^6.23.0",
+    "babel-preset-env": "^1.6.1",
     "babel-preset-stage-2": "^6.24.1",
     "lite-server": "^2.3.0",
     "node-sass-chokidar": "0.0.3",

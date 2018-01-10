@@ -12,20 +12,22 @@
         <div class="League__title">
             ESTO ES EL LEAGUE
         </div>
-        <input class="User__input input-out" />
         <div class="League__menu">
             <div class="League__menu-item" data-link="/info">Info</div>
             <div class="League__menu-item" data-link="/classification">Classification</div>
             <div class="League__menu-item" data-link="/my-selection">My Selections</div>
         </div>
         <div class="League__content">
-            <div class="League__Info hidden">
+            <div class="League__Info hidden animation--end">
                 THE INFO
             </div>
-            <div class="League__User hidden">
+            <div class="League__User hidden animation--end">
                 <p>undiv <span>ESTO ES EL USERRRR</span></p>
             </div>
-            <div class="League__Riders hidden"></div>
+            <div class="League__Riders hidden animation--end">
+                <input class="Riders__filter" />
+                <div class="Riders__list"></div>
+            </div>
         </div>
     </div>
     <script type="module" src="./src/index.js"></script>

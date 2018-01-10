@@ -1,24 +1,23 @@
 import { dispatch, dispatchAction } from '../../lib/store.js';
-import { getRidersJSON, getUserInfoJSON } from '../../data/motogpAPI.js';
+import { getRidersJSON } from '../../data/motogpAPI.js';
 
 export const actions = {
-    SET_USER_INFO: 'SET_USER_INFO',
-    SET_USER_INPUTSTR: 'SET_USER_INPUTSTR',
+    SET_FILTER: 'SET_FILTER',
+    SET_RIDERS: 'SET_RIDERS'
 }
 
-export function setUserInputstr(inputstr) {
+export function setFilterValue(filterValue){
     dispatchAction (
-        actions.SET_USER_INPUTSTR,
-        { inputstr: inputstr }
+        actions.SET_FILTER,
+        { filter: filterValue }
     )
 }
 
-export function getUserInfo() {
-    //const userInfoFetch = getUserInfoJSON();
-    getUserInfoJSON()
+export function getRiders() {
+    getRidersJSON()
         .then(response => {
             dispatchAction(
-                actions.SET_USER_INFO,
+                actions.SET_RIDERS,
                 response
             );
         })
@@ -30,8 +29,8 @@ function onFetchError(err) {
 }
 
 export const reducers = {
-    [actions.SET_USER_INFO]: setUserData,
-    [actions.SET_USER_INPUTSTR]: setUserData,
+    [actions.SET_FILTER]: setUserData,
+    [actions.SET_RIDERS]: setRiders
 }
 
 function setUserData(state, action) {
@@ -43,3 +42,11 @@ function setUserData(state, action) {
         }
     })
 }
+
+function setRiders(state, action) {
+    return ({
+        ...state,
+        riders: action.params
+    })
+}
+

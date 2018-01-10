@@ -1,4 +1,3 @@
-const stateEvent = new CustomEvent('state');
 let reducers = {};
 let reducer;
 

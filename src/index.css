@@ -7,20 +7,24 @@
       background-color: aqua; }
 
 .League .League__content {
-  display: block; }
+  display: block;
+  position: relative; }
   .League .League__content > * {
-    opacity: 0;
-    display: none; }
+    position: absolute;
+    top: 0;
+    left: 0; }
   .League .League__content .showing {
     opacity: 1;
     display: inherit;
-    transition: opacity 2s; }
-    .League .League__content .showing.transition--init {
+    transition: opacity 2s;
+    pointer-events: all; }
+    .League .League__content .showing.animation--init:not(.animation--run) {
       opacity: 0; }
   .League .League__content .hidden {
     opacity: 0;
-    transition: opacity 2s; }
-    .League .League__content .hidden.transition--end {
+    transition: opacity 2s;
+    pointer-events: none; }
+    .League .League__content .hidden.animation--end {
       display: none; }
   .League .League__content .League__Info {
     display: block; }

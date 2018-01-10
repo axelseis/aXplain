@@ -7,12 +7,12 @@ import Info from '../Info/Info.js';
 import Riders from '../Riders/Riders.js';
 
 export default class League extends Component {
+    
     constructor(refClip) {
         super(refClip);
         this.initComponents();
         this.actComponent = null;
     }
-
     
     initComponents(){
         this.menu = this.$clip.querySelector('.League__menu');
