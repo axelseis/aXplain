@@ -4,16 +4,16 @@ import "./lib/logger.js";
 
 import initialState from './initialState.js';
 
-import User from './components/User/User.js';
-import Riders from './components/Riders/Riders.js';
+import League from './components/League/League.js';
 import { reducers as userReducer } from './components/User/actions.js';
 
-const user = new User(document.querySelector('.User'));
-const riders = new Riders(document.querySelector('.League__Riders'));
+const league = new League(document.querySelector('.League'));
 
 const routes = [
-    { url: "/",  },
-    { url: "/user" },
+    { url: "/" },
+    { url: "/info", component: "info" },
+    { url: "/classification", component: "user" },
+    { url: "/my-selection", component: "riders" },
     { url: "/user/:username" }
 ]
 

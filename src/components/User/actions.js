@@ -8,6 +8,20 @@ export const actions = {
     SET_RIDERS: 'SET_RIDERS'
 }
 
+export function setUserInputstr(inputstr) {
+    dispatchAction (
+        actions.SET_USER_INPUTSTR,
+        { inputstr: inputstr }
+    )
+}
+
+export function setFilterValue(filterValue){
+    dispatchAction (
+        actions.SET_FILTER,
+        { filter: filterValue }
+    )
+}
+
 export function getUserInfo() {
     //const userInfoFetch = getUserInfoJSON();
     getUserInfoJSON()

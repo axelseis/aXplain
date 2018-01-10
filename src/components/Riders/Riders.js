@@ -1,15 +1,13 @@
 import Component from '../../lib/Component.js'
-import { state } from '../../lib/store.js'
-
 
 export default class Riders extends Component {
     constructor(refClip) {
         super(refClip);
     }
 
-    stateToprops() {
+    stateToprops(state) {
         const { inputstr, filter } = { ...state.user }
-        this.props = {
+        return {
             riders: { ...state.riders },
             inputstr, filter
         };
@@ -29,11 +27,11 @@ export default class Riders extends Component {
                 })
                 .map((key) => {
                     const rider = this.props.riders[key];
-                    return (
-                        `<div class="Riders__rider">
-                                ${rider.name} ${rider.surname} - ${this.props.inputstr}
-                            </div>`
-                    )
+                    return `
+                        <div class="Riders__rider">
+                            ${rider.name} ${rider.surname} - ${this.props.inputstr}
+                        </div>
+                    `
                 })
                 .join('')
             }

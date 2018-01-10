@@ -1,8 +1,8 @@
 
 export const actions = {
-    SET_LOCATION: (route, params = {}) => ({
+    SET_LOCATION: (route, {params,props}) => ({
         type: 'SET_LOCATION',
-        location: { route, params }
+        location: { route, params, ...props }
     })
 }
 

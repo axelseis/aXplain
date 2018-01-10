@@ -1,7 +1,6 @@
 import Component from '../../lib/Component.js'
-import { state, dispatchAction } from '../../lib/store.js'
 import { escape } from '../../lib/utils.js'
-import { getUserInfo, getRiders, actions } from './actions.js';
+import { getUserInfo, getRiders, setUserInputstr, setFilterValue } from './actions.js';
 
 
 export default class User extends Component {
@@ -15,8 +14,8 @@ export default class User extends Component {
         this.$inputOut.onkeyup = this.setFilter.bind(this);
     }
 
-    stateToprops() {
-        this.props = { ...state.user };
+    stateToprops(state) {
+        return { ...state.user };
     }
 
     onClickUsername(ev) {
@@ -31,10 +30,7 @@ export default class User extends Component {
         const actpos = ev.target.selectionStart;
         const onInputIn = ev.target.className.indexOf('input-in') != -1;
         
-        dispatchAction (
-            actions.SET_USER_INPUTSTR,
-            { inputstr: ev.target.value }
-        )
+        setUserInputstr(ev.target.value);
         
         if(onInputIn){
             const $input = this.$clip.querySelector('.User__input.input-in');
@@ -44,12 +40,9 @@ export default class User extends Component {
     }
 
     setFilter(ev){
-        dispatchAction (
-            actions.SET_FILTER,
-            { filter: ev.target.value }
-        )
+        setFilterValue(ev.target.value)
     }
-
+    
     render() {
         return `
             <div class="User__name" onclick="onClickUsername">

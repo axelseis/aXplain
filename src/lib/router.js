@@ -1,4 +1,4 @@
-import { dispatch, addReducer } from './store.js';
+import { state, dispatch, addReducer } from './store.js';
 import { actions, reducers } from './actions.js';
 
 let routes = [];
@@ -6,16 +6,18 @@ let routes = [];
 export function initRouter(routesArr){
     routes = routesArr;
     addReducer(reducers);
-    dispatch(actions.SET_LOCATION(location.pathname))
+    go(location.pathname);
 }
 
-export function go(route){
-    history.pushState(null, '', route);
-    dispatch(actions.SET_LOCATION(route, getParams(route)))
+export function go(url){
+    if(url && (!state.router || url !== state.router.url)){
+        history.pushState(null, '', url);
+        dispatch(actions.SET_LOCATION(url, getParams(url)))
+    }
 }
 
-function getParams(url) {
-    let params;
+function getParams(url = '/') {
+    let params, props;
 
     routes.forEach(function(route) {
         const routeReduce = route.url.replace(/(:\w+)/g, "([\\w-]+)");
@@ -30,8 +32,15 @@ function getParams(url) {
                     params[routeArr[i].slice(1)] = urlArr[i];
                 }
             }
+            props = {};
+            Object.keys(route).forEach(key => {
+                if(key != 'url'){
+                    props[key] = route[key]
+                }
+            })
+            return {params,props}
         }
     });
 
-    return { ...params };
+    return {params,props};
 }

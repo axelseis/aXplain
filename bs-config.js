@@ -2,6 +2,11 @@
 
 
 module.exports = {
+    injectChanges: true,
+    files: [
+        "./src/**/*.{html,htm,css,js}",
+        "./index.html"
+    ],
     snippetOptions: {
         rule: {
             match: /<\/body>/i,
