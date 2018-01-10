@@ -1,5 +1,5 @@
 import { state, dispatch, addReducer } from './store.js';
-import { actions, reducers } from './actions.js';
+import { setLocation, reducers } from './actions.js';
 
 let routes = [];
 
@@ -12,7 +12,7 @@ export function initRouter(routesArr){
 export function go(url){
     if(url && (!state.router || url !== state.router.url)){
         history.pushState(null, '', url);
-        dispatch(actions.SET_LOCATION(url, getParams(url)))
+        dispatch(setLocation(url, getParams(url)))
     }
 }
 

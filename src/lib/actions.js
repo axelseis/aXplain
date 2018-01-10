@@ -1,13 +1,17 @@
 
 export const actions = {
-    SET_LOCATION: (route, {params,props}) => ({
+    SET_LOCATION: 'SET_LOCATION'
+}
+
+export function setLocation(route, {params,props}){
+    return {
         type: 'SET_LOCATION',
         location: { route, params, ...props }
-    })
+    }
 }
 
 export const reducers = {
-    SET_LOCATION: (state, action) => ({
+    [actions.SET_LOCATION]: (state, action) => ({
         ...state,
         router: {
             ...state.router,
