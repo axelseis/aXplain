@@ -23,17 +23,11 @@
             display: inherit;
             transition: opacity 2s;
             pointer-events: all;
-            &.animation--init:not(.animation--run){
-                opacity: 0;
-            }
         }
         .hidden {
             opacity: 0;
             transition: opacity 2s;
             pointer-events: none;
-            &.animation--end{
-                display: none;
-            }
         }
         .League__Info {
             display: block;

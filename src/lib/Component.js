@@ -7,7 +7,7 @@ export default class Component {
         this.props = {};
 
         document.addEventListener('state', (ev) => this._checkProps())
-        this.$clip.addEventListener('transitionend', (ev) => this._endAnimation())
+        //this.$clip.addEventListener('transitionend', (ev) => this._endAnimation())
     }
 
     stateToprops(state) {
@@ -19,29 +19,21 @@ export default class Component {
     }
 
     show() {
-        this._startAnimation('showing', 'hidden');
+        this.$clip.classList.remove('hidden');
+        this.$clip.classList.add('showing');
     }
+    
     hide() {
-        this._startAnimation('hidden', 'showing');
+        this.$clip.classList.remove('showing');
+        this.$clip.classList.add('hidden');
     }
 
-    _startAnimation(inClass, outClass) {
-        this.$clip.classList.remove('animation--end');
-        this.$clip.classList.add('animation--init');
+    renderTemplate($domElement, templateStr) {
+        const tempDom = document.createElement('div');
+        tempDom.innerHTML = templateStr;
 
-        this.$clip.classList.remove(outClass);
-        this.$clip.classList.add(inClass);
-
-        //Force styles to recalc
-        window.requestAnimationFrame((timestamp) => {
-            this.$clip.classList.add('animation--run');
-        })
-    }
-
-    _endAnimation() {
-        this.$clip.classList.remove('animation--init');
-        this.$clip.classList.remove('animation--run');
-        this.$clip.classList.add('animation--end');
+        this._checkDomData(tempDom, $domElement);
+        this._setDomEvents($domElement);
     }
 
     _checkProps() {
@@ -88,14 +80,6 @@ export default class Component {
         for (let iD = oldDom.children.length-1; iD >= newDom.children.length; iD--) {
             oldDom.removeChild(oldDom.children[iD]);
         }
-    }
-
-    renderTemplate($domElement, templateStr) {
-        const tempDom = document.createElement('div');
-        tempDom.innerHTML = templateStr;
-
-        this._checkDomData(tempDom, $domElement);
-        this._setDomEvents($domElement);
     }
 
     _setDomEvents($domElement) {
