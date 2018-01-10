@@ -109,7 +109,7 @@ export default class Component {
                         element[attr.name] = tempFunc.bind(this)
                     }
                     else {
-                        throw new Error(`function ${attr.value} do not exists in ${this}`)
+                        throw new Error(`function ${attr.value} do not exists in ${this.constructor.name}`)
                     }
                 }
             });

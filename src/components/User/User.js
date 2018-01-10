@@ -13,10 +13,6 @@ export default class User extends Component {
         return { ...state.user };
     }
 
-    onClickUsername(ev) {
-        getRiders()
-    }
-
     onClickSession(ev) {
         console.log("onClickSession: ", ev);
     }
@@ -36,7 +32,7 @@ export default class User extends Component {
 
     render() {
         return `
-            <div class="User__name" onclick="onClickUsername">
+            <div class="User__name">
                 <input class="User__input input-in" onkeyup="onChangeInput" value="${this.props.inputstr}"/>${this.props.name}:
             </div>
             ${this.props.session &&
