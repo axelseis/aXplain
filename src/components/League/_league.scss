@@ -12,24 +12,22 @@
 
     .League__content {
         display: block;
+        position: relative;
         &>*{
-            opacity: 0;
-            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
         .showing{
             opacity: 1;
             display: inherit;
             transition: opacity 2s;
-            &.transition--init{
-                opacity: 0;
-            }
+            pointer-events: all;
         }
         .hidden {
             opacity: 0;
             transition: opacity 2s;
-            &.transition--end{
-                display: none;
-            }
+            pointer-events: none;
         }
         .League__Info {
             display: block;

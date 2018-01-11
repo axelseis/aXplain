@@ -1,0 +1,59 @@
+.League .League__menu {
+  display: flex;
+  justify-content: space-around; }
+  .League .League__menu-item {
+    cursor: pointer; }
+    .League .League__menu-item--selected {
+      background-color: aqua; }
+
+.League .League__content {
+  display: block;
+  position: relative; }
+  .League .League__content > * {
+    position: absolute;
+    top: 0;
+    left: 0; }
+  .League .League__content .showing {
+    opacity: 1;
+    display: inherit;
+    transition: opacity 2s;
+    pointer-events: all; }
+  .League .League__content .hidden {
+    opacity: 0;
+    transition: opacity 2s;
+    pointer-events: none; }
+  .League .League__content .League__Info {
+    display: block; }
+  .League .League__content .League__User {
+    display: block;
+    background-color: #633737;
+    color: white; }
+  .League .League__content .League__Riders {
+    display: block;
+    background-color: aliceblue;
+    color: black; }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+
+@keyframes fadeOut {
+  from {
+    opacity: 1; }
+  to {
+    opacity: 0; } }
+
+.User__inputstr {
+  -webkit-animation: fadeindom 2s infinite; }
+
+@keyframes fadeindom {
+  0% {
+    opacity: 0; }
+  50% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+/*# sourceMappingURL=index.css.map */

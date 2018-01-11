@@ -5,14 +5,9 @@ export default class Component {
     constructor(refClip) {
         this.$clip = refClip;
         this.props = {};
-        
+
         document.addEventListener('state', (ev) => this._checkProps())
-        
-        this.$clip.addEventListener('transitionend', (ev) => {
-            this.$clip.classList.remove('transition--init');
-            this.$clip.classList.add('transition--end');
-            console.log("ev ", ev);
-        })
+        //this.$clip.addEventListener('transitionend', (ev) => this._endAnimation())
     }
 
     stateToprops(state) {
@@ -24,20 +19,26 @@ export default class Component {
     }
 
     show() {
-        this._startAnimation('showing','hidden');
+        this.$clip.classList.remove('hidden');
+        this.$clip.classList.add('showing');
     }
-    _startAnimation(inClass,outClass){
-        this.$clip.classList.remove('transition--end');
-        this.$clip.classList.add('transition--init');
-        this.$clip.classList.remove(outClass);
-        this.$clip.classList.add(inClass);
-    
-        setTimeout(() => {
-            this.$clip.classList.remove('transition--init');            
-        }, 1);
-    }
+
     hide() {
-        this._startAnimation('hidden','showing');
+        this.$clip.classList.remove('showing');
+        this.$clip.classList.add('hidden');
+    }
+
+    renderTemplate($domElement, templateStr) {
+        if(!$domElement.children.length){
+            $domElement.innerHTML = templateStr;
+        }
+        else{
+            const tempDom = document.createElement('div');
+            tempDom.innerHTML = templateStr;
+    
+            this._checkDomData(tempDom, $domElement);            
+        }
+        this._setDomEvents($domElement);
     }
 
     _checkProps() {
@@ -54,6 +55,7 @@ export default class Component {
     _checkDomData(newDom, oldDom) {
         [...newDom.children].forEach((element, index) => {
             const oldElement = oldDom.children[index];
+
             if (!oldElement) {
                 oldDom.appendChild(element.cloneNode(true));
             }
@@ -73,31 +75,18 @@ export default class Component {
                 [...element.attributes].forEach(attr => {
                     const oldAttr = oldElement.getAttribute(attr.name);
                     if (!oldAttr || oldAttr !== attr.value) {
-                        if (!attr.name.indexOf('on')) {
-                            const tempFunc = this[attr.value];
-                            if (tempFunc) {
-                                element[attr.name] = tempFunc.bind(this)
-                            }
-                            else {
-                                throw new Error(`function ${attr.value} do not exists in ${this}`)
-                            }
-                        }
-                        else {
-                            oldElement.setAttribute(attr.name, attr.value);
-                        }
+                        oldElement.setAttribute(attr.name, attr.value);
                     }
                 })
             }
         })
+        for (let iD = oldDom.children.length-1; iD >= newDom.children.length; iD--) {
+            oldDom.removeChild(oldDom.children[iD]);
+        }
     }
-    renderTemplate($domElement, templateStr) {
-        const tempDom = document.createElement('div');
-        tempDom.innerHTML = templateStr;
 
-        this._checkDomData(tempDom, $domElement);
-
+    _setDomEvents($domElement) {
         const actNodes = $domElement.querySelectorAll('*');
-        //$domElement.innerHTML = templateStr;
 
         actNodes.forEach(element => {
             Array.from(element.attributes).forEach(attr => {
@@ -107,7 +96,7 @@ export default class Component {
                         element[attr.name] = tempFunc.bind(this)
                     }
                     else {
-                        throw new Error(`function ${attr.value} do not exists in ${this}`)
+                        throw new Error(`function ${attr.value} do not exists in ${this.constructor.name}`)
                     }
                 }
             });

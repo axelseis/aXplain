@@ -11,8 +11,7 @@ export default class Info extends Component {
 
     render() {
         if(this.props.inited){
-            console.log("this.$clip ", this.$clip);
-
+            //console.log("this.$clip ", this.$clip);
         }
     }
 }
