@@ -22,17 +22,22 @@ export default class Component {
         this.$clip.classList.remove('hidden');
         this.$clip.classList.add('showing');
     }
-    
+
     hide() {
         this.$clip.classList.remove('showing');
         this.$clip.classList.add('hidden');
     }
 
     renderTemplate($domElement, templateStr) {
-        const tempDom = document.createElement('div');
-        tempDom.innerHTML = templateStr;
-
-        this._checkDomData(tempDom, $domElement);
+        if(!$domElement.children.length){
+            $domElement.innerHTML = templateStr;
+        }
+        else{
+            const tempDom = document.createElement('div');
+            tempDom.innerHTML = templateStr;
+    
+            this._checkDomData(tempDom, $domElement);            
+        }
         this._setDomEvents($domElement);
     }
 
@@ -48,9 +53,7 @@ export default class Component {
     }
 
     _checkDomData(newDom, oldDom) {
-        let lastIndex;
         [...newDom.children].forEach((element, index) => {
-            lastIndex = index;
             const oldElement = oldDom.children[index];
 
             if (!oldElement) {
