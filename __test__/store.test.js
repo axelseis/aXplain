@@ -55,6 +55,12 @@ describe('dispatch(action) || dispatchAction(type,params)', () => {
                 expect(() => {dispatchAction('action2')}).toThrowError();
             })
         })
+        describe(`if dispatch a malformed action (has not type)`, () => {
+            test('expect to throw an error', () => {
+                initStore(reducer1, {});
+                expect(() => {dispatch('action2')}).toThrowError();
+            })
+        })
         describe(`if dispatch an action with type 'action1'`, () => {
             test(`expect state to change`, () => {
                 initStore(reducer1, {});

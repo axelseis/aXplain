@@ -8,9 +8,10 @@ export function initStore(reducersArray, initialState) {
     if(typeof reducersArray !== 'object' && !Array.isArray(reducersArray)){
         throw new Error('initialState should be an object or an Array of objects')
     }
+
     reducersArray = Array.isArray(reducersArray) ? reducersArray : [reducersArray]
     reducers = reducersArray.reduce((arr,reducerObj) => ({arr,...reducerObj}),{})
-    state = initialState;
+    state = {...initialState};
 }
 
 export function addReducer(reducerObj) {
@@ -21,14 +22,14 @@ export function dispatchAction(type, params) {
     dispatch({type, params})
 }
 
-export function dispatch(action) {
-    if (reducers[action.type]) {
-        state = reducers[action.type](state, action);
-        document.dispatchEvent(new CustomEvent('state', { detail: action }));
+export function dispatch({type,params}) {
+    if (reducers[type]) {
+        state = reducers[type](state, {type,params});
+        document.dispatchEvent(new CustomEvent('state', { detail: {type,params} }));
     }
     else {
         throw new Error(`
-            Do not exist a reducer with name ${action.type}
+            Do not exist a reducer with name ${type}
             The state will not change
         `)
     }
