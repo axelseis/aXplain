@@ -1,18 +1,20 @@
 let reducers = {};
-
 export let state = {};
 
 export function initStore(reducersArray, initialState) {
-    reducers = {};
+    if(typeof initialState !== 'object'){
+        throw new Error('initialState should be an object')
+    }
+    if(typeof reducersArray !== 'object' && !Array.isArray(reducersArray)){
+        throw new Error('initialState should be an object or an Array of objects')
+    }
     reducersArray = Array.isArray(reducersArray) ? reducersArray : [reducersArray]
-    reducersArray.forEach(reducerObj => addReducer(reducerObj))
+    reducers = reducersArray.reduce((arr,reducerObj) => ({arr,...reducerObj}),{})
     state = initialState;
 }
 
 export function addReducer(reducerObj) {
-    Object.keys(reducerObj).forEach(key => {
-        reducers[key] = reducerObj[key];
-    });
+    reducers = {...reducers,...reducerObj}
 }
 
 export function dispatchAction(type, params) {

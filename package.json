@@ -25,6 +25,7 @@
   "author": "Axel claver",
   "license": "ISC",
   "devDependencies": {
+    "@types/jest": "^22.0.1",
     "babel": "^6.23.0",
     "babel-core": "^6.26.0",
     "babel-jest": "^22.0.6",
