@@ -10,7 +10,8 @@ export default class User extends Component {
     }
 
     stateToprops(state) {
-        return { ...state.user };
+        const {name, inputstr, session} = {...state.user} 
+        return { name, inputstr, session };
     }
 
     onClickSession(ev) {

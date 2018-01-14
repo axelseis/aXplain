@@ -10,7 +10,7 @@ export function initStore(reducersArray, initialState) {
     }
 
     reducersArray = Array.isArray(reducersArray) ? reducersArray : [reducersArray]
-    reducers = reducersArray.reduce((arr,reducerObj) => ({arr,...reducerObj}),{})
+    reducers = reducersArray.reduce((arr,reducerObj) => ({...arr,...reducerObj}),{})
     state = {...initialState};
 }
 
@@ -24,7 +24,7 @@ export function dispatchAction(type, params) {
 
 export function dispatch({type,params}) {
     if (reducers[type]) {
-        state = reducers[type](state, {type,params});
+        state = reducers[type](state, params);
         document.dispatchEvent(new CustomEvent('state', { detail: {type,params} }));
     }
     else {

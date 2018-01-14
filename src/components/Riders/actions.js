@@ -33,20 +33,20 @@ export const reducers = {
     [actions.SET_RIDERS]: setRiders
 }
 
-function setUserData(state, action) {
+function setUserData(state, userData) {
     return ({
         ...state,
         user: {
             ...state.user,
-            ...action.params
+            ...userData
         }
     })
 }
 
-function setRiders(state, action) {
+function setRiders(state, riders) {
     return ({
         ...state,
-        riders: action.params
+        riders: riders
     })
 }
 

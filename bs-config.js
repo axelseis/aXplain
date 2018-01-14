@@ -11,7 +11,7 @@ module.exports = {
         rule: {
             match: /<\/body>/i,
             fn: function (snippet, match) {
-                return `${snippet}${match}<script>var env='${process.env.NODE_ENV.trim()}'</script>`;
+                return `${snippet}<script>var env='${process.env.NODE_ENV}'</script>${match}`;
             }
         }
     }

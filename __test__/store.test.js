@@ -2,7 +2,7 @@ import { jest } from 'jest';
 import { state, initStore, dispatch } from '../src/lib/store'
 
 beforeAll(() => {
-    initStore([],{});
+    initStore([], {});
 })
 
 describe('before init the store', () => {
@@ -19,7 +19,7 @@ describe('initStore(reducers,initialState)', () => {
 
     describe('if initialState != Object', () => {
         test('expect throw an Error', () => {
-            expect(() => {initStore([], notObj)}).toThrowError();
+            expect(() => { initStore([], notObj) }).toThrowError();
         })
     })
     describe('if initialState=Object', () => {
@@ -30,51 +30,51 @@ describe('initStore(reducers,initialState)', () => {
     })
     describe('if reducers is not object nor array', () => {
         test('expect throw an Error', () => {
-            expect(() => {initStore(notObj, initialState)}).toThrowError();
+            expect(() => { initStore(notObj, initialState) }).toThrowError();
         })
     })
 })
 
 describe('dispatch(action) || dispatchAction(type,params)', () => {
+
     const reducer1 = {
-        action1: (state,action) => ({
+        action1: (state, params) => ({
             ...state,
-            ...action.params
+            ...params
         })
     }
     const action1 = () => ({
-        type:'action1',
-        params:{
+        type: 'action1',
+        params: {
             param1: 'param1'
         }
     })
-    describe(`if reducers contains a single reducer with name action1`, () => {
-        describe(`if dispatch an action with type 'action2'`, () => {
-            test('expect to throw an error', () => {
-                initStore(reducer1, {});
-                expect(() => {dispatchAction('action2')}).toThrowError();
-            })
+
+    describe(`dispatchAction() with missing type`, () => {
+        test('expect to throw an error', () => {
+            initStore(reducer1, {});
+            expect(() => { dispatchAction('action2') }).toThrowError();
         })
-        describe(`if dispatch a malformed action (has not type)`, () => {
-            test('expect to throw an error', () => {
-                initStore(reducer1, {});
-                expect(() => {dispatch('action2')}).toThrowError();
-            })
+    })
+    describe(`dispatch() a malformed action`, () => {
+        test('expect to throw an error', () => {
+            initStore(reducer1, {});
+            expect(() => { dispatch('action1') }).toThrowError();
         })
-        describe(`if dispatch an action with type 'action1'`, () => {
-            test(`expect state to change`, () => {
-                initStore(reducer1, {});
-                dispatch(action1());
-                expect(state.param1).toBe(action1().params.param1)
+    })
+    describe(`dispatch an existing action`, () => {
+        test(`expect state to change`, () => {
+            initStore(reducer1, {});
+            dispatch(action1());
+            expect(state.param1).toBe(action1().params.param1)
+        })
+        test(`expect to dispatch a CustomEvent('state')`, () => {
+            document.addEventListener('state', (ev) => {
+                expect(ev).toBeInstanceOf(CustomEvent)
+                expect(ev.type).toBe('state')
             })
-            test(`expect to dispatch a CustomEvent('state')`, () => {
-                document.addEventListener('state', (ev) => {
-                    expect(ev).toBeInstanceOf(CustomEvent)
-                    expect(ev.type).toBe('state')
-                })
-                initStore(reducer1, {});
-                dispatch(action1());
-            })
+            initStore(reducer1, {});
+            dispatch(action1());
         })
     })
 })

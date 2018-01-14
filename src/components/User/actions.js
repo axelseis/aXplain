@@ -34,12 +34,12 @@ export const reducers = {
     [actions.SET_USER_INPUTSTR]: setUserData,
 }
 
-function setUserData(state, action) {
+function setUserData(state, params) {
     return ({
         ...state,
         user: {
             ...state.user,
-            ...action.params
+            ...params
         }
     })
 }

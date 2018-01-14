@@ -1,5 +1,5 @@
 import { state, dispatch } from './store.js';
-
+import { _toArray } from './utils'
 
 export default class Component {
     constructor(refClip) {
@@ -53,9 +53,11 @@ export default class Component {
     }
 
     _checkDomData(newDom, oldDom) {
-        [...newDom.children].forEach((element, index) => {
-            const oldElement = oldDom.children[index];
+        const newDomChildren = _toArray(newDom.children);
+        const oldDomChildren = _toArray(oldDom.children);
 
+        newDomChildren.forEach((element, index) => {
+            const oldElement = oldDomChildren[index];
             if (!oldElement) {
                 oldDom.appendChild(element.cloneNode(true));
             }
@@ -72,7 +74,7 @@ export default class Component {
                 if (element.innerHTML !== oldElement.innerHTML) {
                     oldElement.innerHTML = element.innerHTML;
                 }
-                [...element.attributes].forEach(attr => {
+                _toArray(element.attributes).forEach(attr => {
                     const oldAttr = oldElement.getAttribute(attr.name);
                     if (!oldAttr || oldAttr !== attr.value) {
                         oldElement.setAttribute(attr.name, attr.value);
@@ -80,16 +82,16 @@ export default class Component {
                 })
             }
         })
-        for (let iD = oldDom.children.length-1; iD >= newDom.children.length; iD--) {
-            oldDom.removeChild(oldDom.children[iD]);
+        for (let iD = oldDomChildren.length-1; iD >= newDomChildren.length; iD--) {
+            oldDom.removeChild(oldDomChildren[iD]);
         }
     }
 
     _setDomEvents($domElement) {
-        const actNodes = $domElement.querySelectorAll('*');
+        const actNodes = _toArray($domElement.querySelectorAll('*'));
 
         actNodes.forEach(element => {
-            Array.from(element.attributes).forEach(attr => {
+            _toArray(element.attributes).forEach(attr => {
                 if (!attr.name.indexOf('on')) {
                     const tempFunc = this[attr.value];
                     if (tempFunc) {

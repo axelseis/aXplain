@@ -1,3 +1,6 @@
+import 'promise-polyfill/src/polyfill';
+import 'whatwg-fetch';
+
 import { state } from "../lib/store.js";
 import { get } from '../lib/utils.js';
 

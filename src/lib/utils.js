@@ -12,7 +12,7 @@ export function get(url) {
         if (response.ok) {
           const contentType = response.headers.get("Content-Type") || "";
   
-          if (contentType.includes("application/json")) {
+          if (contentType.indexOf("application/json") != -1) {
             return response.json().catch(error => {
               return Promise.reject(
                 new Error("Invalid JSON: " + error.message)
@@ -20,7 +20,7 @@ export function get(url) {
             });
           }
   
-          if (contentType.includes("text/html")) {
+          if (contentType.indexOf("text/html") != -1) {
             return response
               .text()
               .then(html => {
@@ -45,4 +45,21 @@ export function get(url) {
       })
       .catch(error => Promise.reject(error));
   }
+
+  export const _toArray = (domNodes) => [].map.call(domNodes, el => el)
   
+  (function () {
+    function CustomEvent ( event, params ) {
+      params = params || { bubbles: false, cancelable: false, detail: undefined };
+      var evt = document.createEvent( 'CustomEvent' );
+      evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
+      return evt;
+     }
+  
+    CustomEvent.prototype = window.Event.prototype;
+  
+    window.CustomEvent = CustomEvent;
+  })();
+
+  
+
