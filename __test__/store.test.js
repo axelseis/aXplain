@@ -1,22 +1,34 @@
 import { jest } from 'jest';
 import { state, initStore, dispatch } from '../src/lib/store'
 
-beforeAll(() => {
-    initStore([], {});
+const reducer1 = {
+    action1: (state, params) => ({
+        ...state,
+        ...params
+    })
+}
+const action1 = () => ({
+    type: 'action1',
+    params: {
+        param1: 'param1'
+    }
 })
+
+const notObj = 'notObjectNorArray';
+const initialState = {
+    init: true
+}
 
 describe('before init the store', () => {
     test('expect state to be {}', () => {
         expect(state).toEqual({});
     })
+    test('expect calling dispatch throws an error', () => {
+        expect(() => { dispatch(action1) }).toThrowError();
+    })
 })
 
 describe('initStore(reducers,initialState)', () => {
-    const notObj = 'notObjectNorArray';
-    const initialState = {
-        init: true
-    }
-
     describe('if initialState != Object', () => {
         test('expect throw an Error', () => {
             expect(() => { initStore([], notObj) }).toThrowError();
@@ -36,19 +48,6 @@ describe('initStore(reducers,initialState)', () => {
 })
 
 describe('dispatch(action) || dispatchAction(type,params)', () => {
-
-    const reducer1 = {
-        action1: (state, params) => ({
-            ...state,
-            ...params
-        })
-    }
-    const action1 = () => ({
-        type: 'action1',
-        params: {
-            param1: 'param1'
-        }
-    })
 
     describe(`dispatchAction() with missing type`, () => {
         test('expect to throw an error', () => {

@@ -46,7 +46,7 @@
     opacity: 0; } }
 
 .User__inputstr {
-  -webkit-animation: fadeindom 2s infinite; }
+  animation: fadeindom 2s infinite; }
 
 @keyframes fadeindom {
   0% {
