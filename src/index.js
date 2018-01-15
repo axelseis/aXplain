@@ -21,4 +21,4 @@ const routes = [
 initStore([userReducer,ridersReducer], initialState);
 initRouter(routes);
 
-
+go(location.pathname);

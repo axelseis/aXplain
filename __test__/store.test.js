@@ -30,7 +30,7 @@ describe('before init the store', () => {
 
 describe('initStore(reducers,initialState)', () => {
     describe('if initialState != Object', () => {
-        test('expect throw an Error', () => {
+        test('expect throw an Error ', () => {
             expect(() => { initStore([], notObj) }).toThrowError();
         })
     })
@@ -49,19 +49,19 @@ describe('initStore(reducers,initialState)', () => {
 
 describe('dispatch(action) || dispatchAction(type,params)', () => {
 
-    describe(`dispatchAction() with missing type`, () => {
+    describe(`dispatch action with missing type`, () => {
         test('expect to throw an error', () => {
             initStore(reducer1, {});
             expect(() => { dispatchAction('action2') }).toThrowError();
         })
     })
-    describe(`dispatch() a malformed action`, () => {
+    describe(`dispatch() malformed action`, () => {
         test('expect to throw an error', () => {
             initStore(reducer1, {});
             expect(() => { dispatch('action1') }).toThrowError();
         })
     })
-    describe(`dispatch an existing action`, () => {
+    describe(`dispatch() existing action`, () => {
         test(`expect state to change`, () => {
             initStore(reducer1, {});
             dispatch(action1());
