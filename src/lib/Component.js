@@ -1,39 +1,49 @@
-import { state, dispatch } from './store.js';
+import { state } from './store.js';
 import { isDOMElement } from './utils.js'
 
 export default class Component {
     constructor(refClip) {
-        if(isDOMElement(refClip)){
+        if (isDOMElement(refClip)) {
             this.$clip = refClip;
             this.props = this.stateToprops(state);
-            document.addEventListener('state', (ev) => this._updateProps())
+            document.addEventListener('state', (ev) => this._onChangeState())
         }
         else {
             throw new Error(`Component need to be initializated with a DOMElement, ${refClip} is not`)
         }
     }
 
+    get _name(){
+        return this.constructor.name;
+    }
+
     stateToprops(state) {
-        return { ...state };
+        return { ...state[this._name] };
     }
 
     render() {
-        return `Hello I'm ${this.constructor.name} and these are my props: ${this.props}`;
-    }
-    
-    renderTemplate($domElement, tplObj){
-        this.$clip.innerHTML = tplObj;
+        return `Hello I'm ${this._name} and these are my props: ${this.props}`;
     }
 
-    _updateProps() {
+    renderTemplate($domElement, templateStr) {
+        if (!$domElement || !isDOMElement($domElement)) {
+            throw new Error(`${this.name}: renderTemplate() needs a DOMElement and you passed [${$domElement}]`)
+        }
+        else {
+            $domElement.innerHTML = templateStr;
+            this._setDomEvents($domElement);
+        }
+    }
+
+    _onChangeState() {
         const newProps = this.stateToprops(state) || {};
-        
-        if (JSON.stringify(this.props) !== newProps) {
+
+        if (JSON.stringify(this.props) !== JSON.stringify(newProps)) {
             this.props = newProps;
             const tmpStr = this.render();
+
             if (tmpStr) {
                 this.renderTemplate(this.$clip, tmpStr)
-                this._setDomEvents(this.$clip);
             }
         }
     }
@@ -49,7 +59,7 @@ export default class Component {
                         element[attr.name] = tempFunc.bind(this)
                     }
                     else {
-                        throw new Error(`function ${attr.value} do not exists in ${this.constructor.name}`)
+                        throw new Error(`function ${attr.value} do not exists in ${this._name}`)
                     }
                 }
             });
