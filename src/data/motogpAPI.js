@@ -9,7 +9,7 @@
 import { state } from "../lib/store.js";
 import { get } from '../lib/utils.js';
 
-const env = window.env || 'prod';
+const env = window.env ? window.env.trim() : 'prod';
 const nocorsServer = window.location.hostname === "localhost" ? "https://cors-anywhere.herokuapp.com/" : "";
 const apiServer = env && env === "dev" ? "./json/" : `${nocorsServer}http://game.motogp.com/`;
 

@@ -26,16 +26,16 @@ beforeEach(() => {
 })
 
 describe('Constructor: new Component(clip)', () => {
-    test('expect throw an Error if clip is not DOMElement', () => {
+    test('throw an Error if clip is not DOMElement', () => {
         expect(() => new Component(noDOMElement)).toThrowError();
     })
-    test('expect assign the DOMElement as $clip property', () => {
+    test('assign clip as Component.$clip property', () => {
         expect(tempComponent.$clip).toEqual($tempClip)
     })
-    test('expect initalize props with actual state', () => {
+    test('initialize props with actual state', () => {
         expect(tempComponent.props).toEqual(fakeState)
     })
-    test('expect start listening state change events', () => {
+    test('start listening state change events', () => {
         dispatchAction('setProps', {prop2: 'prop2'})
         expect(tempComponent.props.prop2).toEqual('prop2')
     })
