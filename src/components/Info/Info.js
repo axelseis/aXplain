@@ -1,6 +1,7 @@
 import Component from '../../lib/Component.js'
+import { ShowHide } from '../../lib/Mixins.js'
 
-export default class Info extends Component {
+export default class Info extends ShowHide(Component) {
     constructor(refClip) {
         super(refClip);
     }

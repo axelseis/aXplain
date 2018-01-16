@@ -1,42 +1,39 @@
 import { state, dispatch } from './store.js';
-import { _toArray } from './utils'
+import { _toArray, isDOMElement } from './utils.js'
 
 export default class Component {
     constructor(refClip) {
-        this.$clip = refClip;
-        this.props = {};
-
-        document.addEventListener('state', (ev) => this._checkProps())
-        //this.$clip.addEventListener('transitionend', (ev) => this._endAnimation())
+        if(isDOMElement(refClip)){
+            this.$clip = refClip;
+            this.props = {};
+            this._checkProps();
+            document.addEventListener('state', (ev) => this._checkProps())
+        }
+        else {
+            throw new Error(`Component need to be initializated with a DOMElement, ${refClip} is not`)
+        }
     }
 
     stateToprops(state) {
-        this.props = { ...state };
+        return { ...state };
     }
 
     render() {
         return false;
     }
 
-    show() {
-        this.$clip.classList.remove('hidden');
-        this.$clip.classList.add('showing');
-    }
-
-    hide() {
-        this.$clip.classList.remove('showing');
-        this.$clip.classList.add('hidden');
-    }
-
     renderTemplate($domElement, templateStr) {
+        if(!$domElement || !isDOMElement($domElement)){
+            throw new Error(`renderTemplate needs a DOMElement and you passed [${$domElement}]`)
+        }
         if(!$domElement.children.length){
             $domElement.innerHTML = templateStr;
         }
         else{
             const tempDom = document.createElement('div');
             tempDom.innerHTML = templateStr;
-    
-            this._checkDomData(tempDom, $domElement);            
+
+            this._checkDomData(tempDom, $domElement);
         }
         this._setDomEvents($domElement);
     }
@@ -45,9 +42,15 @@ export default class Component {
         const oldProps = JSON.stringify(this.props);
         this.props = this.stateToprops(state) || {};
         if (JSON.stringify(this.props) !== oldProps) {
-            const tmpStr = this.render();
-            if (tmpStr) {
-                this.renderTemplate(this.$clip, tmpStr)
+            try{
+                const tmpStr = this.render();
+                if (tmpStr) {
+                    this.renderTemplate(this.$clip, tmpStr)
+                }
+            }
+            catch(err){
+                console.log("err ", err);
+                //throw err;
             }
         }
     }

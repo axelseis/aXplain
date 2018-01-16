@@ -1,5 +1,10 @@
-import 'promise-polyfill/src/polyfill';
-import 'whatwg-fetch';
+
+/** TODO: Add polyfills module
+ * for separate bundle
+ * and conditional loading
+ */
+//import 'promise-polyfill/src/polyfill';
+//import 'whatwg-fetch';
 
 import { state } from "../lib/store.js";
 import { get } from '../lib/utils.js';

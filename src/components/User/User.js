@@ -1,16 +1,18 @@
+
 import Component from '../../lib/Component.js'
+import { ShowHide } from '../../lib/Mixins.js'
 import { escape } from '../../lib/utils.js'
 import { getUserInfo, setUserInputstr } from './actions.js';
 
 
-export default class User extends Component {
-    
+export default class User extends ShowHide(Component) {
+
     constructor(refClip) {
         super(refClip);
     }
 
     stateToprops(state) {
-        const {name, inputstr, session} = {...state.user} 
+        const {name, inputstr, session} = {...state.user}
         return { name, inputstr, session };
     }
 
@@ -21,9 +23,9 @@ export default class User extends Component {
     onChangeInput(ev){
         const actpos = ev.target.selectionStart;
         const onInputIn = ev.target.className.indexOf('input-in') != -1;
-        
+
         setUserInputstr(ev.target.value);
-        
+
         if(onInputIn){
             const $input = this.$clip.querySelector('.User__input.input-in');
             $input.focus();

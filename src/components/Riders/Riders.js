@@ -1,15 +1,16 @@
 import Component from '../../lib/Component.js'
+import { ShowHide } from '../../lib/Mixins.js'
 import { setFilterValue, getRiders } from './actions.js'
 
-export default class Riders extends Component {
-    
+export default class Riders extends ShowHide(Component) {
+
     constructor(refClip) {
         super(refClip);
         this.initDomObjects();
 
         getRiders();
     }
-    
+
     initDomObjects(){
         this.$list = this.$clip.querySelector('.Riders__list')
         this.$inputOut = this.$clip.querySelector('.Riders__filter')
@@ -19,7 +20,7 @@ export default class Riders extends Component {
     setFilter(ev){
         setFilterValue(ev.target.value)
     }
-    
+
     stateToprops(state) {
         const { inputstr, filter } = { ...state.user }
         return {
@@ -36,7 +37,7 @@ export default class Riders extends Component {
             return name.indexOf(filterStr) != -1
                 || rider.surname.toLowerCase().indexOf(filterStr) != -1
         })
-        
+
         this.renderTemplate(this.$list, `
             ${
                 filteredList.map((key) => {
