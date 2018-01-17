@@ -16,12 +16,14 @@ export default class League extends ShowHide(Component) {
     }
 
     initComponents(){
-        this.menu = this.$clip.querySelector('.League__menu');
+        this.menuItems = Array.from(this.$clip.querySelectorAll('.League__menu-item'));
         this.info = new Info(this.$clip.querySelector('.League__Info'));
         this.user = new User(this.$clip.querySelector('.League__User'));
         this.riders = new Riders(this.$clip.querySelector('.League__Riders'));
 
-        this.menu.onclick = this.selectMenuItem.bind(this);
+        this.menuItems.forEach(item => {
+            item.onclick = this.selectMenuItem.bind(this);
+        });
     }
 
     selectMenuItem(ev){

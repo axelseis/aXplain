@@ -8,10 +8,10 @@
     "dev-server": "lite-server index.html --serveStatic json",
     "dev-css": "node-sass-chokidar src/ -o src/ --watch --recursive --source-map true",
     "test": "jest --watch",
-    "build-server": "lite-server --config bs-config.prod.js",
-    "build-parcel": "parcel build index.prod.html --public-url ./",
-    "build-css": "node-sass-chokidar src/ -o src/ --recursive --source-map true",
-    "build": "npm-run-all build-css build-parcel",
+    "build:server": "lite-server --config bs-config.prod.js",
+    "build:parcel": "parcel build index.prod.html --public-url ./",
+    "build:css": "node-sass-chokidar src/ -o src/ --recursive --source-map true",
+    "build": "npm-run-all -p build:*",
     "prod": "parcel index.prod.html"
   },
   "repository": {

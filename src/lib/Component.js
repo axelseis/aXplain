@@ -1,25 +1,28 @@
-import { state, dispatch } from './store.js';
-import { _toArray, isDOMElement } from './utils.js'
+import { state } from './store.js';
+import { isDOMElement } from './utils.js'
 
 export default class Component {
     constructor(refClip) {
-        if(isDOMElement(refClip)){
+        if (isDOMElement(refClip)) {
             this.$clip = refClip;
-            this.props = {};
-            this._checkProps();
-            document.addEventListener('state', (ev) => this._checkProps())
+            this.props = this.stateToprops(state);
+            document.addEventListener('state', (ev) => this._onChangeState())
         }
         else {
             throw new Error(`Component need to be initializated with a DOMElement, ${refClip} is not`)
         }
     }
 
+    get _name(){
+        return this.constructor.name;
+    }
+
     stateToprops(state) {
-        return { ...state };
+        return { ...state[this._name] };
     }
 
     render() {
-        return false;
+        return `Hello I'm ${this._name} and these are my props: ${this.props}`;
     }
 
     _className(){
@@ -30,85 +33,40 @@ export default class Component {
         if(!$domElement || !isDOMElement($domElement)){
             throw new Error(`${this._className()}: renderTemplate needs a DOMElement and you passed [${$domElement}]`)
         }
-        if(!$domElement.children.length){
+        else {
             $domElement.innerHTML = templateStr;
-        }
-        else{
-            const tempDom = document.createElement('div');
-            tempDom.innerHTML = templateStr;
-
-            this._checkDomData(tempDom, $domElement);
-        }
-        this._setDomEvents($domElement);
-    }
-
-    _checkProps() {
-        const oldProps = JSON.stringify(this.props);
-        this.props = this.stateToprops(state) || {};
-        if (JSON.stringify(this.props) !== oldProps) {
-            try{
-                const tmpStr = this.render();
-                if (tmpStr) {
-                    this.renderTemplate(this.$clip, tmpStr)
-                }
-            }
-            catch(err){
-                console.error(err);
-            }
+            this._setDomEvents($domElement);
         }
     }
 
-    _checkDomData(newDom, oldDom) {
-        const newDomChildren = _toArray(newDom.children);
-        const oldDomChildren = _toArray(oldDom.children);
+    _onChangeState() {
+        const newProps = this.stateToprops(state) || {};
 
-        newDomChildren.forEach((element, index) => {
-            const oldElement = oldDomChildren[index];
-            if (!oldElement) {
-                oldDom.appendChild(element.cloneNode(true));
+        if (JSON.stringify(this.props) !== JSON.stringify(newProps)) {
+            this.props = newProps;
+            const tmpStr = this.render();
+
+            if (tmpStr) {
+                this.renderTemplate(this.$clip, tmpStr)
             }
-            else if (element.nodeName !== oldElement.nodeName) {
-                oldElement.outerHTML = element.outerHTML
-            }
-            else {
-                if (element.value !== oldElement.value) {
-                    oldElement.value = element.value;
-                }
-                if (element.children.length) {
-                    this._checkDomData(element, oldElement)
-                }
-                if (element.innerHTML !== oldElement.innerHTML) {
-                    oldElement.innerHTML = element.innerHTML;
-                }
-                _toArray(element.attributes).forEach(attr => {
-                    const oldAttr = oldElement.getAttribute(attr.name);
-                    if (!oldAttr || oldAttr !== attr.value) {
-                        oldElement.setAttribute(attr.name, attr.value);
-                    }
-                })
-            }
-        })
-        for (let iD = oldDomChildren.length-1; iD >= newDomChildren.length; iD--) {
-            oldDom.removeChild(oldDomChildren[iD]);
         }
     }
 
     _setDomEvents($domElement) {
-        const actNodes = _toArray($domElement.querySelectorAll('*'));
+        const actNodes = Array.from($domElement.querySelectorAll('*'));
 
         actNodes.forEach(element => {
-            _toArray(element.attributes).forEach(attr => {
+            Array.from(element.attributes).forEach(attr => {
                 if (!attr.name.indexOf('on')) {
                     const tempFunc = this[attr.value];
                     if (tempFunc) {
                         element[attr.name] = tempFunc.bind(this)
                     }
                     else {
-                        throw new Error(`function ${attr.value} do not exists in ${this.constructor.name}`)
+                        throw new Error(`function ${attr.value} do not exists in ${this._name}`)
                     }
                 }
             });
         });
     }
 }
-

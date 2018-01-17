@@ -1,4 +1,7 @@
-let reducers = {};
+import { reducers as libReducers } from './actions.js';
+
+let reducers = {...libReducers};
+
 export let state = {};
 
 export function initStore(reducersArray, initialState) {
@@ -10,7 +13,7 @@ export function initStore(reducersArray, initialState) {
     }
 
     reducersArray = Array.isArray(reducersArray) ? reducersArray : [reducersArray]
-    reducers = reducersArray.reduce((arr,reducerObj) => ({...arr,...reducerObj}),{})
+    reducersArray.map(reducerObj => addReducer(reducerObj))
     state = {...initialState};
 }
 

@@ -1,13 +1,13 @@
-import Component from '../../lib/Component.js'
+import StringTplComponent from '../../lib/StringTplComponent.js'
 import { ShowHide } from '../../lib/Mixins.js'
 import { setFilterValue, getRiders } from './actions.js'
 
-export default class Riders extends ShowHide(Component) {
+export default class Riders extends ShowHide(StringTplComponent) {
 
     constructor(refClip) {
         super(refClip);
+        
         this.initDomObjects();
-
         getRiders();
     }
 
