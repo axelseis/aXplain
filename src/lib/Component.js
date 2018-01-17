@@ -22,9 +22,13 @@ export default class Component {
         return false;
     }
 
+    _className(){
+        return this.constructor.name
+    }
+
     renderTemplate($domElement, templateStr) {
         if(!$domElement || !isDOMElement($domElement)){
-            throw new Error(`renderTemplate needs a DOMElement and you passed [${$domElement}]`)
+            throw new Error(`${this._className()}: renderTemplate needs a DOMElement and you passed [${$domElement}]`)
         }
         if(!$domElement.children.length){
             $domElement.innerHTML = templateStr;
@@ -49,8 +53,7 @@ export default class Component {
                 }
             }
             catch(err){
-                console.log("err ", err);
-                //throw err;
+                console.error(err);
             }
         }
     }
