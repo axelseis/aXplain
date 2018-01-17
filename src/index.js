@@ -8,7 +8,7 @@ import League from './components/League/League.js';
 import { reducers as userReducer } from './components/User/actions.js';
 import { reducers as ridersReducer } from './components/Riders/actions.js';
 
-const league = new League(document.querySelector('.League'));
+const league = new League('League');
 
 const routes = [
     { url: "/", component: "info" },

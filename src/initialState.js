@@ -1,7 +1,5 @@
+
 const initialState = {
-    Info: {
-        inited: true
-    },
     user: {
         name: false,
         inputstr: '',

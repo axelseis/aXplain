@@ -7,10 +7,6 @@ import { getUserInfo, setUserInputstr } from './actions.js';
 
 export default class User extends ShowHide(Component) {
 
-    constructor(refClip) {
-        super(refClip);
-    }
-
     stateToprops(state) {
         const {name, inputstr, session} = {...state.user}
         return { name, inputstr, session };

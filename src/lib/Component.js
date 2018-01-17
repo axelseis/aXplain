@@ -1,37 +1,50 @@
-import { state } from './store.js';
+import { state, dispatch } from './store.js';
 import { isDOMElement } from './utils.js'
+import { initComponent } from './actions.js';
 
 export default class Component {
-    constructor(refClip) {
-        if (isDOMElement(refClip)) {
-            this.$clip = refClip;
+    constructor(className) {
+        const DOMElement = document.querySelectorAll(`.${className}`);
+        if (DOMElement.length === 1) {
+            this.$clip = DOMElement[0];
+            this._name = className;
+
+            dispatch(initComponent(this._name,{inited:true}))
             this.props = this.stateToprops(state);
-            document.addEventListener('state', (ev) => this._onChangeState())
+            this._stateListener = this._onChangeState.bind(this);
+            document.addEventListener('state', this._stateListener)
+        }
+        else if(DOMElement.length > 1) {
+            throw new Error(`${this.type}:
+            A Component needs a unique DOM Element to initialize,
+            there is ${DOMElement.length} '${className}' at DOM`)
         }
         else {
-            throw new Error(`Component need to be initializated with a DOMElement, ${refClip} is not`)
+            throw new Error(`${this.type}:
+                Component needs to be initializated with a single DOMElement,
+                there is none '${className}' at DOM`)
         }
     }
 
-    get _name(){
-        return this.constructor.name;
+    get name(){
+        return this._name;
+    }
+
+    get type(){
+        return this.constructor.name
     }
 
     stateToprops(state) {
-        return { ...state[this._name] };
+        return { ...state.Components[this.name] };
     }
 
     render() {
-        return `Hello I'm ${this._name} and these are my props: ${this.props}`;
-    }
-
-    _className(){
-        return this.constructor.name
+        return `Hello I'm ${this.name} and these are my props: ${this.props}`;
     }
 
     renderTemplate($domElement, templateStr) {
         if(!$domElement || !isDOMElement($domElement)){
-            throw new Error(`${this._className()}: renderTemplate needs a DOMElement and you passed [${$domElement}]`)
+            throw new Error(`${this.type}: renderTemplate needs a DOMElement and you passed [${$domElement}]`)
         }
         else {
             $domElement.innerHTML = templateStr;
@@ -63,10 +76,18 @@ export default class Component {
                         element[attr.name] = tempFunc.bind(this)
                     }
                     else {
-                        throw new Error(`function ${attr.value} do not exists in ${this._name}`)
+                        throw new Error(`function ${attr.value} do not exists in ${this.name}`)
                     }
                 }
             });
         });
+    }
+
+    dispose(){
+        document.removeEventListener('state',this._stateListener);
+        for (let prop in this) {
+            this[prop] = null;
+            delete this[prop]
+        }
     }
 }

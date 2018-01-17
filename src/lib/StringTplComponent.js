@@ -3,10 +3,6 @@ import { _toArray, isDOMElement } from './utils.js'
 import Component from "./Component.js"
 
 export default class StringTplComponent  extends Component{
-    constructor(refClip) {
-        super(refClip);
-    }
-
     render() {
         return `${this.constructor.name} :( This is because I'm a StringTplComponent with no render()`;
     }

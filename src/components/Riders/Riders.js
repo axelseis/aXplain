@@ -4,9 +4,9 @@ import { setFilterValue, getRiders } from './actions.js'
 
 export default class Riders extends ShowHide(StringTplComponent) {
 
-    constructor(refClip) {
-        super(refClip);
-        
+    constructor(className) {
+        super(className);
+
         this.initDomObjects();
         getRiders();
     }

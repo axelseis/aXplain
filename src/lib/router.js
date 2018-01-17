@@ -1,11 +1,11 @@
-import { state } from './store.js';
+import { state, dispatch } from './store.js';
 import { setLocation, setRoutes } from './actions.js';
 
 let routes = [];
 
 export function initRouter(routesArr){
     routes = routesArr || [{url:'/'}];
-    setRoutes(routesArr)
+    dispatch(setRoutes(routesArr))
 }
 
 export function go(url2go){
@@ -14,7 +14,7 @@ export function go(url2go){
 
     if(routeMatch){
         history.pushState(null, '', url);
-        setLocation(url, _getParams(url, routeMatch))
+        dispatch(setLocation(url, _getParams(url, routeMatch)))
     }
     else {
         throw(new Error(`${url} do not exists at routes`))
@@ -26,13 +26,13 @@ function _matchRoute(url) {
         const routeReduce = route.url.replace(/(:\w+)/g, "([\\w-]+)");
         return url.match(`^${routeReduce}$`)
     })
-    
+
     return routeMatch
 }
 
 function _getParams(url = '/', route) {
     let params, props;
-    
+
     const routeArr = route.url.split('/');
     const urlArr = url.split('/');
     params = {};

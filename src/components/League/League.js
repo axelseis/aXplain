@@ -9,17 +9,17 @@ import Riders from '../Riders/Riders.js';
 
 export default class League extends ShowHide(Component) {
 
-    constructor(refClip) {
-        super(refClip);
+    constructor(className) {
+        super(className);
         this.initComponents();
         this.actComponent = null;
     }
 
     initComponents(){
         this.menuItems = Array.from(this.$clip.querySelectorAll('.League__menu-item'));
-        this.info = new Info(this.$clip.querySelector('.League__Info'));
-        this.user = new User(this.$clip.querySelector('.League__User'));
-        this.riders = new Riders(this.$clip.querySelector('.League__Riders'));
+        this.info = new Info('League__Info');
+        this.user = new User('League__User');
+        this.riders = new Riders('League__Riders');
 
         this.menuItems.forEach(item => {
             item.onclick = this.selectMenuItem.bind(this);

@@ -14,21 +14,21 @@ export function initStore(reducersArray, initialState) {
 
     reducersArray = Array.isArray(reducersArray) ? reducersArray : [reducersArray]
     reducersArray.map(reducerObj => addReducer(reducerObj))
-    state = {...initialState};
+    state = {...state,...initialState};
 }
 
 export function addReducer(reducerObj) {
     reducers = {...reducers,...reducerObj}
 }
 
-export function dispatchAction(type, params) {
-    dispatch({type, params})
+export function dispatchAction(type, payload) {
+    dispatch({type, payload})
 }
 
-export function dispatch({type,params}) {
+export function dispatch({type,payload}) {
     if (reducers[type]) {
-        state = reducers[type](state, params);
-        document.dispatchEvent(new CustomEvent('state', { detail: {type,params} }));
+        state = reducers[type](state, payload);
+        document.dispatchEvent(new CustomEvent('state', { detail: {type,payload} }));
     }
     else {
         throw new Error(`

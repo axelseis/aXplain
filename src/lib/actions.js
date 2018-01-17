@@ -1,55 +1,67 @@
-import { dispatch } from './store.js';
+import { state } from './store.js';
 
 export const actions = {
     SET_LOCATION: 'SET_LOCATION',
     SET_ROUTES: 'SET_ROUTES',
-    SET_COMPONENT_PROP: 'SET_COMPONENT_PROP'
+    SET_COMPONENT_PROP: 'SET_COMPONENT_PROP',
+    INIT_COMPONENT: 'INIT_COMPONENT'
 }
 
+export function initComponent(componentName){
+    return({
+        type: actions.INIT_COMPONENT,
+        payload: { componentName, inited: true }
+    })
+}
 
 export function setComponentProp(componentName, props){
-    dispatch({
+    return({
         type: actions.SET_COMPONENT_PROP,
-        params: { componentName, ...props }
+        payload: { componentName, ...props }
     })
 }
 
 export function setRoutes(routesArr){
-    dispatch({
+    return({
         type: actions.SET_ROUTES,
-        params: { routes: routesArr }
+        payload: { routes: routesArr }
     })
 }
 
 export function setLocation(route, {params,props}){
-    dispatch({
+    return({
         type: actions.SET_LOCATION,
-        params: { route, params, ...props }
+        payload: { route, params, ...props }
     })
 }
 
 export const reducers = {
-    [actions.SET_LOCATION]: setRouterParams,
-    [actions.SET_ROUTES]: setRouterParams,
-    [actions.SET_COMPONENT_PROP]: setComponentParams
+    [actions.SET_LOCATION]: setRouterPayload,
+    [actions.SET_ROUTES]: setRouterPayload,
+    [actions.INIT_COMPONENT]: setComponentPayload,
+    [actions.SET_COMPONENT_PROP]: setComponentPayload
 }
 
-function setRouterParams(state, params){
+function setRouterPayload(state, payload){
     return ({
         ...state,
         router: {
             ...state.router,
-            ...params
+            ...payload
         }
     })
 }
 
-function setComponentParams(state, params){
+function setComponentPayload(state, payload){
+    const {componentName, ...props} = {...payload}
     return ({
         ...state,
-        [params.componentName]: {
-            ...state[params.componentName],
-            ...params
+        Components: {
+            ...state.Components,
+            [componentName]: {
+                ...(state.Components || {})[componentName],
+                ...props
+            }
         }
     })
 }

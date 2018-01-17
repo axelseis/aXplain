@@ -2,17 +2,17 @@ import { jest } from 'jest';
 import { state, initStore, dispatch } from '../src/lib/store'
 
 const reducer1 = {
-    action1: (state, params) => ({
+    action1: (state, payload) => ({
         ...state,
-        ...params
+        ...payload
     })
 }
-const action1 = () => ({
+const action1 = {
     type: 'action1',
-    params: {
+    payload: {
         param1: 'param1'
     }
-})
+}
 
 const notObj = 'notObjectNorArray';
 const initialState = {
@@ -48,7 +48,6 @@ describe('initStore(reducers,initialState)', () => {
 })
 
 describe('dispatch(action) || dispatchAction(type,params)', () => {
-
     describe(`dispatch action with missing type`, () => {
         test('expect to throw an error', () => {
             initStore(reducer1, {});
@@ -58,14 +57,14 @@ describe('dispatch(action) || dispatchAction(type,params)', () => {
     describe(`dispatch() malformed action`, () => {
         test('expect to throw an error', () => {
             initStore(reducer1, {});
-            expect(() => { dispatch('action1') }).toThrowError();
+            expect(() => { dispatch('actionMalformed') }).toThrowError();
         })
     })
     describe(`dispatch() existing action`, () => {
         test(`expect state to change`, () => {
             initStore(reducer1, {});
-            dispatch(action1());
-            expect(state.param1).toBe(action1().params.param1)
+            dispatch(action1);
+            expect(state.param1).toBe(action1.payload.param1)
         })
         test(`expect to dispatch a CustomEvent('state')`, () => {
             document.addEventListener('state', (ev) => {
@@ -73,7 +72,7 @@ describe('dispatch(action) || dispatchAction(type,params)', () => {
                 expect(ev.type).toBe('state')
             })
             initStore(reducer1, {});
-            dispatch(action1());
+            dispatch(action1);
         })
     })
 })
