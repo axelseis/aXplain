@@ -7,7 +7,11 @@ export function escape(str) {
 }
 
 export function isDOMElement(el){
-    return el instanceof Element;
+  return el instanceof Element;
+}
+
+export function isString(str){
+  return typeof str === 'string' || str instanceof String;
 }
 
 export function get(url) {

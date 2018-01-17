@@ -4,14 +4,8 @@ export const actions = {
     SET_LOCATION: 'SET_LOCATION',
     SET_ROUTES: 'SET_ROUTES',
     SET_COMPONENT_PROP: 'SET_COMPONENT_PROP',
-    INIT_COMPONENT: 'INIT_COMPONENT'
-}
-
-export function initComponent(componentName){
-    return({
-        type: actions.INIT_COMPONENT,
-        payload: { componentName, inited: true }
-    })
+    INIT_COMPONENT: 'INIT_COMPONENT',
+    REMOVE_COMPONENT: 'REMOVE_COMPONENT'
 }
 
 export function setComponentProp(componentName, props){
@@ -38,7 +32,8 @@ export function setLocation(route, {params,props}){
 export const reducers = {
     [actions.SET_LOCATION]: setRouterPayload,
     [actions.SET_ROUTES]: setRouterPayload,
-    [actions.INIT_COMPONENT]: setComponentPayload,
+    [actions.INIT_COMPONENT]: initComponent,
+    [actions.REMOVE_COMPONENT]: removeComponent,
     [actions.SET_COMPONENT_PROP]: setComponentPayload
 }
 
@@ -63,5 +58,29 @@ function setComponentPayload(state, payload){
                 ...props
             }
         }
+    })
+}
+
+function initComponent(state, payload){
+    const {componentName} = {...payload}
+    const restComponents = {...state.Components}
+
+    return ({
+        ...state,
+        Components: {
+            ...restComponents,
+            [componentName]: {inited: true}
+        }
+    })
+}
+
+function removeComponent(state, payload){
+    const {componentName} = {...payload}
+    const restComponents = {...state.Components}
+    delete restComponents[componentName]
+
+    return ({
+        ...state,
+        Components: {...restComponents}
     })
 }

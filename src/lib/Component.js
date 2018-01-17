@@ -1,29 +1,31 @@
-import { state, dispatch } from './store.js';
-import { isDOMElement } from './utils.js'
-import { initComponent } from './actions.js';
+import { state, dispatch, dispatchAction } from './store.js';
+import { isDOMElement, isString } from './utils.js'
+import { actions, initComponent } from './actions.js';
 
 export default class Component {
     constructor(className) {
         const DOMElement = document.querySelectorAll(`.${className}`);
-        if (DOMElement.length === 1) {
-            this.$clip = DOMElement[0];
-            this._name = className;
-
-            dispatch(initComponent(this._name,{inited:true}))
-            this.props = this.stateToprops(state);
-            this._stateListener = this._onChangeState.bind(this);
-            document.addEventListener('state', this._stateListener)
-        }
-        else if(DOMElement.length > 1) {
+        if(DOMElement.length > 1) {
             throw new Error(`${this.type}:
             A Component needs a unique DOM Element to initialize,
-            there is ${DOMElement.length} '${className}' at DOM`)
+            there are ${DOMElement.length} '${className}' at DOM`)
         }
-        else {
+        if(!DOMElement.length) {
             throw new Error(`${this.type}:
                 Component needs to be initializated with a single DOMElement,
-                there is none '${className}' at DOM`)
+                there are not any '${className}' at DOM`)
         }
+
+        this.$clip = DOMElement[0];
+        this._name = className;
+
+        dispatchAction(actions.INIT_COMPONENT,{
+            componentName: this._name
+        })
+        this.props = this.stateToprops(state);
+        
+        this._stateListener = this._onChangeState.bind(this);
+        document.addEventListener('state', this._stateListener)
     }
 
     get name(){
@@ -46,10 +48,11 @@ export default class Component {
         if(!$domElement || !isDOMElement($domElement)){
             throw new Error(`${this.type}: renderTemplate needs a DOMElement and you passed [${$domElement}]`)
         }
-        else {
-            $domElement.innerHTML = templateStr;
-            this._setDomEvents($domElement);
+        if(!templateStr || !isString(templateStr)){
+            throw new Error(`${this.type}: renderTemplate needs a string and you passed [${$domElement}]`)
         }
+        $domElement.innerHTML = templateStr;
+        this._setDomEvents($domElement);
     }
 
     _onChangeState() {
@@ -84,6 +87,9 @@ export default class Component {
     }
 
     dispose(){
+        dispatchAction(actions.REMOVE_COMPONENT,{
+            componentName:this.name
+        })
         document.removeEventListener('state',this._stateListener);
         for (let prop in this) {
             this[prop] = null;
