@@ -11,7 +11,14 @@ module.exports = {
         rule: {
             match: /<\/body>/i,
             fn: function (snippet, match) {
-                return `${snippet}<script>var env='${process.env.NODE_ENV}'</script>${match}`;
+                return (`${snippet}
+                    <script>
+                        var DEV_ROUTES = {
+                            userInfo: "./json/get_user_info.json",
+                            riders: "./json/get_riders.json",
+                        }
+                    </script>               
+                ${match}`)
             }
         }
     }

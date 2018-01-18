@@ -1,6 +1,6 @@
 import { state, dispatch, dispatchAction } from './store.js';
 import { isDOMElement, isString } from './utils.js'
-import { actions, initComponent } from './actions.js';
+import { actions } from './actions.js';
 
 export default class Component {
     constructor(className) {
