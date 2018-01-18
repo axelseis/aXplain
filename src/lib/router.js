@@ -13,11 +13,15 @@ export function go(url2go){
     const routeMatch = _matchRoute(url);
 
     if(routeMatch){
+        const {url: urlMatch, ...props} = {...routeMatch}
         history.pushState(null, '', url);
-        dispatch(setLocation(url, _getParams(url, routeMatch)))
+        dispatch(setLocation(url, props, _getParams(url, urlMatch)))
     }
     else {
-        throw(new Error(`${url} do not exists at routes`))
+        throw(new Error(`
+            ${url} do not exists in routes:
+            ${state.router.routes.map((route) => ` ${route.url} `).join('')}
+        `))
     }
 }
 
@@ -30,22 +34,16 @@ function _matchRoute(url) {
     return routeMatch
 }
 
-function _getParams(url = '/', route) {
-    let params, props;
-
-    const routeArr = route.url.split('/');
+function _getParams(url, urlMatch){
+    const urlMatchArr = urlMatch.split('/');
     const urlArr = url.split('/');
-    params = {};
-    for (var i = 0; i < routeArr.length; i++) {
-        if (urlArr[i] && ~routeArr[i].indexOf(":")) {
-            params[routeArr[i].slice(1)] = urlArr[i];
+    let params = {};
+
+    for (var i = 0; i < urlMatchArr.length; i++) {
+        if (urlArr[i] && ~urlMatchArr[i].indexOf(":")) {
+            params[urlMatchArr[i].slice(1)] = urlArr[i];
         }
     }
-    props = {};
-    Object.keys(route).forEach(key => {
-        if(key != 'url'){
-            props[key] = route[key]
-        }
-    })
-    return {params,props}
+
+    return params
 }

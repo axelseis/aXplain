@@ -18,14 +18,14 @@ export function setComponentProp(componentName, props){
 export function setRoutes(routesArr){
     return({
         type: actions.SET_ROUTES,
-        payload: { routes: routesArr }
+        payload: { routes: [...routesArr] }
     })
 }
 
-export function setLocation(route, {params,props}){
+export function setLocation(route, props, {...params}){
     return({
         type: actions.SET_LOCATION,
-        payload: { route, params, ...props }
+        payload: { route, ...props, params }
     })
 }
 
@@ -65,22 +65,27 @@ function initComponent(state, payload){
     const {componentName} = {...payload}
     const restComponents = {...state.Components}
 
-    return ({
-        ...state,
-        Components: {
-            ...restComponents,
-            [componentName]: {inited: true}
-        }
-    })
+    return (
+        componentName ? {
+            ...state,
+            Components: {
+                ...restComponents,
+                [componentName]: {inited: true}
+            }
+        } : {...state}
+    )
 }
 
 function removeComponent(state, payload){
     const {componentName} = {...payload}
-    const {[componentName]: component, ...restComponents} = {...state.Components}
-    //delete restComponents[componentName]
+    const parsedName = `${componentName}`;
+    const {components, ...noCompsState} = {...state}
+    const {[parsedName]: component, ...restComponents} = {...components}
 
-    return ({
-        ...state,
-        Components: {...restComponents}
-    })
+    return (
+        restComponents.length ? {
+            ...state,
+            Components: {...restComponents}
+        } : {...noCompsState}
+    )
 }

@@ -1,5 +1,6 @@
 import { jest } from 'jest';
 import { state, initStore, dispatch } from '../src/lib/store'
+import { isObject } from '../src/lib/utils'
 
 const reducer1 = {
     action1: (state, payload) => ({
@@ -20,8 +21,8 @@ const initialState = {
 }
 
 describe('before init the store', () => {
-    test('expect state to be {}', () => {
-        expect(state).toEqual({});
+    test('expect state to be an Object', () => {
+        expect(isObject(state)).toBeTruthy();
     })
     test('expect calling dispatch throws an error', () => {
         expect(() => { dispatch(action1) }).toThrowError();
@@ -44,6 +45,10 @@ describe('initStore(reducers,initialState)', () => {
         test('expect throw an Error', () => {
             expect(() => { initStore(notObj, initialState) }).toThrowError();
         })
+    })
+    test('expect initialize state with initState values', () => {
+        initStore([],initialState);
+        expect(state).toEqual(initialState);
     })
 })
 
