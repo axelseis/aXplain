@@ -11,31 +11,18 @@ import { state } from "../lib/store.js";
 const nocorsServer = window.location.hostname === "localhost" ? "https://cors-anywhere.herokuapp.com/" : "";
 const apiServer = `${nocorsServer}http://game.motogp.com/`;
 
-const DEV_ROUTES = window.DEV_ROUTES || {};
-
-const endpoints = (endpoint) => {
-  switch (endpoint) {
-    case 'userInfo':
-      return DEV_ROUTES[endpoint] ||
-      `${apiServer}interface/get_user_info_json/${state.user.session}`
-    break;
-    case 'riders':
-      return DEV_ROUTES[endpoint] ||
-      `${apiServer}interface/get_riders_json/2017`
-    break;
-      return DEV_ROUTES[endpoint]
-    default:
-    break;
-  }
+const API_ROUTES = window.DEV_ROUTES || {
+  userInfo: `${apiServer}interface/get_user_info_json/${state.user.session}`,
+  riders: `${apiServer}interface/get_riders_json/2017`
 };
 
 export function getUserInfoJSON() {
-  const userInfoURL = endpoints('userInfo');
+  const userInfoURL = API_ROUTES.userInfo;
   return get(userInfoURL);
 }
 
 export function getRidersJSON() {
-  const ridersURL = endpoints('riders');
+  const ridersURL = API_ROUTES.riders;
   return get(ridersURL);
 }
 
