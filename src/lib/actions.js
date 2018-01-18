@@ -29,11 +29,18 @@ export function setLocation(route, props, {...params}){
     })
 }
 
+export function removeComponent(componentName){
+    return({
+        type: actions.SET_COMPONENT_PROP,
+        payload: { componentName }
+    })
+}
+
 export const reducers = {
     [actions.SET_LOCATION]: setRouterPayload,
     [actions.SET_ROUTES]: setRouterPayload,
     [actions.INIT_COMPONENT]: initComponent,
-    [actions.REMOVE_COMPONENT]: removeComponent,
+    [actions.REMOVE_COMPONENT]: removeComponentState,
     [actions.SET_COMPONENT_PROP]: setComponentPayload
 }
 
@@ -76,10 +83,10 @@ function initComponent(state, payload){
     )
 }
 
-function removeComponent(state, payload){
+function removeComponentState(state, payload){
     const {componentName} = {...payload}
     const parsedName = `${componentName}`;
-    const {components, ...noCompsState} = {...state}
+    const {components=[], ...noCompsState} = {...state}
     const {[parsedName]: component, ...restComponents} = {...components}
 
     return (

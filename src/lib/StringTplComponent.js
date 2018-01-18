@@ -1,5 +1,5 @@
 import { state, dispatch } from './store.js';
-import { isDOMElement } from './utils.js'
+import { isDOMElement, isString } from './utils.js'
 import Component from "./Component.js"
 
 export default class StringTplComponent  extends Component{
@@ -9,7 +9,17 @@ export default class StringTplComponent  extends Component{
 
     renderTemplate($domElement, templateStr) {
         if(!$domElement || !isDOMElement($domElement)){
-            throw new Error(`renderTemplate needs a DOMElement and you passed [${$domElement}]`)
+            throw new TypeError(`${this.type}: renderTemplate requires a DOMElement and you passed [${$domElement}]`)
+        }
+        if(!templateStr || !isString(templateStr)){
+            throw new TypeError(`${this.type}: renderTemplate requires a string and you passed [${$domElement}]`)
+        }
+        if($domElement.innerHTML.toLowerCase() === templateStr){
+            console.warn(
+                `${this.type}: the updated DOM provided to renderTemplate is equal than 
+                actual DOM, maybe your stateToProps function is not well optimized`
+            )
+            return false;
         }
         if(!$domElement.children.length){
             $domElement.innerHTML = templateStr;
@@ -26,7 +36,7 @@ export default class StringTplComponent  extends Component{
     _checkDomData(newDom, oldDom) {
         const newDomChildren = Array.from(newDom.children);
         const oldDomChildren = Array.from(oldDom.children);
-
+        
         newDomChildren.forEach((element, index) => {
             const oldElement = oldDomChildren[index];
             if (!oldElement) {
@@ -44,6 +54,7 @@ export default class StringTplComponent  extends Component{
                 }
                 if (element.innerHTML !== oldElement.innerHTML) {
                     oldElement.innerHTML = element.innerHTML;
+                    
                 }
                 Array.from(element.attributes).forEach(attr => {
                     const oldAttr = oldElement.getAttribute(attr.name);

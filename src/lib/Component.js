@@ -37,7 +37,8 @@ export default class Component {
     }
 
     stateToprops(state) {
-        return { ...state.Components[this.name] };
+        const componentState = (state.Components||[])[this.name]
+        return { ...componentState };
     }
 
     render() {
