@@ -14,6 +14,11 @@ export function isString(str){
   return typeof str === 'string' || str instanceof String;
 }
 
+export function isFunction(functionToCheck) {
+  var getType = {};
+  return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
+}
+
 export const _toArray = (domNodes) => [].map.call(domNodes, el => el)
 
 

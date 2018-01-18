@@ -1,32 +1,26 @@
-
-/** TODO: Add polyfills module
- * for separate bundle
- * and conditional loading
- */
-//import 'promise-polyfill/src/polyfill';
-//import 'whatwg-fetch';
-
 import { state } from "../lib/store.js";
+import { isFunction } from '../lib/utils.js';
 
 const nocorsServer = window.location.hostname === "localhost" ? "https://cors-anywhere.herokuapp.com/" : "";
 const apiServer = `${nocorsServer}http://game.motogp.com/`;
 
 const API_ROUTES = window.DEV_ROUTES || {
-  userInfo: `${apiServer}interface/get_user_info_json/${state.user.session}`,
+  userInfo: () => `${apiServer}interface/get_user_info_json/${state.user.session}`,
   riders: `${apiServer}interface/get_riders_json/2017`
 };
 
 export function getUserInfoJSON() {
-  const userInfoURL = API_ROUTES.userInfo;
-  return get(userInfoURL);
+  return get(API_ROUTES.userInfo);
 }
 
 export function getRidersJSON() {
-  const ridersURL = API_ROUTES.riders;
-  return get(ridersURL);
+  return get(API_ROUTES.riders);
 }
 
 function get(url) {
+  if(isFunction(url)){
+    url = url();
+  }
   return fetch(url)
     .then(response => {
       if (response.ok) {
