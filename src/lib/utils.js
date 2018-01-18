@@ -1,16 +1,8 @@
-export function escape(str) {
-    return (str + '')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&#34;')
-        .replace(/'/g, '&#39;')
-}
-
-export function isDOMElement(el){
+export function isDOMElement(el) {
   return el instanceof Element;
 }
 
-export function isString(str){
+export function isString(str) {
   return typeof str === 'string' || str instanceof String;
 }
 
@@ -19,6 +11,11 @@ export function isFunction(functionToCheck) {
   return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
 }
 
-export const _toArray = (domNodes) => [].map.call(domNodes, el => el)
-
+export function escape(str) {
+  return (str + '')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&#34;')
+      .replace(/'/g, '&#39;')
+}
 

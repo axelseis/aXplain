@@ -1,5 +1,5 @@
 import { state, dispatch } from './store.js';
-import { _toArray, isDOMElement } from './utils.js'
+import { isDOMElement } from './utils.js'
 import Component from "./Component.js"
 
 export default class StringTplComponent  extends Component{
@@ -24,8 +24,8 @@ export default class StringTplComponent  extends Component{
     }
 
     _checkDomData(newDom, oldDom) {
-        const newDomChildren = _toArray(newDom.children);
-        const oldDomChildren = _toArray(oldDom.children);
+        const newDomChildren = Array.from(newDom.children);
+        const oldDomChildren = Array.from(oldDom.children);
 
         newDomChildren.forEach((element, index) => {
             const oldElement = oldDomChildren[index];
@@ -45,7 +45,7 @@ export default class StringTplComponent  extends Component{
                 if (element.innerHTML !== oldElement.innerHTML) {
                     oldElement.innerHTML = element.innerHTML;
                 }
-                _toArray(element.attributes).forEach(attr => {
+                Array.from(element.attributes).forEach(attr => {
                     const oldAttr = oldElement.getAttribute(attr.name);
                     if (!oldAttr || oldAttr !== attr.value) {
                         oldElement.setAttribute(attr.name, attr.value);

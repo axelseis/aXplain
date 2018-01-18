@@ -46,10 +46,10 @@ export default class Component {
 
     renderTemplate($domElement, templateStr) {
         if(!$domElement || !isDOMElement($domElement)){
-            throw new Error(`${this.type}: renderTemplate needs a DOMElement and you passed [${$domElement}]`)
+            throw new TypeError(`${this.type}: renderTemplate requires a DOMElement and you passed [${$domElement}]`)
         }
         if(!templateStr || !isString(templateStr)){
-            throw new Error(`${this.type}: renderTemplate needs a string and you passed [${$domElement}]`)
+            throw new TypeError(`${this.type}: renderTemplate requires a string and you passed [${$domElement}]`)
         }
         $domElement.innerHTML = templateStr;
         this._setDomEvents($domElement);

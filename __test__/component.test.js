@@ -126,4 +126,9 @@ describe('dispose()', () => {
         tempComponent.dispose();
         expect(tempComponent).toEqual({});
     })
+    test('removes Component state', ()  => {
+        expect(state.Components[tempComponent.name].inited).toBeTruthy();
+        tempComponent.dispose();
+        expect(state.Components[tempComponent.name]).toBeUndefined();
+    })
 })

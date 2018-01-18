@@ -76,8 +76,8 @@ function initComponent(state, payload){
 
 function removeComponent(state, payload){
     const {componentName} = {...payload}
-    const restComponents = {...state.Components}
-    delete restComponents[componentName]
+    const {[componentName]: component, ...restComponents} = {...state.Components}
+    //delete restComponents[componentName]
 
     return ({
         ...state,
