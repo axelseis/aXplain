@@ -47,9 +47,9 @@ describe('renderTemplate($domElement, htmlString)', () => {
         tempComponent.renderTemplate(tempComponent.$clip, fakeDomInit)
         expect(tempComponent.$clip.innerHTML.toLowerCase()).toEqual(fakeDomInit.toLowerCase())
     })
-    test('if $domElement has children call _checkDomData(newDom, oldDom)', () => {
+    test('if $domElement has children call _mergeDomElements(oldDom, newDom)', () => {
         let mockCallback = 0;
-        tempComponent._checkDomData = (newDom, oldDom) => {
+        tempComponent._mergeDomElements = (oldDom, newDom) => {
             mockCallback++
         }
 
@@ -60,7 +60,7 @@ describe('renderTemplate($domElement, htmlString)', () => {
     })
 })
 
-describe(`_checkDomData(newDom,oldDom)`, () => {
+describe(`_mergeDomElements(oldDom,newDom), called internally when renderTemplate()`, () => {
     describe(`do not replace domElements, only updates their contents`, () => {
         test('the innerHTML if has changed', () => {
             tempComponent.renderTemplate(tempComponent.$clip, fakeDomInit)
@@ -93,14 +93,14 @@ describe(`_checkDomData(newDom,oldDom)`, () => {
             expect(newNode).not.toEqual(origNode)
         })
         test('if the new Element has less children than older, removes the leftover', () => {            
-            const newDomLotOfChildren = `${fakeDOMString('uno')}${fakeDOMString('dos')}${fakeDOMString('tres')}`
-            const newDomLessChildren = `${fakeDOMString('uno', CONTENT_INIT)}`
+            const oldDomLotOfChildren = `${fakeDOMString('uno')}${fakeDOMString('dos')}${fakeDOMString('tres')}`
+            const oldDomLessChildren = `${fakeDOMString('uno', CONTENT_INIT)}`
 
-            tempComponent.renderTemplate(tempComponent.$clip, newDomLotOfChildren)
+            tempComponent.renderTemplate(tempComponent.$clip, oldDomLotOfChildren)
             expect(tempComponent.$clip.children.length).toEqual(3)
             const firstChild = tempComponent.$clip.children[0]
             
-            tempComponent.renderTemplate(tempComponent.$clip, newDomLessChildren)
+            tempComponent.renderTemplate(tempComponent.$clip, oldDomLessChildren)
             expect(tempComponent.$clip.children.length).toEqual(1)
 
             expect(firstChild.innerHTML).toEqual(CONTENT_INIT)

@@ -1,10 +1,8 @@
 import { state, dispatch } from './store.js';
 import { setLocation, setRoutes } from './actions.js';
 
-let routes = [];
-
 export function initRouter(routesArr){
-    routes = routesArr || [{url:'/'}];
+    let routes = routesArr || [{url:'/'}];
     dispatch(setRoutes(routesArr))
 }
 
@@ -14,8 +12,10 @@ export function go(url2go){
 
     if(routeMatch){
         const {url: urlMatch, ...props} = {...routeMatch}
+        const params = _getParams(url, routeMatch.url);
+        
         history.pushState(null, '', url);
-        dispatch(setLocation(url, props, _getParams(url, urlMatch)))
+        dispatch(setLocation(url, props, params))
     }
     else {
         throw(new Error(`
