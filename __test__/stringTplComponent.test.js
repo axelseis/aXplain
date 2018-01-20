@@ -47,9 +47,9 @@ describe('renderTemplate($domElement, htmlString)', () => {
         tempComponent.renderTemplate(tempComponent.$clip, fakeDomInit)
         expect(tempComponent.$clip.innerHTML.toLowerCase()).toEqual(fakeDomInit.toLowerCase())
     })
-    test('if $domElement has children call _mergeDomElements(oldDom, newDom)', () => {
+    test('if $domElement has children call _updateDomElement(oldDom, newDom)', () => {
         let mockCallback = 0;
-        tempComponent._mergeDomElements = (oldDom, newDom) => {
+        tempComponent._updateDomElement = (oldDom, newDom) => {
             mockCallback++
         }
 
@@ -60,7 +60,7 @@ describe('renderTemplate($domElement, htmlString)', () => {
     })
 })
 
-describe(`_mergeDomElements(oldDom,newDom), called internally when renderTemplate()`, () => {
+describe(`_updateDomElement(oldDom,newDom), called internally when renderTemplate()`, () => {
     describe(`do not replace domElements, only updates their contents`, () => {
         test('the innerHTML if has changed', () => {
             tempComponent.renderTemplate(tempComponent.$clip, fakeDomInit)

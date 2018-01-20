@@ -28,12 +28,12 @@ export default class StringTplComponent  extends Component{
             const tempDom = document.createElement('div');
             tempDom.innerHTML = templateStr;
 
-            this._mergeDomElements($domElement, tempDom);
+            this._updateDomElement($domElement, tempDom);
         }
         this._setDomEvents($domElement);
     }
 
-    _mergeDomElements(oldDom,newDom) {
+    _updateDomElement(oldDom,newDom) {
         const newDomChildren = Array.from(newDom.children);
         const oldDomChildren = Array.from(oldDom.children);
         
@@ -50,7 +50,7 @@ export default class StringTplComponent  extends Component{
                     oldElement.value = element.value;
                 }
                 if (element.children.length) {
-                    this._mergeDomElements(oldElement,element)
+                    this._updateDomElement(oldElement,element)
                 }
                 if (element.innerHTML !== oldElement.innerHTML) {
                     oldElement.innerHTML = element.innerHTML;
