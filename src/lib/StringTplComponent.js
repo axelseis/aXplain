@@ -45,7 +45,7 @@ export default class StringTplComponent  extends Component{
             else if (element.nodeName !== oldElement.nodeName) {
                 oldElement.outerHTML = element.outerHTML
             }
-            else {
+            else if(element.outerHTML !== oldElement.outerHTML){
                 if (element.value !== oldElement.value) {
                     oldElement.value = element.value;
                 }

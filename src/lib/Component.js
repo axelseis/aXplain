@@ -3,29 +3,33 @@ import { isDOMElement, isString } from './utils.js'
 import { actions } from './actions.js';
 
 export default class Component {
+
     constructor(className) {
         const DOMElement = document.querySelectorAll(`.${className}`);
+
         if(DOMElement.length > 1) {
             throw new Error(`${this.type}:
             A Component needs a unique DOM Element to initialize,
             there are ${DOMElement.length} '${className}' at DOM`)
         }
+
         if(!DOMElement.length) {
             throw new Error(`${this.type}:
                 Component needs to be initializated with a single DOMElement,
                 there are not any '${className}' at DOM`)
         }
-
+        
         this.$clip = DOMElement[0];
         this._name = className;
-
-        dispatchAction(actions.INIT_COMPONENT,{
-            componentName: this._name
-        })
+        
         this.props = this.stateToprops(state);
         
         this._stateListener = this._onChangeState.bind(this);
         document.addEventListener('state', this._stateListener)
+
+        dispatchAction(actions.INIT_COMPONENT,{
+            componentName: className
+        })
     }
 
     get name(){
@@ -88,10 +92,10 @@ export default class Component {
     }
 
     dispose(){
+        document.removeEventListener('state',this._stateListener);
         dispatchAction(actions.REMOVE_COMPONENT,{
             componentName:this.name
         })
-        document.removeEventListener('state',this._stateListener);
         for (let prop in this) {
             this[prop] = null;
             delete this[prop]
