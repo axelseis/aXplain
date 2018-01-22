@@ -1,4 +1,4 @@
-import { state, dispatch, dispatchAction } from './store.js';
+import { state } from './store.js';
 import { isDOMElement, isString } from './utils.js'
 import { actions } from './actions.js';
 
@@ -18,18 +18,14 @@ export default class Component {
                 Component needs to be initializated with a single DOMElement,
                 there are not any '${className}' at DOM`)
         }
-        
+
         this.$clip = DOMElement[0];
         this._name = className;
-        
+
         this.props = this.stateToprops(state);
-        
+
         this._stateListener = this._onChangeState.bind(this);
         document.addEventListener('state', this._stateListener)
-
-        dispatchAction(actions.INIT_COMPONENT,{
-            componentName: className
-        })
     }
 
     get name(){
@@ -56,8 +52,62 @@ export default class Component {
         if(!templateStr || !isString(templateStr)){
             throw new TypeError(`${this.type}: renderTemplate requires a string and you passed [${$domElement}]`)
         }
-        $domElement.innerHTML = templateStr;
+
+        if(!$domElement.children.length){
+            $domElement.innerHTML = templateStr;
+        }
+        else{
+            const tempDom = document.createElement('div');
+            tempDom.innerHTML = templateStr;
+
+            if($domElement.innerHTML === tempDom.innerHTML){
+                console.warn(
+                    `${this.type}: the updated DOM provided to renderTemplate is equal than
+                    actual DOM, maybe your stateToProps function is not well optimized`
+                )
+            }
+            else {
+                this._updateDomElement($domElement, tempDom);
+            }
+        }
+
         this._setDomEvents($domElement);
+    }
+
+    _updateDomElement(oldDom,newDom) {
+        const newDomChildren = Array.from(newDom.children);
+        const oldDomChildren = Array.from(oldDom.children);
+
+        newDomChildren.forEach((element, index) => {
+            const oldElement = oldDomChildren[index];
+            if (!oldElement) {
+                oldDom.appendChild(element.cloneNode(true));
+            }
+            else if (element.nodeName !== oldElement.nodeName) {
+                oldElement.outerHTML = element.outerHTML
+            }
+            else if(element.outerHTML !== oldElement.outerHTML){
+                if (element.value !== oldElement.value) {
+                    oldElement.value = element.value;
+                }
+                if (element.children.length) {
+                    this._updateDomElement(oldElement,element)
+                }
+                if (element.innerHTML !== oldElement.innerHTML) {
+                    oldElement.innerHTML = element.innerHTML;
+
+                }
+                Array.from(element.attributes).forEach(attr => {
+                    const oldAttr = oldElement.getAttribute(attr.name);
+                    if (!oldAttr || oldAttr !== attr.value) {
+                        oldElement.setAttribute(attr.name, attr.value);
+                    }
+                })
+            }
+        })
+        for (let iD = oldDomChildren.length-1; iD >= newDomChildren.length; iD--) {
+            oldDom.removeChild(oldDomChildren[iD]);
+        }
     }
 
     _onChangeState() {
@@ -93,9 +143,6 @@ export default class Component {
 
     dispose(){
         document.removeEventListener('state',this._stateListener);
-        dispatchAction(actions.REMOVE_COMPONENT,{
-            componentName:this.name
-        })
         for (let prop in this) {
             this[prop] = null;
             delete this[prop]

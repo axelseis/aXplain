@@ -30,9 +30,6 @@ describe('initRouter()', () => {
         dispatchAction(actions.SET_LOCATION, {param:true})
         expect(state.router.param).toBeTruthy();
     })
-    test('expect add routesArr to routes', () => {
-        expect(state.router.routes).toEqual(testRoutes);
-    })
 })
 
 describe('go(url)', () => {

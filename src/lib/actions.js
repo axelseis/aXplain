@@ -1,25 +1,7 @@
 import { state } from './store.js';
 
 export const actions = {
-    SET_LOCATION: 'SET_LOCATION',
-    SET_ROUTES: 'SET_ROUTES',
-    SET_COMPONENT_PROP: 'SET_COMPONENT_PROP',
-    INIT_COMPONENT: 'INIT_COMPONENT',
-    REMOVE_COMPONENT: 'REMOVE_COMPONENT'
-}
-
-export function setComponentProp(componentName, props){
-    return({
-        type: actions.SET_COMPONENT_PROP,
-        payload: { componentName, ...props }
-    })
-}
-
-export function setRoutes(routesArr){
-    return({
-        type: actions.SET_ROUTES,
-        payload: { routes: [...routesArr] }
-    })
+    SET_LOCATION: 'SET_LOCATION'
 }
 
 export function setLocation(route, props, {...params}){
@@ -29,19 +11,8 @@ export function setLocation(route, props, {...params}){
     })
 }
 
-export function removeComponent(componentName){
-    return({
-        type: actions.SET_COMPONENT_PROP,
-        payload: { componentName }
-    })
-}
-
 export const reducers = {
     [actions.SET_LOCATION]: setRouterPayload,
-    [actions.SET_ROUTES]: setRouterPayload,
-    [actions.INIT_COMPONENT]: initComponent,
-    [actions.REMOVE_COMPONENT]: removeComponentState,
-    [actions.SET_COMPONENT_PROP]: setComponentPayload
 }
 
 function setRouterPayload(state, payload){
@@ -54,45 +25,3 @@ function setRouterPayload(state, payload){
     })
 }
 
-function setComponentPayload(state, payload){
-    const {componentName, ...props} = {...payload}
-    return ({
-        ...state,
-        Components: {
-            ...state.Components,
-            [componentName]: {
-                ...(state.Components || {})[componentName],
-                ...props
-            }
-        }
-    })
-}
-
-function initComponent(state, payload){
-    const {componentName} = {...payload}
-    const restComponents = {...state.Components}
-
-    return (
-        componentName ? {
-            ...state,
-            Components: {
-                ...restComponents,
-                [componentName]: {inited: true}
-            }
-        } : {...state}
-    )
-}
-
-function removeComponentState(state, payload){
-    const {componentName} = {...payload}
-    const parsedName = `${componentName}`;
-    const {components=[], ...noCompsState} = {...state}
-    const {[parsedName]: component, ...restComponents} = {...components}
-
-    return (
-        restComponents.length ? {
-            ...state,
-            Components: {...restComponents}
-        } : {...noCompsState}
-    )
-}

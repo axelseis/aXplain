@@ -1,32 +1,33 @@
 import { state, dispatch } from './store.js';
 import { setLocation, setRoutes } from './actions.js';
 
+let routes = [];
+
 export function initRouter(routesArr){
-    let routes = routesArr || [{url:'/'}];
-    dispatch(setRoutes(routesArr))
+    routes = [...routesArr] || [{url:'/'}];
 }
 
 export function go(url2go){
-    const url = url2go || state.router.routes[0].url;
+    const url = url2go || routes[0].url;
     const routeMatch = _matchRoute(url);
 
     if(routeMatch){
         const {url: urlMatch, ...props} = {...routeMatch}
         const params = _getParams(url, routeMatch.url);
-        
+
         history.pushState(null, '', url);
         dispatch(setLocation(url, props, params))
     }
     else {
         throw(new Error(`
             ${url} do not exists in routes:
-            ${state.router.routes.map((route) => ` ${route.url} `).join('')}
+            ${routes.map((route) => ` ${route.url} `).join('')}
         `))
     }
 }
 
 function _matchRoute(url) {
-    const routeMatch = state.router.routes.find((route) => {
+    const routeMatch = routes.find((route) => {
         const routeReduce = route.url.replace(/(:\w+)/g, "([\\w-]+)");
         return url.match(`^${routeReduce}$`)
     })
