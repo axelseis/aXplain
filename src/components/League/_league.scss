@@ -4,7 +4,7 @@
         justify-content: space-around;
         &-item {
             cursor: pointer;
-            &--selected {
+            &.selected {
                 background-color: aqua;
             }
         }
@@ -13,6 +13,8 @@
     .League__content {
         display: block;
         position: relative;
+        width: 100%;
+
         &>*{
             position: absolute;
             top: 0;
@@ -20,7 +22,6 @@
         }
         .showing{
             opacity: 1;
-            display: inherit;
             transition: opacity 2s;
             pointer-events: all;
         }
@@ -29,37 +30,6 @@
             transition: opacity 2s;
             pointer-events: none;
         }
-        .League__Info {
-            display: block;
-        }
-        .League__User {
-            display: block;
-            background-color: rgb(99, 55, 55);
-            color: white;        
-        }        
-        .League__Riders {
-            display: block;
-            background-color: aliceblue;
-            color: black;
-        }
-    }
-    
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
     }
 }
 
-@keyframes fadeOut {
-    from {
-        opacity: 1;
-    }
-    to {
-        opacity: 0;
-    }
-}

@@ -1,0 +1,19 @@
+
+
+
+.League__Play {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+
+    .Play__list {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .Play__bet {
+        display: flex;
+        flex-direction: column;
+    }
+}

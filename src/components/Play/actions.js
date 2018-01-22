@@ -2,15 +2,7 @@ import { dispatch, dispatchAction } from '../../lib/store.js';
 import { getRidersJSON } from '../../data/motogpAPI.js';
 
 export const actions = {
-    SET_FILTER: 'SET_FILTER',
     SET_RIDERS: 'SET_RIDERS'
-}
-
-export function setFilterValue(filterValue){
-    dispatchAction (
-        actions.SET_FILTER,
-        { filter: filterValue }
-    )
 }
 
 export function getRiders() {
@@ -29,24 +21,20 @@ function onFetchError(err) {
 }
 
 export const reducers = {
-    [actions.SET_FILTER]: setUserData,
     [actions.SET_RIDERS]: setRiders
 }
 
-function setUserData(state, userData) {
-    return ({
-        ...state,
-        user: {
-            ...state.user,
-            ...userData
-        }
-    })
-}
+function setRiders(state, ridersFromApi) {
+    const riders = {}
 
-function setRiders(state, riders) {
+    Object.keys(ridersFromApi).map(key => {
+        const {rid, ...rest} = {...ridersFromApi[key]};
+        riders[rid] = rest
+    })
+
     return ({
         ...state,
-        riders: riders
+        riders
     })
 }
 

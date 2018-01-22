@@ -3,11 +3,11 @@ import Component from '../../lib/Component.js'
 import { ShowHide } from '../../lib/Mixins.js'
 import { go } from '../../lib/router.js'
 
-import User from '../User/User.js';
 import Info from '../Info/Info.js';
-import Riders from '../Riders/Riders.js';
+import Play from '../Play/Play.js';
+import Results from '../Results/Results.js';
 
-export default class League extends ShowHide(Component) {
+export default class League extends Component {
 
     constructor(className) {
         super(className);
@@ -18,8 +18,8 @@ export default class League extends ShowHide(Component) {
     initComponents(){
         this.menuItems = Array.from(this.$clip.querySelectorAll('.League__menu-item'));
         this.info = new Info('League__Info');
-        this.user = new User('League__User');
-        this.riders = new Riders('League__Riders');
+        this.play = new Play('League__Play');
+        this.results = new Results('League__Results');
 
         this.menuItems.forEach(item => {
             item.onclick = this.selectMenuItem.bind(this);
@@ -32,15 +32,25 @@ export default class League extends ShowHide(Component) {
     }
 
     stateToprops(state) {
-        return { ...state.router }
+        return { router: {...state.router} }
     }
 
     render() {
+        this.menuItems.forEach(item => {
+            const link = item.getAttribute('data-link');
+            if(this.props.router.route === link){
+                item.classList.add('selected')
+            }
+            else {
+                item.classList.remove('selected')
+            }
+        });
+
         if(this.actComponent){
             this.actComponent.hide();
         }
-        if(this.props.component){
-            this.actComponent = this[this.props.component];
+        if(this.props.router.component){
+            this.actComponent = this[this.props.router.component];
             this.actComponent.show();
         }
     }

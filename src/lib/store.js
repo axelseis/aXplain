@@ -14,6 +14,7 @@ export function initStore(reducersArray, initialState) {
 
     reducersArray = Array.isArray(reducersArray) ? reducersArray : [reducersArray]
     reducersArray.map(reducerObj => addReducer(reducerObj))
+
     state = {...initialState};
 }
 

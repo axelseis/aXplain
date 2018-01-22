@@ -2,23 +2,25 @@ import { initStore, dispatch } from './lib/store.js';
 import { initRouter, go } from './lib/router.js';
 import "./lib/logger.js";
 
-import initialState from './initialState.js';
+import {initialState} from './initialState.js';
 
 import League from './components/League/League.js';
-import { reducers as userReducer } from './components/User/actions.js';
-import { reducers as ridersReducer } from './components/Riders/actions.js';
-
-const league = new League('League');
+import { reducers as resultsReducer } from './components/Results/actions.js';
+import { reducers as playReducer } from './components/Play/actions.js';
 
 const routes = [
     { url: "/", component: "info" },
     { url: "/info", component: "info" },
-    { url: "/classification", component: "user" },
-    { url: "/my-selection", component: "riders" },
-    { url: "/user/:username" }
+    { url: "/results", component: "results" },
+    { url: "/play", component: "play" },
+    { url: "404", redirect: "/" }
 ]
 
-initStore([userReducer,ridersReducer], initialState);
+initStore([resultsReducer,playReducer], initialState);
 initRouter(routes);
 
+const league = new League('League');
+
 go(location.pathname);
+
+

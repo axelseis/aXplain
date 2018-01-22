@@ -3,47 +3,37 @@
   justify-content: space-around; }
   .League .League__menu-item {
     cursor: pointer; }
-    .League .League__menu-item--selected {
+    .League .League__menu-item.selected {
       background-color: aqua; }
 
 .League .League__content {
   display: block;
-  position: relative; }
+  position: relative;
+  width: 100%; }
   .League .League__content > * {
     position: absolute;
     top: 0;
     left: 0; }
   .League .League__content .showing {
     opacity: 1;
-    display: inherit;
     transition: opacity 2s;
     pointer-events: all; }
   .League .League__content .hidden {
     opacity: 0;
     transition: opacity 2s;
     pointer-events: none; }
-  .League .League__content .League__Info {
-    display: block; }
-  .League .League__content .League__User {
-    display: block;
-    background-color: #633737;
-    color: white; }
-  .League .League__content .League__Riders {
-    display: block;
-    background-color: aliceblue;
-    color: black; }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0; }
-  to {
-    opacity: 1; } }
-
-@keyframes fadeOut {
-  from {
-    opacity: 1; }
-  to {
-    opacity: 0; } }
+.League__Play {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%; }
+  .League__Play .Play__list {
+    display: flex;
+    flex-direction: column; }
+  .League__Play .Play__bet {
+    display: flex;
+    flex-direction: column; }
 
 .User__inputstr {
   animation: fadeindom 2s infinite; }

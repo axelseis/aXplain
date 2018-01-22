@@ -9,24 +9,38 @@
 </head>
 <body>
     <div class="League">
-        <div class="League__title">
-            ESTO ES EL LEAGUE
-        </div>
-        <div class="League__menu">
-            <div class="League__menu-item" data-link="/info">Info</div>
-            <div class="League__menu-item" data-link="/classification">Classification</div>
-            <div class="League__menu-item" data-link="/my-selection">My Selections</div>
+        <div class="League__header">
+            <div class="League__menu">
+                <div class="League__menu-item" data-link="/info">Info</div>
+                <div class="League__menu-item" data-link="/results">Results</div>
+                <div class="League__menu-item" data-link="/play">Play</div>
+            </div>
         </div>
         <div class="League__content">
             <div class="League__Info hidden">
-                THE INFO
+                <div class="Info__section">
+                    <div class="Info__title">Info</div>
+                    <div class="Info__content">content rendered by Twig php at server</div>
+                </div>
+                <div class="Info__section">
+                    <div class="Info__title">Prizes</div>
+                    <div class="Info__content">content rendered by Twig php at server</div>
+                </div>
+                <div class="Info__section">
+                    <div class="Info__title">How to play</div>
+                    <div class="Info__content">content rendered by Twig php at server</div>
+                </div>
             </div>
-            <div class="League__User hidden">
-                <p>undiv <span>ESTO ES EL USERRRR</span></p>
+            <div class="League__Results hidden">
+
             </div>
-            <div class="League__Riders hidden">
-                <input class="Riders__filter" />
-                <div class="Riders__list"></div>
+            <div class="League__Play hidden">
+                <div class="Play__list">
+                    <div class="Play__list-item"></div>
+                </div>
+                <div class="Play__grid">
+                    <div class="Play__grid-item"></div>
+                </div>
             </div>
         </div>
     </div>
