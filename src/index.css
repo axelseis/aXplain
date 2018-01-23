@@ -1,39 +1,82 @@
-.League .League__menu {
-  display: flex;
-  justify-content: space-around; }
-  .League .League__menu-item {
-    cursor: pointer; }
-    .League .League__menu-item.selected {
-      background-color: aqua; }
+body {
+  padding: 0;
+  margin: 0; }
 
-.League .League__content {
-  display: block;
-  position: relative;
-  width: 100%; }
-  .League .League__content > * {
+.League {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden; }
+  .League .League__header {
     position: absolute;
     top: 0;
-    left: 0; }
-  .League .League__content .showing {
-    opacity: 1;
-    transition: opacity 2s;
-    pointer-events: all; }
-  .League .League__content .hidden {
-    opacity: 0;
-    transition: opacity 2s;
-    pointer-events: none; }
+    width: 100%; }
+    .League .League__header .League__menu {
+      display: flex;
+      justify-content: space-around;
+      padding: 10px; }
+      .League .League__header .League__menu-item {
+        cursor: pointer;
+        padding: 5px 10px; }
+        .League .League__header .League__menu-item.selected {
+          background-color: aqua; }
+  .League .League__content {
+    position: absolute;
+    top: 50px;
+    bottom: 0;
+    width: 100%; }
+    .League .League__content > * {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0; }
+    .League .League__content .showing {
+      opacity: 1;
+      transition: opacity 2s;
+      pointer-events: all; }
+    .League .League__content .hidden {
+      opacity: 0;
+      transition: opacity 2s;
+      pointer-events: none; }
 
 .League__Play {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
-  width: 100%; }
-  .League__Play .Play__list {
-    display: flex;
-    flex-direction: column; }
+  width: 100%;
+  user-select: none; }
   .League__Play .Play__bet {
+    order: 0;
+    flex: 2;
     display: flex;
-    flex-direction: column; }
+    flex-wrap: wrap;
+    height: 100%;
+    justify-content: space-around; }
+    .League__Play .Play__bet .Play__bet-item {
+      width: 30%;
+      border: solid 1px black; }
+  .League__Play .Play__list {
+    order: 1;
+    flex: 1;
+    overflow-y: scroll;
+    background-color: #ccc; }
+    .League__Play .Play__list .Play__list-item {
+      width: 100%;
+      height: 40px;
+      margin: 0;
+      padding: 10px;
+      border: solid 1px black;
+      box-sizing: border-box;
+      background-color: white; }
+      .League__Play .Play__list .Play__list-item.dropholder {
+        margin-top: 40px; }
+  .League__Play .ondrag {
+    position: absolute;
+    z-index: 10;
+    background-color: white;
+    border: solid 1px black;
+    padding: 10px; }
 
 .User__inputstr {
   animation: fadeindom 2s infinite; }

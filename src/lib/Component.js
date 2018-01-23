@@ -45,6 +45,10 @@ export default class Component {
         return `Hello I'm ${this.name} and these are my props: ${this.props}`;
     }
 
+    onRender() {
+        //Calls after render || renderTemplate
+    }
+
     renderTemplate($domElement, templateStr) {
         if(!$domElement || !isDOMElement($domElement)){
             throw new TypeError(`${this.type}: renderTemplate requires a DOMElement and you passed [${$domElement}]`)
@@ -120,6 +124,8 @@ export default class Component {
             if (tmpStr) {
                 this.renderTemplate(this.$clip, tmpStr)
             }
+
+            this.onRender();
         }
     }
 
@@ -130,6 +136,7 @@ export default class Component {
             Array.from(element.attributes).forEach(attr => {
                 if (!attr.name.indexOf('on')) {
                     const tempFunc = this[attr.value];
+                    element.removeAttribute(attr.name);
                     if (tempFunc) {
                         element[attr.name] = tempFunc.bind(this)
                     }

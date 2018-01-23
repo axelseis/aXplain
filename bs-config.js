@@ -17,9 +17,9 @@ module.exports = {
                         `var DEV_ROUTES = {
                             userInfo: "./json/get_user_info.json",
                             riders: "./json/get_riders.json",
-                        }` : `var env='${process.env.NODE_ENV}'`
+                        }` : `var env='${process.env.NODE_ENV.trim()}'`
                     }
-                    </script>   
+                    </script>
                 ${match}`)
             }
         }
