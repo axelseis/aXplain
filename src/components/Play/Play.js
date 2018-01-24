@@ -1,7 +1,7 @@
 import Component from '../../lib/Component.js'
 import { dispatchAction } from '../../lib/store.js'
 import { ShowHide } from '../../lib/Mixins.js'
-import { addClass, removeClass, getOffset } from '../../lib/utils.js'
+import { addClass, removeClass, getOffset, getDOMElementIndex } from '../../lib/utils.js'
 import { actions, getRiders } from './actions.js'
 
 const DRAG_CLASS = 'ondrag';
@@ -91,13 +91,10 @@ export default class Riders extends ShowHide(Component) {
 
     onMouseUp(ev) {
         if(this.listItemOnDrag){
-            //removeClass(this.listItemOnDrag, DRAG_CLASS)
-            //this.listItemOnDrag.removeAttribute('style')
-            //this.dropHolderItem.before(this.listItemOnDrag);
-
             dispatchAction(actions.SET_BET_ITEM, {
                 riderId: Number(this.listItemOnDrag.getAttribute('riderId')),
-                position: null
+                position: this.isMobile() ? getDOMElementIndex(this.dropHolderItem) -1 : null,
+                insertRider: true
             })
 
             this.listItemOnDrag = null;

@@ -21,6 +21,9 @@ export function getOffset(el){
         height: rect.height
     }
 }
+export function getDOMElementIndex(el){
+    return Array.prototype.indexOf.call(el.parentNode.childNodes, el);
+}
 
 export function isDOMElement(el) {
   return el instanceof Element;

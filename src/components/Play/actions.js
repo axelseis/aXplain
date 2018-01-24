@@ -45,8 +45,14 @@ function setUserBetItem(state, payload) {
     const oldPosition = newUserBet.indexOf(payload.riderId)
     const riderSwitch = newUserBet[payload.position];
 
-    newUserBet[payload.position] = payload.riderId;
-    newUserBet[oldPosition] = riderSwitch;
+    if(payload.insertRider){
+        newUserBet.splice(payload.position, 0, payload.riderId)
+        //newUserBet.splice(oldPosition+1,1)
+    }
+    else {        
+        newUserBet[payload.position] = payload.riderId;
+        newUserBet[oldPosition] = riderSwitch;
+    }
 
     return ({
         ...state,
