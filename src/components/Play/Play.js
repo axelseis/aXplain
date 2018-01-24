@@ -16,7 +16,7 @@ export default class Riders extends ShowHide(Component) {
         this.dropHolderItem = null;
         this.listItemOnDrag = null;
         this.betItemOnDrag = null;
-        this.betItemDragHolder = null;
+        //this.betItemDragHolder = null;
 
         document.addEventListener('mouseup', this.onMouseUp.bind(this))
         window.addEventListener('resize', this.checkResolution.bind(this))
@@ -62,25 +62,28 @@ export default class Riders extends ShowHide(Component) {
         };
     }
 
-    onMouseDownListItem(ev) {
-        const betDiv = this.$clip.querySelector(`.Play__bet`);
-        if(!betDiv){
-            this.listItemOnDrag = ev.target;
-            addClass(this.listItemOnDrag, DRAG_CLASS);
-    
-            this.setDropHolderItem(this.listItemOnDrag.nextElementSibling)
-            this.$clip.appendChild(this.listItemOnDrag);
-    
-            this.dragListItem();
+    onMouseDownItem(ev){
+        if(this.isMobile()){
+            this.onMouseDownListItem(ev)
         }
         else {
             this.onMouseDownBetItem(ev);
         }
     }
 
+    onMouseDownListItem(ev) {
+        this.listItemOnDrag = ev.target;
+        addClass(this.listItemOnDrag, DRAG_CLASS);
+
+        this.setDropHolderItem(this.listItemOnDrag.nextElementSibling)
+        this.$clip.appendChild(this.listItemOnDrag);
+
+        this.dragListItem();
+    }
+
     onMouseDownBetItem(ev) {
         this.betItemOnDrag = ev.target;
-        this.betItemDragHolder = ev.target.parentNode;
+        //this.betItemDragHolder = ev.target.parentNode;
         addClass(this.betItemOnDrag, DRAG_CLASS);
 
         this.setDropHolderItem(this.betItemOnDrag.parentNode)
@@ -89,25 +92,54 @@ export default class Riders extends ShowHide(Component) {
         this.dragBetItem();
     }
 
+    /*
+    onMouseUp(ev){
+        if(this.betItemOnDrag){
+            const newRiderId = Number(this.betItemOnDrag.getAttribute('riderId'));
+            const oldPosition = this.props.bet.indexOf(newRiderId);
+            const newPosition = this.dropHolderItem.getAttribute('position');
+            const riderSwitch = this.props.bet[newPosition];
+
+            const newBet = [...this.props.bet]
+            newBet[newPosition] = newRiderId;
+            newBet[oldPosition] = riderSwitch;
+
+            dispatchAction(actions.SET_BET, {
+                bet: newBet
+            })
+        }
+
+        if(this.listItemOnDrag){
+
+        }
+    }
+    */
     onMouseUp(ev) {
+        const dropItem = this.dropHolderItem
+        this.setDropHolderItem();
+
         if(this.listItemOnDrag){
             dispatchAction(actions.SET_BET_ITEM, {
                 riderId: Number(this.listItemOnDrag.getAttribute('riderId')),
-                position: this.isMobile() ? getDOMElementIndex(this.dropHolderItem) -1 : null,
-                insertRider: true
+                position: this.isMobile() ? getDOMElementIndex(dropItem) : null,
+                insertRider: this.isMobile()
             })
 
             this.listItemOnDrag = null;
         }
         if(this.betItemOnDrag){
+            const newPos = dropItem ? Number(dropItem.getAttribute('position')) : null
+            const riderId = Number(this.betItemOnDrag.getAttribute('riderId'))
+            if(!newPos || newPos === this.props.bet.indexOf(riderId)){
+                this.forceRender();
+            }
             dispatchAction(actions.SET_BET_ITEM, {
-                riderId: Number(this.betItemOnDrag.getAttribute('riderId')),
-                position: this.dropHolderItem.getAttribute('position')
+                riderId: riderId,
+                position: newPos
             })
             this.betItemOnDrag = null;
         }
-        this.setDropHolderItem();
-    } 
+    }
 
     setDropHolderItem(item){
         if(this.dropHolderItem){
@@ -184,7 +216,7 @@ export default class Riders extends ShowHide(Component) {
 
 const listItemTpl = (riderId, riderData) => (`
     <div class="Play__list-item" riderId="${riderId}"
-        onmousedown="onMouseDownListItem"
+        onmousedown="onMouseDownItem"
     >
         ${riderData.surname} ${riderData.name}
     </div>
@@ -194,7 +226,7 @@ const betItemTpl = (position, riderId, riderData) => (`
     <div class="Play__bet-item" position="${position}">
         ${ riderId ?
             `<div class="bet-item__rider" riderId="${riderId}"
-                onmousedown="onMouseDownBetItem"
+                onmousedown="onMouseDownItem"
             >
                 ${riderData.surname} ${riderData.name}
             </div>` : ''

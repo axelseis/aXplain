@@ -3,7 +3,8 @@ import { getRidersJSON } from '../../data/motogpAPI.js';
 
 export const actions = {
     SET_RIDERS: 'SET_RIDERS',
-    SET_BET_ITEM: 'SET_BET_ITEM'
+    SET_BET_ITEM: 'SET_BET_ITEM',
+    SET_BET: 'SET_BET'
 }
 
 export function getRiders() {
@@ -23,6 +24,7 @@ function onFetchError(err) {
 
 export const reducers = {
     [actions.SET_RIDERS]: setRiders,
+    [actions.SET_BET]: setUserBet,
     [actions.SET_BET_ITEM]: setUserBetItem
 }
 
@@ -41,15 +43,22 @@ function setRiders(state, ridersFromApi) {
 }
 
 function setUserBetItem(state, payload) {
-    const newUserBet = [...state.user.bets[state.season.actEvent]];
-    const oldPosition = newUserBet.indexOf(payload.riderId)
-    const riderSwitch = newUserBet[payload.position];
+    const actBet = state.user.bets[state.season.actEvent];
+    let newUserBet
 
     if(payload.insertRider){
+        newUserBet = [...actBet.filter(riderId => !!riderId)]
+        const oldPosition = newUserBet.indexOf(payload.riderId)
+        newUserBet.splice(oldPosition,1)
         newUserBet.splice(payload.position, 0, payload.riderId)
-        //newUserBet.splice(oldPosition+1,1)
+        while(newUserBet.length < 15){
+            newUserBet.push(null);
+        }
     }
     else {        
+        newUserBet = [...actBet];
+        const oldPosition = newUserBet.indexOf(payload.riderId)
+        const riderSwitch = newUserBet[payload.position];
         newUserBet[payload.position] = payload.riderId;
         newUserBet[oldPosition] = riderSwitch;
     }
@@ -61,6 +70,19 @@ function setUserBetItem(state, payload) {
             bets: {
                 ...state.user.bets,
                 [state.season.actEvent]: newUserBet
+            }
+        }
+    })
+}
+
+function setUserBet(state, payload) {
+    return ({
+        ...state,
+        user: {
+            ...state.user,
+            bets: {
+                ...state.user.bets,
+                [state.season.actEvent]: [...payload.bet]
             }
         }
     })

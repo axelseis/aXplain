@@ -22,7 +22,7 @@ export function getOffset(el){
     }
 }
 export function getDOMElementIndex(el){
-    return Array.prototype.indexOf.call(el.parentNode.childNodes, el);
+    return Array.prototype.indexOf.call(el.parentNode.children, el);
 }
 
 export function isDOMElement(el) {
