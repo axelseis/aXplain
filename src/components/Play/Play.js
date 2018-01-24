@@ -98,7 +98,7 @@ export default class Riders extends ShowHide(Component) {
 
         if(this.listItemOnDrag){
             const newPos = this.isMobile() ? getDOMElementIndex(dropItem) : null
-            const riderId = Number(this.listItemOnDrag.getAttribute('riderId'))
+            const riderId = parseInt(this.listItemOnDrag.getAttribute('riderId'))
             if(!newPos || newPos === this.props.bet.indexOf(riderId)){
                 this.forceRender();
             }
@@ -111,8 +111,8 @@ export default class Riders extends ShowHide(Component) {
             this.listItemOnDrag = null;
         }
         if(this.betItemOnDrag){
-            const newPos = dropItem ? Number(dropItem.getAttribute('position')) : null
-            const riderId = Number(this.betItemOnDrag.getAttribute('riderId'))
+            const newPos = dropItem ? parseInt(dropItem.getAttribute('position')) : null
+            const riderId = parseInt(this.betItemOnDrag.getAttribute('riderId'))
             if(!newPos || newPos === this.props.bet.indexOf(riderId)){
                 this.forceRender();
             }
@@ -174,7 +174,7 @@ export default class Riders extends ShowHide(Component) {
         const ridersList = [
             ...this.props.bet.filter(riderId => !!riderId),
             ...Object.keys(this.props.riders).filter(
-                riderId => this.props.bet.indexOf(Number(riderId)) === -1
+                riderId => this.props.bet.indexOf(parseInt(riderId)) === -1
             )
         ]
 
