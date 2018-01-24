@@ -66,6 +66,7 @@ function setUserBetItem(state, payload) {
         newUserBet[payload.position] = payload.riderId;
         newUserBet[oldPosition] = riderSwitch;
     }
+    
     return ({
         ...state,
         user: {

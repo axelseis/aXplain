@@ -92,28 +92,6 @@ export default class Riders extends ShowHide(Component) {
         this.dragBetItem();
     }
 
-    /*
-    onMouseUp(ev){
-        if(this.betItemOnDrag){
-            const newRiderId = Number(this.betItemOnDrag.getAttribute('riderId'));
-            const oldPosition = this.props.bet.indexOf(newRiderId);
-            const newPosition = this.dropHolderItem.getAttribute('position');
-            const riderSwitch = this.props.bet[newPosition];
-
-            const newBet = [...this.props.bet]
-            newBet[newPosition] = newRiderId;
-            newBet[oldPosition] = riderSwitch;
-
-            dispatchAction(actions.SET_BET, {
-                bet: newBet
-            })
-        }
-
-        if(this.listItemOnDrag){
-
-        }
-    }
-    */
     onMouseUp(ev) {
         const dropItem = this.dropHolderItem
         this.setDropHolderItem();
