@@ -11,14 +11,24 @@
         order: 0;
         flex: 2;
         display: flex;
-        //flex-direction: row;
+        flex-direction: row;
         flex-wrap: wrap;
         height: 100%;
         justify-content: space-around;
 
         .Play__bet-item {
             width: 30%;
-            border: solid 1px black;       
+            border: solid 1px black;
+            background-color: white;
+            
+            &.dropholder {
+                background-color: #ccc;
+            }
+
+            .bet-item__rider {
+                width: 100%;
+                height: 100%;
+            }  
         }
     }
 

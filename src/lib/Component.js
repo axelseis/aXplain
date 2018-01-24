@@ -45,10 +45,6 @@ export default class Component {
         return `Hello I'm ${this.name} and these are my props: ${this.props}`;
     }
 
-    onRender() {
-        //Calls after render || renderTemplate
-    }
-
     renderTemplate($domElement, templateStr) {
         if(!$domElement || !isDOMElement($domElement)){
             throw new TypeError(`${this.type}: renderTemplate requires a DOMElement and you passed [${$domElement}]`)
@@ -76,6 +72,13 @@ export default class Component {
         }
 
         this._setDomEvents($domElement);
+    }
+
+    forceRender() {
+        const tmpStr = this.render();
+        if (tmpStr) {
+            this.renderTemplate(this.$clip, tmpStr)
+        }
     }
 
     _updateDomElement(oldDom,newDom) {
@@ -119,16 +122,10 @@ export default class Component {
 
         if (JSON.stringify(this.props) !== JSON.stringify(newProps)) {
             this.props = newProps;
-            const tmpStr = this.render();
-
-            if (tmpStr) {
-                this.renderTemplate(this.$clip, tmpStr)
-            }
-
-            this.onRender();
+            this.forceRender();
         }
     }
-
+    
     _setDomEvents($domElement) {
         const actNodes = Array.from($domElement.querySelectorAll('*'));
 

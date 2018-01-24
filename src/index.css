@@ -50,12 +50,19 @@ body {
     order: 0;
     flex: 2;
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
     height: 100%;
     justify-content: space-around; }
     .League__Play .Play__bet .Play__bet-item {
       width: 30%;
-      border: solid 1px black; }
+      border: solid 1px black;
+      background-color: white; }
+      .League__Play .Play__bet .Play__bet-item.dropholder {
+        background-color: #ccc; }
+      .League__Play .Play__bet .Play__bet-item .bet-item__rider {
+        width: 100%;
+        height: 100%; }
   .League__Play .Play__list {
     order: 1;
     flex: 1;
