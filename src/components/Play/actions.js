@@ -51,8 +51,12 @@ function setUserBetItem(state, payload) {
         const oldPosition = newUserBet.indexOf(payload.riderId)
         newUserBet.splice(oldPosition,1)
         newUserBet.splice(payload.position, 0, payload.riderId)
+        const riders = Object.keys(state.riders).filter(
+            riderId => newUserBet.indexOf(Number(riderId)) === -1
+        )
+        let iR = 0;
         while(newUserBet.length < 15){
-            newUserBet.push(null);
+            newUserBet.push(Number(riders[iR++]));
         }
     }
     else {        
@@ -62,7 +66,6 @@ function setUserBetItem(state, payload) {
         newUserBet[payload.position] = payload.riderId;
         newUserBet[oldPosition] = riderSwitch;
     }
-
     return ({
         ...state,
         user: {

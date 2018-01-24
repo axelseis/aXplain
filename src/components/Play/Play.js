@@ -119,9 +119,14 @@ export default class Riders extends ShowHide(Component) {
         this.setDropHolderItem();
 
         if(this.listItemOnDrag){
+            const newPos = this.isMobile() ? getDOMElementIndex(dropItem) : null
+            const riderId = Number(this.listItemOnDrag.getAttribute('riderId'))
+            if(!newPos || newPos === this.props.bet.indexOf(riderId)){
+                this.forceRender();
+            }
             dispatchAction(actions.SET_BET_ITEM, {
-                riderId: Number(this.listItemOnDrag.getAttribute('riderId')),
-                position: this.isMobile() ? getDOMElementIndex(dropItem) : null,
+                riderId: riderId,
+                position: newPos,
                 insertRider: this.isMobile()
             })
 
