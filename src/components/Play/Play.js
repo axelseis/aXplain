@@ -137,10 +137,10 @@ export default class Riders extends ShowHide(Component) {
 
     dragListItem() {
         if(this.listItemOnDrag){
-            const listItems = this.$clip.querySelector(`.Play__list`).children;
-            const itemToDrop = Array.from(listItems).find((item) => {
+            const listDiv = this.$clip.querySelector(`.Play__list`);
+            const itemToDrop = Array.from(listDiv.children).find((item) => {
                 return (
-                    item.offsetTop+(parseInt(getComputedStyle(item).height)/2) > this.mousePosition.top
+                    item.offsetTop + (parseInt(getComputedStyle(item).height)/2) - listDiv.scrollTop > this.mousePosition.top
                 )
             });
             const holderType = this.setDropHolderItem(itemToDrop);
