@@ -92,28 +92,34 @@ export default class Component {
             }
             else if (element.nodeName !== oldElement.nodeName) {
                 oldElement.outerHTML = element.outerHTML
+                console.log("outerHTML ", this.name);
             }
             else if(element.outerHTML !== oldElement.outerHTML){
                 if (element.value !== oldElement.value) {
                     oldElement.value = element.value;
+                    console.log("element.value ", this.name  + ' ' + element.value);
                 }
                 if (element.children.length) {
                     this._updateDomElement(oldElement,element)
                 }
-                if (element.innerHTML !== oldElement.innerHTML) {
+                else if (element.innerHTML.trim() !== oldElement.innerHTML.trim()) {
+                    console.log("element.innerHTML ", this.name, element.className);
+                    console.log("element ", element.innerHTML.trim());
+                    console.log("oldElement ", oldElement.innerHTML.trim());
                     oldElement.innerHTML = element.innerHTML;
-
                 }
                 Array.from(element.attributes).forEach(attr => {
                     const oldAttr = oldElement.getAttribute(attr.name);
                     if (!oldAttr || oldAttr !== attr.value) {
                         oldElement.setAttribute(attr.name, attr.value);
+                        console.log("attr.name ", this.name + ' ' + attr.name);
                     }
                 })
             }
         })
         for (let iD = oldDomChildren.length-1; iD >= newDomChildren.length; iD--) {
             oldDom.removeChild(oldDomChildren[iD]);
+            console.log("removeChild ", iD);
         }
     }
 
@@ -131,9 +137,9 @@ export default class Component {
 
         actNodes.forEach(element => {
             Array.from(element.attributes).forEach(attr => {
-                if (!attr.name.indexOf('on')) {
+                if (attr.name.indexOf('on') === 0) {
                     const tempFunc = this[attr.value];
-                    element.removeAttribute(attr.name);
+                    //element.removeAttribute(attr.name);
                     if (tempFunc) {
                         element[attr.name] = tempFunc.bind(this)
                     }
