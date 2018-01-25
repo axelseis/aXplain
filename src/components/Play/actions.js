@@ -45,7 +45,7 @@ function setRiders(state, ridersFromApi) {
 function setUserBetItem(state, payload) {
     const actBet = state.user.bets[state.season.actEvent];
     let newUserBet
-
+    
     if(payload.insertRider){
         newUserBet = [...actBet.filter(riderId => !!riderId)]
         const oldPosition = newUserBet.indexOf(payload.riderId)

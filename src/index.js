@@ -11,7 +11,7 @@ import { reducers as playReducer } from './components/Play/actions.js';
 const routes = [
     { url: "/", component: "info" },
     { url: "/info", component: "info" },
-    { url: "/results/", component: "results" },
+    { url: "/results", component: "results" },
     { url: "/play", component: "play" },
     { url: "404", redirect: "/" }
 ]

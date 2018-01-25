@@ -1,3 +1,15 @@
+
+$riderListItemH: 40px;
+$menuH: 50px;
+
 @import "components/League/league.scss";
 @import "components/Play/play.scss";
 @import "components/Results/results.scss";
+
+body {
+    font-size: 14px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+}
+*{
+    box-sizing: border-box;
+}

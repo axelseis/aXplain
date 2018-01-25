@@ -3,7 +3,7 @@ import { dispatchAction, addReducer } from './store.js'
 
 const actions = {
     SHOW_COMPONENT: 'SHOW_COMPONENT',
-    HIDE_COMPONENT: 'HIDE_COMPONENT',
+    HIDE_COMPONENT: 'HIDE_COMPONENT'
 }
 
 addReducer({

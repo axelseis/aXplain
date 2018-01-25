@@ -1,66 +1,148 @@
 
 
-
 .League__Play {
-    display: flex;
-    flex-direction: row;
     width: 100%;
     user-select: none;
+    min-height: 300px;
+    min-width: 300px;
 
     .Play__bet {
-        order: 0;
-        flex: 2;
+        position: fixed;
+        z-index: 10;
+        left: 0;
+        right: 250px;
+        top: $menuH;
+        bottom: 0;
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        height: 100%;
-        justify-content: space-around;
+        justify-content: flex-start;
+        min-height: 300px;
 
         .Play__bet-item {
-            width: 30%;
-            border: solid 1px black;
-            background-color: white;
-            
+            width: 33.33%;
+            height: 20%;
+            border: solid 1px white;
+            background-color: rgb(202, 202, 202);
+            color: rgb(163, 163, 163);
+            position: relative;
+            padding: 0 5px;
+            font-size: 40px;
+            font-weight: bold;
+
+            .Play__rider {
+                position: absolute;
+                top: 10%;
+                left: 10%;
+                width: 80%;
+                height: 80%;
+                padding: 5%;
+                color: black;
+                background-color: rgba(255, 255, 255, 0.7);
+                border: solid 1px black;
+            }
             &.dropholder {
-                background-color: #ccc;
+                background-color: rgb(211, 189, 189);
+                .Play__rider {
+                    opacity: 0.1;
+                    transition: opacity 0.15s
+                }
+            }
+            &.initdragitem{
+                background-color: rgb(224, 255, 245);
+                .Play__rider{
+                    opacity: 0.2
+                }
             }
 
-            .bet-item__rider {
-                width: 100%;
-                height: 100%;
-            }  
+            @media screen and (max-width: 600px){
+                width: 50%;
+                height: 12.5%;
+            }
+        }
+    }
+
+    .Play__bet-mobile {
+        position: absolute;
+        right: 0;
+        width: $riderListItemH;
+
+        .Play__bet-mobile-item {
+            width: 100%;
+            height: $riderListItemH;
+            background-color: #ccc;
+            border: solid 1px black;
+            text-align: center;
+            line-height: $riderListItemH;
         }
     }
 
     .Play__list {
-        order: 1;
-        flex: 1;
-        overflow-y: scroll;
+        position: absolute;
+        right: 0;
+        width: 250px;
         background-color: #ccc;
-        //display: flex;
-        //flex-direction: column;
 
-        .Play__list-item {
+        .Play__rider {
             width: 100%;
-            height: 40px;
+            height: $riderListItemH;
             margin: 0;
-            padding: 10px;
+            padding: 10px 10px 10px 50px;
             border: solid 1px black;            
-            box-sizing: border-box;
             background-color: white;
 
-            &.dropholder {
-                margin-top: 40px;
+            &:before {
+                content: '';
+                background-color: aliceblue;
+                position: absolute;
+                z-index: 10;
+                left: 5px;
+                top: 5px;
+                bottom: 5px;
+                width: 40px;
             }
+            &.dropholder {
+                margin-top: $riderListItemH;
+            }
+
+        }    
+    }    
+    
+    .Play__rider {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        font-size: 14px;
+        line-height: 14px;
+        font-weight: normal;
+        background-color: white;
+        
+        &.ondrag {
+            position: absolute;
+            padding: 10px;
+            z-index: 20;
+            width: 100px;
+            height: 100px;
+            margin-top: -50px;
+            margin-left: -50px;
+            box-shadow: 0 0 6px black;
         }
     }
 
-    .ondrag {
-        position: absolute;
-        z-index: 10;
-        background-color: white;
-        border: solid 1px black;
-        padding: 10px;
+    &.list-mode {
+        .Play__list {
+            left: 0;
+            right: $riderListItemH;
+            width: auto;
+        }
+        .Play__rider {
+            &.ondrag {
+                width: auto;
+                height: $riderListItemH;
+                left: 10px;
+                right: 30px;
+                margin: 0;
+            }
+        }
     }
-
 }

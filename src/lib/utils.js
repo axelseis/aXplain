@@ -12,17 +12,8 @@ export function removeClass(el,className){
     else
         el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
 }
-export function getOffset(el){
-    var rect = el.getBoundingClientRect();
-    return {
-        top: rect.top + document.body.scrollTop,
-        left: rect.left + document.body.scrollLeft,
-        width: rect.width,
-        height: rect.height
-    }
-}
-export function getDOMElementIndex(el){
-    return Array.prototype.indexOf.call(el.parentNode.children, el);
+export function hasClass(el, className){
+  return el.classList.contains(className);
 }
 
 export function isDOMElement(el) {

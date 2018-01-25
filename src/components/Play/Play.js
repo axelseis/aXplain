@@ -1,28 +1,40 @@
 import Component from '../../lib/Component.js'
 import { dispatchAction } from '../../lib/store.js'
 import { ShowHide } from '../../lib/Mixins.js'
-import { addClass, removeClass, getOffset, getDOMElementIndex } from '../../lib/utils.js'
+import { addClass, removeClass, hasClass } from '../../lib/utils.js'
+import { getMousePosition, getOffset, getDOMElementIndex } from '../utils.js'
 import { actions, getRiders } from './actions.js'
 
+const INIT_DRAG_ITEM_CLASS = 'initdragitem';
 const DRAG_CLASS = 'ondrag';
 const DROP_CLASS = 'dropholder'
+const BET_ITEMS_NUMBER = 15;
+
 export default class Riders extends ShowHide(Component) {
 
     constructor(className) {
         super(className);
-
+ 
         this.mousePosition = {};
 
         this.dropHolderItem = null;
+        this.onDragItemInitPosition = null;
         this.listItemOnDrag = null;
         this.betItemOnDrag = null;
-        //this.betItemDragHolder = null;
 
         document.addEventListener('mouseup', this.onMouseUp.bind(this))
+        document.addEventListener('touchend', this.onMouseUp.bind(this))
         window.addEventListener('resize', this.checkResolution.bind(this))
-        this.$clip.addEventListener('mousemove', this.getMousePosition.bind(this))
+        this.$clip.addEventListener('mousemove', this.onMouseMove.bind(this))
+        this.$clip.addEventListener('touchmove', this.onMouseMove.bind(this))
+        this.$clip.addEventListener('touchstart', this.onMouseMove.bind(this))
 
+        this.checkResolution();
         getRiders();
+    }
+
+    onMouseMove(ev){
+        this.mousePosition = getMousePosition(ev)
     }
 
     stateToprops(state) {
@@ -35,61 +47,58 @@ export default class Riders extends ShowHide(Component) {
 
     checkResolution(ev) {
         const betDiv = this.$clip.querySelector(`.Play__bet`);
-        if((betDiv && this.isMobile()) || (!this.isMobile() && !betDiv)){
+        if(this.isListMode()){
+            addClass(this.$clip, 'list-mode')
+        }
+        else {
+            removeClass(this.$clip, 'list-mode')
+        }
+        if((betDiv && this.isListMode()) || (!this.isListMode() && !betDiv)){
             this.forceRender();
         }
     }
 
-    isMobile(){
+    isListMode(){
         return getOffset(this.$clip).width <= 480;
     }
 
-    getMousePosition(e){
-        e = e || window.event;
-
-        var pageX = e.pageX;
-        var pageY = e.pageY;
-
-        // IE 8
-        if (pageX === undefined) {
-            pageX = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-            pageY = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-        }
-
-        this.mousePosition = {
-            left: pageX,
-            top: (pageY - getOffset(this.$clip).top)
-        };
-    }
-
     onMouseDownItem(ev){
-        if(this.isMobile()){
-            this.onMouseDownListItem(ev)
+        const propsHandler = ev.touches ? ev.touches[0] : ev;
+        if(hasClass(propsHandler.target.parentNode,'Play__list') 
+            && propsHandler.clientX > getOffset(propsHandler.target).left + 50){
         }
         else {
-            this.onMouseDownBetItem(ev);
+            ev.preventDefault();
+
+            if(this.isListMode()){
+                this.onMouseDownListItem(ev)
+            }
+            else {
+                this.onMouseDownBetItem(ev);
+            }
         }
     }
 
     onMouseDownListItem(ev) {
         this.listItemOnDrag = ev.target;
         addClass(this.listItemOnDrag, DRAG_CLASS);
-
-        this.setDropHolderItem(this.listItemOnDrag.nextElementSibling)
+        
+        this.setInitDragItem(this.listItemOnDrag.nextElementSibling)
+        this.setDropHolderItem(this.onDragItemInitPosition)
         this.$clip.appendChild(this.listItemOnDrag);
 
-        this.dragListItem();
+        this.dragListItem(ev.offsetY || getOffset(ev.target).height/2);
     }
 
     onMouseDownBetItem(ev) {
         this.betItemOnDrag = ev.target;
-        //this.betItemDragHolder = ev.target.parentNode;
         addClass(this.betItemOnDrag, DRAG_CLASS);
 
+        this.setInitDragItem(this.betItemOnDrag.parentNode)
         this.setDropHolderItem(this.betItemOnDrag.parentNode)
         this.$clip.appendChild(this.betItemOnDrag);
 
-        this.dragBetItem();
+        this.dragBetItem(ev.offsetY);
     }
 
     onMouseUp(ev) {
@@ -97,16 +106,21 @@ export default class Riders extends ShowHide(Component) {
         this.setDropHolderItem();
 
         if(this.listItemOnDrag){
-            const newPos = this.isMobile() ? getDOMElementIndex(dropItem) : null
+            const newPos = this.isListMode() ? getDOMElementIndex(dropItem) : null
             const riderId = parseInt(this.listItemOnDrag.getAttribute('riderId'))
             if(!newPos || newPos === this.props.bet.indexOf(riderId)){
                 this.forceRender();
             }
-            dispatchAction(actions.SET_BET_ITEM, {
-                riderId: riderId,
-                position: newPos,
-                insertRider: this.isMobile()
-            })
+            if(newPos <= BET_ITEMS_NUMBER){
+                dispatchAction(actions.SET_BET_ITEM, {
+                    riderId: riderId,
+                    position: newPos,
+                    insertRider: this.isListMode()
+                })
+            }
+            else {
+                this.forceRender();
+            }
 
             this.listItemOnDrag = null;
         }
@@ -135,22 +149,42 @@ export default class Riders extends ShowHide(Component) {
         }
     }
 
-    dragListItem() {
+    setInitDragItem(item){
+        if(this.onDragItemInitPosition){
+            removeClass(this.onDragItemInitPosition, INIT_DRAG_ITEM_CLASS)
+            this.onDragItemInitPosition = null;
+        }
+        if(item){
+            this.onDragItemInitPosition = item
+            addClass(item, INIT_DRAG_ITEM_CLASS);
+        }
+    }
+
+    dragListItem(initY) {
         if(this.listItemOnDrag){
             const listDiv = this.$clip.querySelector(`.Play__list`);
             const itemToDrop = Array.from(listDiv.children).find((item) => {
                 return (
-                    item.offsetTop + (parseInt(getComputedStyle(item).height)/2) - listDiv.scrollTop > this.mousePosition.top
+                    item.offsetTop + (parseInt(getComputedStyle(item).height)/2) - this.$clip.parentNode.scrollTop > this.mousePosition.top
                 )
             });
-            const holderType = this.setDropHolderItem(itemToDrop);
 
-            this.listItemOnDrag.style.top = this.mousePosition.top + 'px';
-            this.listItemOnDrag.style.left = this.mousePosition.left + 'px';
+            if(itemToDrop && getDOMElementIndex( itemToDrop ) < BET_ITEMS_NUMBER ){
+                this.setDropHolderItem(itemToDrop);    
+            }    
+            else {
+                this.setDropHolderItem(this.onDragItemInitPosition);    
+            }
+            this.listItemOnDrag.style.top = (this.mousePosition.top + this.$clip.parentNode.scrollTop - initY) + 'px';
 
-            requestAnimationFrame(this.dragListItem.bind(this))
+            if(!this.isListMode()){
+                this.listItemOnDrag.style.left = this.mousePosition.left + 'px';
+            }
+
+            requestAnimationFrame(this.dragListItem.bind(this, initY))
         }
     }
+
 
     dragBetItem() {
         if(this.betItemOnDrag){
@@ -161,9 +195,23 @@ export default class Riders extends ShowHide(Component) {
                     && item.offsetLeft+(parseInt(getComputedStyle(item).width)) > this.mousePosition.left
                 )
             });
-            const holderType = this.setDropHolderItem(itemToDrop);
 
-            this.betItemOnDrag.style.top = this.mousePosition.top + 'px';
+            this.setDropHolderItem(itemToDrop);
+            
+                if(hasClass(this.onDragItemInitPosition.parentNode,'Play__bet')){
+                    Array.from(this.onDragItemInitPosition.getElementsByClassName('Play__rider')).forEach(element => {
+                        this.onDragItemInitPosition.removeChild(element)
+                    })
+                    if(this.dropHolderItem && this.dropHolderItem !== this.onDragItemInitPosition){
+                        const dropRider = this.dropHolderItem.getElementsByClassName('Play__rider')[0];
+    
+                        if(dropRider){
+                            this.onDragItemInitPosition.appendChild(dropRider.cloneNode(true))
+                        }
+                    }
+                }
+
+            this.betItemOnDrag.style.top = this.mousePosition.top + this.$clip.parentNode.scrollTop + 'px';
             this.betItemOnDrag.style.left = this.mousePosition.left + 'px';
 
             requestAnimationFrame(this.dragBetItem.bind(this))
@@ -180,40 +228,55 @@ export default class Riders extends ShowHide(Component) {
 
         return (`
             <div class="Play__list">
-                ${ridersList.map(riderId => {
-                    if(this.isMobile() || this.props.bet.indexOf(parseInt(riderId)) === -1){
-                        return listItemTpl(riderId, this.props.riders[riderId])
+                ${ridersList.map((riderId, index) => {
+                    if(this.isListMode() || this.props.bet.indexOf(parseInt(riderId)) === -1){
+                        return riderTpl(riderId, this.props.riders[riderId])
                     }
                 }).join('')}
             </div>
-            ${ !this.isMobile() ? 
+            ${ !this.isListMode() ? 
                 `<div class="Play__bet">
                     ${this.props.bet.map((riderId,position) => {
                         return betItemTpl(position, riderId, this.props.riders[riderId] || {})
                     }).join('')}
-                </div>` : ''
+                </div>` : `<div class="Play__bet-mobile">
+                    ${ridersList.map((riderId,position) => {
+                        return betItemMobileTpl(position)
+                    }).join('')}
+            </div>`
             }
         `)
     }
 }
 
-const listItemTpl = (riderId, riderData) => (`
-    <div class="Play__list-item" riderId="${riderId}"
-        onmousedown="onMouseDownItem"
-    >
-        ${riderData.surname} ${riderData.name}
+const listItemTpl = (index, riderId, riderData) => (`
+    <div class="Play__list-item" riderId="${riderId}">
+        <div class="list-item__index">${index}</div>
+        ${ riderTpl(riderId, riderData) }
     </div>
 `)
 
 const betItemTpl = (position, riderId, riderData) => (`
     <div class="Play__bet-item" position="${position}">
-        ${ riderId ?
-            `<div class="bet-item__rider" riderId="${riderId}"
-                onmousedown="onMouseDownItem"
-            >
-                ${riderData.surname} ${riderData.name}
-            </div>` : ''
-        }
+        ${position+1}
+        ${ riderTpl(riderId, riderData) }
     </div>
+`)
+
+const betItemMobileTpl = (position) => (`
+    <div class="Play__bet-mobile-item">
+        ${ position < BET_ITEMS_NUMBER ? position+1 : '' }
+    </div>
+`)
+
+const riderTpl = (riderId, riderData) => (`
+    ${ riderId && riderData ?
+        `<div class="Play__rider" riderId="${riderId}"
+            onmousedown="onMouseDownItem"
+            ontouchstart="onMouseDownItem"
+        >
+            ${riderData.surname} ${riderData.name}
+        </div>` : ''
+    }
 `)
 

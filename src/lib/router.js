@@ -21,7 +21,7 @@ export function go(url2go){
         dispatch(setLocation(url, props, params))
     }
     else {
-        const route404 = this._matchRoute('404')
+        const route404 = _matchRoute('404')
         if(route404){
             go('404')
         }
