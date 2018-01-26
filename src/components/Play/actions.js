@@ -12,7 +12,7 @@ export function getRiders() {
         .then(response => {
             dispatchAction(
                 actions.SET_RIDERS,
-                response
+                { riders: response }
             );
         })
         .catch(onFetchError)
@@ -24,82 +24,43 @@ function onFetchError(err) {
 
 export const reducers = {
     [actions.SET_RIDERS]: setRiders,
-    [actions.SET_BET]: setUserBet,
-    [actions.SET_BET_ITEM]: setUserBetItem
+    [actions.SET_BET]: setUserBet
 }
 
-function setRiders(state, ridersFromApi) {
+function setRiders(state, payload) {
     const riders = {}
-
-    Object.keys(ridersFromApi).map(key => {
-        const {rid, ...rest} = {...ridersFromApi[key]};
-        riders[rid] = rest
+    const initOrder = []
+    Object.keys(payload.riders).map(key => {
+        const {rid, ...rest} = {...payload.riders[key]};
+        riders[rid] = rest;
+        initOrder.push(parseInt(rid))
     })
-
     return ({
         ...state,
-        riders
-    })
-}
-
-function setUserBetItem(state, payload) {
-    const actBet = state.user.bets[state.season.actEvent];
-    let newUserBet
-    
-    if(payload.insertRider){
-        newUserBet = [...actBet.filter(riderId => !!riderId)]
-        const oldPosition = newUserBet.indexOf(payload.riderId)
-        newUserBet.splice(oldPosition,1)
-        newUserBet.splice(payload.position, 0, payload.riderId)
-        const riders = Object.keys(state.riders).filter(
-            riderId => newUserBet.indexOf(parseInt(riderId)) === -1
-        )
-        let iR = 0;
-        while(newUserBet.length < 15){
-            newUserBet.push(parseInt(riders[iR++]));
-        }
-    }
-    else {        
-        newUserBet = [...actBet];
-        if(!payload.riderId){
-            newUserBet[payload.position] = payload.riderId;
-        }
-        else {
-            const oldPosition = newUserBet.indexOf(payload.riderId);
-            const riderSwitch = newUserBet[payload.position];
-            newUserBet[payload.position] = payload.riderId;
-            if(oldPosition != -1){
-                newUserBet[oldPosition] = riderSwitch;
-            }
-        }
-    }
-
-    return ({
-        ...state,
-        user: {
-            ...state.user,
-            bets: {
-                ...state.user.bets,
-                [state.season.actEvent]: newUserBet
-            }
-        }
+        riders,
+        ridersOrders: {
+            ...state.ridersOrders,
+            initOrder
+        } 
     })
 }
 
 function setUserBet(state, payload) {
- console.log("payload ", payload);
-    const newRidersOrder = {}
-    payload.ridersOrder.forEach(riderId => {newRidersOrder[riderId.toString()] = state.riders[riderId]});
-    console.log("newRidersOrder ", newRidersOrder);
-
+    const { bet, ridersOrder } = { ...payload };
+    const { actOrder, initOrder } = { ...state.ridersOrders }
+    const newOrder = ridersOrder || actOrder || initOrder;
+    
     return ({
         ...state,
-        riders: newRidersOrder,
+        ridersOrders: {
+            ...state.ridersOrders,
+            actOrder: newOrder
+        },
         user: {
             ...state.user,
             bets: {
                 ...state.user.bets,
-                [state.season.actEvent]: [...payload.bet]
+                [state.season.actEvent]: [...bet]
             }
         }
     })

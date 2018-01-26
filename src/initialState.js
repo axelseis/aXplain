@@ -7,7 +7,7 @@ export const initialState = {
         name: false,
         session: "e310fd5a6a697cec915378fa34830cf5735cf56f52fb071cf5a8bee8415a8c6f_axelclaver@dorna.com",
         bets: {
-            1: [7409,null,158,7444,5515,6854,7173,8049,8150,7174,6060,7018,6066,6867,7013]
+            1: new Array(15)
         }
     },
     events: {
@@ -36,6 +36,10 @@ export const initialState = {
             nation: "JPN",
             sponsoredteam: "Team SUZUKI ECSTAR"
         }
+    },
+    ridersOrders: {
+        initOrder: [],
+        actOrder: null
     },
     season: {
         year: 2018,
