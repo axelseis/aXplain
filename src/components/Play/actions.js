@@ -87,8 +87,14 @@ function setUserBetItem(state, payload) {
 }
 
 function setUserBet(state, payload) {
+ console.log("payload ", payload);
+    const newRidersOrder = {}
+    payload.ridersOrder.forEach(riderId => {newRidersOrder[riderId.toString()] = state.riders[riderId]});
+    console.log("newRidersOrder ", newRidersOrder);
+
     return ({
         ...state,
+        riders: newRidersOrder,
         user: {
             ...state.user,
             bets: {

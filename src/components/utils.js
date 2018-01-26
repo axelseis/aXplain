@@ -33,7 +33,7 @@ export function getOffset(el) {
 }
 
 export function getDOMElementIndex(el) {
-    return Array.prototype.indexOf.call(el.parentNode.children, el);
+    return el ? Array.prototype.indexOf.call(el.parentNode.children, el) : null;
 }
 
 

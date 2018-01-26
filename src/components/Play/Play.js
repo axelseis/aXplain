@@ -19,7 +19,7 @@ export default class Riders extends ShowHide(Component) {
 
         this.dropHolderItem = null;
         this.onDragItemInitPosition = null;
-        this.listItemOnDrag = null;
+        this.itemOnDrag = null;
         this.betItemOnDrag = null;
 
         document.addEventListener('mouseup', this.onMouseUp.bind(this))
@@ -38,8 +38,9 @@ export default class Riders extends ShowHide(Component) {
     }
 
     stateToprops(state) {
+        const newBet = [...state.user.bets[state.season.actEvent]]
         return {
-            bet: [...state.user.bets[state.season.actEvent]],
+            bet: newBet,
             riders: { ...state.riders },
             actEvent: {...state.events[state.season.actEvent]}
         };
@@ -80,12 +81,11 @@ export default class Riders extends ShowHide(Component) {
     }
 
     onMouseDownListItem(ev) {
-        this.listItemOnDrag = ev.target;
-        addClass(this.listItemOnDrag, DRAG_CLASS);
+        this.setItemOnDrag(ev.target)
         
-        this.setInitDragItem(this.listItemOnDrag.nextElementSibling)
+        this.setInitDragItem(this.itemOnDrag.nextElementSibling)
         this.setDropHolderItem(this.onDragItemInitPosition)
-        this.$clip.appendChild(this.listItemOnDrag);
+        this.$clip.appendChild(this.itemOnDrag);
 
         this.dragListItem(ev.offsetY || getOffset(ev.target).height/2);
     }
@@ -104,17 +104,23 @@ export default class Riders extends ShowHide(Component) {
     onMouseUp(ev) {
         const dropItem = this.dropHolderItem
         
-        if(this.listItemOnDrag){
-            const riderId = parseInt(this.listItemOnDrag.getAttribute('riderId'))
+        if(this.itemOnDrag){
+            const riderId = parseInt(this.itemOnDrag.getAttribute('riderId'))
             const newPos = this.isListMode() ? getDOMElementIndex(dropItem) : null
             
-            this.listItemOnDrag.removeAttribute('style')
-            dropItem.parentNode.insertBefore(this.listItemOnDrag, dropItem)
+            this.itemOnDrag.removeAttribute('style')
+            if(dropItem){
+                dropItem.parentNode.insertBefore(this.itemOnDrag, dropItem)
+            }
+            else{
+                this.$clip.getElementsByClassName('Play__list')[0].appendChild(this.itemOnDrag)
+            }
             
-            if(newPos === this.props.bet.indexOf(riderId)){
+            if(newPos == null || newPos === this.props.bet.indexOf(riderId)){
                 this.forceRender();
             }
-            if(newPos <= BET_ITEMS_NUMBER){
+            else if(newPos != null && newPos < BET_ITEMS_NUMBER){
+                console.log("newPos ", newPos);
                 dispatchAction(actions.SET_BET_ITEM, {
                     riderId: riderId,
                     position: newPos,
@@ -124,13 +130,13 @@ export default class Riders extends ShowHide(Component) {
             else {
                 this.forceRender();
             }
-            
-            this.listItemOnDrag = null;
+            this.itemOnDrag = null;
         }
+
         if(this.betItemOnDrag){
             const newPos = dropItem ? parseInt(dropItem.getAttribute('position')) : null;
             const riderId = parseInt(this.betItemOnDrag.getAttribute('riderId'));
-            if(!newPos || newPos === this.props.bet.indexOf(riderId)){
+            if(newPos != null || newPos === this.props.bet.indexOf(riderId)){
                 this.forceRender();
             }
             dispatchAction(actions.SET_BET_ITEM, {
@@ -141,6 +147,73 @@ export default class Riders extends ShowHide(Component) {
         }
 
         this.setDropHolderItem();
+    }
+
+    onMouseUp(ev) {
+        const dropItem = this.dropHolderItem
+        const dragItem = this.itemOnDrag;
+
+        if(!dragItem){
+            return;
+        }
+
+        const riderId = parseInt(dragItem.getAttribute('riderId'))
+        const newPos = getDOMElementIndex(dropItem);
+
+        this.setItemOnDrag(null);
+        this.setDropHolderItem(null);
+
+        if(this.isListMode()){
+            const newBet = [...this.props.bet].filter(betItem => !!betItem)
+            const oldPos = newBet.indexOf(riderId);
+            let restRiders = Object.keys(this.props.riders).filter(
+                riderId => newBet.indexOf(parseInt(riderId)) === -1
+            ).map(riderId => parseInt(riderId))
+            
+            while(newBet.length < BET_ITEMS_NUMBER){
+                newBet.push(parseInt(restRiders.shift()))
+            }
+            
+            if(dropItem){
+                dropItem.parentNode.insertBefore(dragItem, dropItem)
+            }
+            else{
+                this.$clip.getElementsByClassName('Play__list')[0].appendChild(dragItem)
+            }
+            
+            if(oldPos !== newPos){
+                if(oldPos === -1){
+                    restRiders.unshift(newBet[newBet.length-1])
+                }
+                newBet.splice(oldPos,1)
+                newBet.splice(newPos,0,riderId)
+                console.log("newBet ", newBet);
+                console.log("restRiders ", restRiders);
+                const newRidersOrder = newBet.concat(restRiders)
+ console.log("newRidersOrder ", newRidersOrder);
+                
+                dispatchAction(actions.SET_BET, {
+                    bet: newBet,
+                    ridersOrder: newRidersOrder
+                })
+            }
+        }
+        else {
+            
+        }
+
+    }
+
+    setItemOnDrag(item){
+        if(this.itemOnDrag){
+            this.itemOnDrag.removeAttribute('style');
+            removeClass(this.itemOnDrag, DRAG_CLASS)
+            this.itemOnDrag = null;
+        }
+        if(item){
+            addClass(item, DRAG_CLASS);
+            this.itemOnDrag = item;
+        }
     }
 
     setDropHolderItem(item){
@@ -166,7 +239,7 @@ export default class Riders extends ShowHide(Component) {
     }
 
     dragListItem(initY) {
-        if(this.listItemOnDrag){
+        if(this.itemOnDrag){
             const listDiv = this.$clip.querySelector(`.Play__list`);
             const itemToDrop = Array.from(listDiv.children).find((item) => {
                 return (
@@ -180,10 +253,10 @@ export default class Riders extends ShowHide(Component) {
             else {
                 this.setDropHolderItem(this.onDragItemInitPosition);    
             }
-            this.listItemOnDrag.style.top = (this.mousePosition.top + this.$clip.parentNode.scrollTop - initY) + 'px';
+            this.itemOnDrag.style.top = (this.mousePosition.top + this.$clip.parentNode.scrollTop - initY) + 'px';
 
             if(!this.isListMode()){
-                this.listItemOnDrag.style.left = this.mousePosition.left + 'px';
+                this.itemOnDrag.style.left = this.mousePosition.left + 'px';
             }
             else {
                 const maxScroll = getOffset(this.$clip.parentNode).height + LIST_ITEM_HEIGHT;
@@ -196,9 +269,6 @@ export default class Riders extends ShowHide(Component) {
                     this.$clip.parentNode.scrollTop = Math.min(maxScroll, 
                         this.$clip.parentNode.scrollTop + Math.floor((this.mousePosition.top - initBottomScrollY)/4)
                     );
-                    console.log("maxScroll ", maxScroll);
-                    console.log("this.$clip.parentNode.scrollTop ", this.$clip.parentNode.scrollTop);
-                    console.log("this.$clip.parentNode.scrollHeight  ", );
                 }
             }
 
