@@ -61,10 +61,17 @@ function setUserBetItem(state, payload) {
     }
     else {        
         newUserBet = [...actBet];
-        const oldPosition = newUserBet.indexOf(payload.riderId)
-        const riderSwitch = newUserBet[payload.position];
-        newUserBet[payload.position] = payload.riderId;
-        newUserBet[oldPosition] = riderSwitch;
+        if(!payload.riderId){
+            newUserBet[payload.position] = payload.riderId;
+        }
+        else {
+            const oldPosition = newUserBet.indexOf(payload.riderId);
+            const riderSwitch = newUserBet[payload.position];
+            newUserBet[payload.position] = payload.riderId;
+            if(oldPosition != -1){
+                newUserBet[oldPosition] = riderSwitch;
+            }
+        }
     }
 
     return ({

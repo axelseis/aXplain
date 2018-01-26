@@ -140,7 +140,7 @@ export default class Riders extends ShowHide(Component) {
             this.betItemOnDrag = null;
         }
 
-        this.setDropHolderItem(null);
+        this.setDropHolderItem();
     }
 
     setDropHolderItem(item){
