@@ -14,7 +14,7 @@ export default class Riders extends ShowHide(Component) {
 
     constructor(className) {
         super(className);
- 
+
         this.mousePosition = {};
 
         this.dropHolderItem = null;
@@ -32,81 +32,84 @@ export default class Riders extends ShowHide(Component) {
         getRiders();
     }
 
-    onMouseMove(ev){
+    onMouseMove(ev) {
         this.mousePosition = getMousePosition(ev)
     }
 
     stateToprops(state) {
         const newBet = [...state.user.bets[state.season.actEvent]]
-        const {actOrder, initOrder} = {...state.ridersOrders}
+        const { actOrder, initOrder } = { ...state.ridersOrders }
 
         return {
             bet: newBet,
             riders: { ...state.riders },
             actOrder: actOrder || initOrder,
-            actEvent: {...state.events[state.season.actEvent]}
+            actEvent: { ...state.events[state.season.actEvent] }
         };
     }
 
     checkResolution(ev) {
         const betDiv = this.$clip.querySelector(`.Play__bet`);
-        if(this.isListMode()){
+        if (this.isListMode()) {
             addClass(this.$clip, 'list-mode')
         }
         else {
             removeClass(this.$clip, 'list-mode')
         }
-        if((betDiv && this.isListMode()) || (!this.isListMode() && !betDiv)){
+        if ((betDiv && this.isListMode()) || (!this.isListMode() && !betDiv)) {
             this.forceRender();
         }
     }
 
-    isListMode(){
+    isListMode() {
         return getOffset(this.$clip).width <= 480;
     }
 
-    onMouseDownItem(ev){
+    onMouseDownItem(ev) {
         const propsHandler = ev.touches ? ev.touches[0] : ev;
-        if(hasClass(propsHandler.target.parentNode,'Play__list') 
-            && propsHandler.clientX > getOffset(propsHandler.target).left + 50){
-        }
-        else {
+        if (hasClass(propsHandler.target, 'rider__drag')) {
             ev.preventDefault();
+            const riderSel = propsHandler.target.parentNode;
 
-            if(this.isListMode()){
-                this.onMouseDownListItem(ev)
+            if (this.isListMode()) {
+                this.onMouseDownListMode(riderSel)
             }
             else {
-                this.onMouseDownBetItem(ev);
+                this.onMouseDownBetMode(riderSel, propsHandler.offsetY);
             }
         }
     }
 
-    onMouseDownListItem(ev) {
-        this.setItemOnDrag(ev.target)
-        
+    onMouseDownListMode(riderElement, offsetY) {
+        this.setItemOnDrag(riderElement)
+
         this.setInitDragItem(this.itemOnDrag.nextElementSibling)
         this.setDropHolderItem(this.onDragItemInitPosition)
         this.$clip.appendChild(this.itemOnDrag);
 
-        this.dragListItem(ev.offsetY || getOffset(ev.target).height/2);
+        this.dragListItem(offsetY || getOffset(riderElement).height / 2);
     }
 
-    onMouseDownBetItem(ev) {
-        this.setItemOnDrag(ev.target)
 
-        this.setInitDragItem(this.itemOnDrag.parentNode)
+    onMouseDownBetMode(riderElement, offsetY) {
+        
+        let initItemDrag = riderElement.parentNode;
+        if(hasClass(riderElement.parentNode, 'Play__list')){
+            initItemDrag = riderElement.nextElementSibling;
+        }
+        this.setInitDragItem(initItemDrag)
         this.setDropHolderItem(this.onDragItemInitPosition)
-        this.$clip.appendChild(this.itemOnDrag);
+        this.setItemOnDrag(riderElement)
+        this.$clip.appendChild(riderElement);
 
-        this.dragBetItem(ev.offsetY);
+        this.dragBetItem(offsetY);
     }
 
     onMouseUp(ev) {
         const dropItem = this.dropHolderItem
         const dragItem = this.itemOnDrag;
 
-        if(!dragItem){
+        if (!dragItem) {
             return;
         }
 
@@ -114,35 +117,35 @@ export default class Riders extends ShowHide(Component) {
         const newPos = getDOMElementIndex(dropItem);
 
         let newBet = [...this.props.bet];
-        
-        if(this.isListMode()){
+
+        if (this.isListMode()) {
             newBet = newBet.filter(betItem => !!betItem)
-            while(newBet.length < BET_ITEMS_NUMBER){
+            while (newBet.length < BET_ITEMS_NUMBER) {
                 newBet.push(this.props.actOrder.shift())
             }
 
-            if(dropItem){
+            if (dropItem) {
                 dropItem.parentNode.insertBefore(dragItem, dropItem)
             }
-            else{
+            else {
                 this.$clip.getElementsByClassName('Play__list')[0].appendChild(dragItem)
             }
-            
+
             const oldPos = newBet.indexOf(riderId);
-            if(oldPos !== newPos){
-                newBet.splice(oldPos,1)
-                newBet.splice(newPos,0,riderId)
+            if (oldPos !== newPos) {
+                newBet.splice(oldPos, 1)
+                newBet.splice(newPos, 0, riderId)
             }
         }
 
         else {
-            if(dropItem){
+            if (dropItem) {
                 dropItem.appendChild(dragItem)
             }
-            else{
+            else {
                 this.$clip.getElementsByClassName('Play__list')[0].appendChild(dragItem)
             }
-            
+
             const oldPos = newBet.indexOf(riderId);
 
             newBet[oldPos] = newBet[newPos];
@@ -154,7 +157,7 @@ export default class Riders extends ShowHide(Component) {
             riderId => newBet.indexOf(riderId) === -1
         )
         const newRidersOrder = [...cleanBet, ...restRiders]
-        
+
         dispatchAction(actions.SET_BET, {
             bet: newBet,
             ridersOrder: newRidersOrder
@@ -165,70 +168,70 @@ export default class Riders extends ShowHide(Component) {
         this.setInitDragItem(null)
     }
 
-    setItemOnDrag(item){
-        if(this.itemOnDrag){
+    setItemOnDrag(item) {
+        if (this.itemOnDrag) {
             this.itemOnDrag.removeAttribute('style');
             removeClass(this.itemOnDrag, DRAG_CLASS)
             this.itemOnDrag = null;
         }
-        if(item){
+        if (item) {
             addClass(item, DRAG_CLASS);
             this.itemOnDrag = item;
         }
     }
 
-    setDropHolderItem(item){
-        if(this.dropHolderItem){
+    setDropHolderItem(item) {
+        if (this.dropHolderItem) {
             removeClass(this.dropHolderItem, DROP_CLASS)
             this.dropHolderItem = null;
         }
-        if(item){
+        if (item) {
             addClass(item, DROP_CLASS);
             this.dropHolderItem = item;
         }
     }
 
-    setInitDragItem(item){
-        if(this.onDragItemInitPosition){
+    setInitDragItem(item) {
+        if (this.onDragItemInitPosition) {
             removeClass(this.onDragItemInitPosition, INIT_DRAG_ITEM_CLASS)
             this.onDragItemInitPosition = null;
         }
-        if(item){
+        if (item) {
             this.onDragItemInitPosition = item
             addClass(item, INIT_DRAG_ITEM_CLASS);
         }
     }
 
     dragListItem(initY) {
-        if(this.itemOnDrag){
+        if (this.itemOnDrag) {
             const listDiv = this.$clip.querySelector(`.Play__list`);
             const itemToDrop = Array.from(listDiv.children).find((item) => {
                 return (
-                    item.offsetTop + (parseInt(getComputedStyle(item).height)/2) - this.$clip.parentNode.scrollTop > this.mousePosition.top
+                    item.offsetTop + (parseInt(getComputedStyle(item).height) / 2) - this.$clip.parentNode.scrollTop > this.mousePosition.top
                 )
             });
 
-            if(itemToDrop && getDOMElementIndex( itemToDrop ) < BET_ITEMS_NUMBER ){
-                this.setDropHolderItem(itemToDrop);    
-            }    
+            if (itemToDrop && getDOMElementIndex(itemToDrop) < BET_ITEMS_NUMBER) {
+                this.setDropHolderItem(itemToDrop);
+            }
             else {
-                this.setDropHolderItem(this.onDragItemInitPosition);    
+                this.setDropHolderItem(this.onDragItemInitPosition);
             }
             this.itemOnDrag.style.top = (this.mousePosition.top + this.$clip.parentNode.scrollTop - initY) + 'px';
 
-            if(!this.isListMode()){
+            if (!this.isListMode()) {
                 this.itemOnDrag.style.left = this.mousePosition.left + 'px';
             }
             else {
                 const maxScroll = getOffset(this.$clip.parentNode).height + LIST_ITEM_HEIGHT;
                 const initBottomScrollY = (getOffset(this.$clip).height - LIST_ITEM_HEIGHT);
 
-                if(this.mousePosition.top < LIST_ITEM_HEIGHT){
-                    this.$clip.parentNode.scrollTop-= Math.floor((LIST_ITEM_HEIGHT-this.mousePosition.top)/4);
+                if (this.mousePosition.top < LIST_ITEM_HEIGHT) {
+                    this.$clip.parentNode.scrollTop -= Math.floor((LIST_ITEM_HEIGHT - this.mousePosition.top) / 4);
                 }
-                else if(this.mousePosition.top > getOffset(this.$clip).height- LIST_ITEM_HEIGHT){
-                    this.$clip.parentNode.scrollTop = Math.min(maxScroll, 
-                        this.$clip.parentNode.scrollTop + Math.floor((this.mousePosition.top - initBottomScrollY)/4)
+                else if (this.mousePosition.top > getOffset(this.$clip).height - LIST_ITEM_HEIGHT) {
+                    this.$clip.parentNode.scrollTop = Math.min(maxScroll,
+                        this.$clip.parentNode.scrollTop + Math.floor((this.mousePosition.top - initBottomScrollY) / 4)
                     );
                 }
             }
@@ -238,32 +241,32 @@ export default class Riders extends ShowHide(Component) {
     }
 
     dragBetItem() {
-        if(this.itemOnDrag){
+        if (this.itemOnDrag) {
             const betItems = this.$clip.querySelector(`.Play__bet`).children;
             const itemToDrop = Array.from(betItems).find((item) => {
                 return (
-                    item.offsetTop+(parseInt(getComputedStyle(item).height)) > this.mousePosition.top
-                    && item.offsetLeft+(parseInt(getComputedStyle(item).width)) > this.mousePosition.left
+                    item.offsetTop + (parseInt(getComputedStyle(item).height)) > this.mousePosition.top
+                    && item.offsetLeft + (parseInt(getComputedStyle(item).width)) > this.mousePosition.left
                 )
             });
 
             this.setDropHolderItem(itemToDrop);
-            
-                if(hasClass(this.onDragItemInitPosition.parentNode,'Play__bet')){
-                    Array.from(this.onDragItemInitPosition.getElementsByClassName('Play__rider')).forEach(element => {
-                        this.onDragItemInitPosition.removeChild(element)
-                    })
-                    if(this.dropHolderItem && this.dropHolderItem !== this.onDragItemInitPosition){
-                        const dropRider = this.dropHolderItem.getElementsByClassName('Play__rider')[0];
-    
-                        if(dropRider){
-                            this.onDragItemInitPosition.appendChild(dropRider.cloneNode(true))
-                        }
+
+            if (hasClass(this.onDragItemInitPosition.parentNode, 'Play__bet')) {
+                Array.from(this.onDragItemInitPosition.getElementsByClassName('Play__rider')).forEach(element => {
+                    this.onDragItemInitPosition.removeChild(element)
+                })
+                if (this.dropHolderItem && this.dropHolderItem !== this.onDragItemInitPosition) {
+                    const dropRider = this.dropHolderItem.getElementsByClassName('Play__rider')[0];
+
+                    if (dropRider) {
+                        this.onDragItemInitPosition.appendChild(dropRider.cloneNode(true))
                     }
                 }
+            }
 
             this.itemOnDrag.style.top = this.mousePosition.top + this.$clip.parentNode.scrollTop + 'px';
-            this.itemOnDrag.style.left = this.mousePosition.left + 'px';
+            this.itemOnDrag.style.left = this.mousePosition.left + this.$clip.parentNode.scrollLeft + 'px';
 
             requestAnimationFrame(this.dragBetItem.bind(this))
         }
@@ -275,20 +278,20 @@ export default class Riders extends ShowHide(Component) {
         return (`
             <div class="Play__list">
                 ${ridersList.map((riderId, index) => {
-                    if(this.isListMode() || this.props.bet.indexOf(parseInt(riderId)) === -1){
-                        return riderTpl(riderId, this.props.riders[riderId])
-                    }
-                }).join('')}
+                if (this.isListMode() || this.props.bet.indexOf(parseInt(riderId)) === -1) {
+                    return riderTpl(riderId, this.props.riders[riderId])
+                }
+            }).join('')}
             </div>
-            ${ !this.isListMode() ? 
+            ${ !this.isListMode() ?
                 `<div class="Play__bet">
-                    ${this.props.bet.map((riderId,position) => {
-                        return betItemTpl(position, riderId, this.props.riders[riderId] || {})
-                    }).join('')}
+                    ${this.props.bet.map((riderId, position) => {
+                    return betItemTpl(position, riderId, this.props.riders[riderId] || {})
+                }).join('')}
                 </div>` : `<div class="Play__bet-mobile">
-                    ${ridersList.map((riderId,position) => {
-                        return betItemMobileTpl(position)
-                    }).join('')}
+                    ${ridersList.map((riderId, position) => {
+                    return betItemMobileTpl(position)
+                }).join('')}
             </div>`
             }
         `)
@@ -298,20 +301,24 @@ export default class Riders extends ShowHide(Component) {
 const listItemTpl = (index, riderId, riderData) => (`
     <div class="Play__list-item" riderId="${riderId}">
         <div class="list-item__index">${index}</div>
-        ${ riderTpl(riderId, riderData) }
+        ${ riderTpl(riderId, riderData)}
     </div>
 `)
 
 const betItemTpl = (position, riderId, riderData) => (`
     <div class="Play__bet-item" position="${position}">
-        ${position+1}
-        ${ riderTpl(riderId, riderData) }
+        <div class="bet__position">
+            ${position + 1}
+        </div>
+        ${ riderTpl(riderId, riderData)}
     </div>
 `)
 
 const betItemMobileTpl = (position) => (`
     <div class="Play__bet-mobile-item">
-        ${ position < BET_ITEMS_NUMBER ? position+1 : '' }
+        <div class="bet__position">
+            ${ position < BET_ITEMS_NUMBER ? position + 1 : ''}
+        </div>
     </div>
 `)
 
@@ -321,8 +328,13 @@ const riderTpl = (riderId, riderData) => (`
             onmousedown="onMouseDownItem"
             ontouchstart="onMouseDownItem"
         >
+        <div class="rider__drag">
+            &nbsp;
+        </div>
+        <div class="rider__name">
             ${riderData.surname} ${riderData.name}
-        </div>` : ''
+        </div>
+    </div>` : ''
     }
 `)
 

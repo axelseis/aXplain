@@ -49,9 +49,10 @@ body {
   min-width: 300px; }
   .League__Play .Play__bet {
     position: fixed;
-    z-index: 10;
+    z-index: 3;
+    width: 60%;
+    min-width: 200px;
     left: 0;
-    right: 250px;
     top: 50px;
     bottom: 0;
     display: flex;
@@ -59,26 +60,44 @@ body {
     flex-wrap: wrap;
     justify-content: flex-start;
     min-height: 300px; }
+    .League__Play .Play__bet .Play__rider {
+      width: 80%;
+      max-width: 100px;
+      height: 80%;
+      max-height: 120px;
+      padding: 5%;
+      color: black;
+      background-color: rgba(255, 255, 255, 0.7);
+      border: solid 1px black;
+      display: flex;
+      padding: 5px;
+      justify-content: space-between;
+      align-items: stretch;
+      flex-direction: column; }
+      .League__Play .Play__bet .Play__rider.ondrag {
+        position: fixed; }
+      .League__Play .Play__bet .Play__rider .rider__drag {
+        background-color: #5f5f5f;
+        height: 60px; }
+      .League__Play .Play__bet .Play__rider .rider__name {
+        width: 100%; }
     .League__Play .Play__bet .Play__bet-item {
       width: 33.33%;
       height: 20%;
       border: solid 1px white;
       background-color: #cacaca;
-      color: #a3a3a3;
       position: relative;
-      padding: 0 5px;
-      font-size: 40px;
-      font-weight: bold; }
-      .League__Play .Play__bet .Play__bet-item .Play__rider {
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden; }
+      .League__Play .Play__bet .Play__bet-item .bet__position {
         position: absolute;
-        top: 10%;
-        left: 10%;
-        width: 80%;
-        height: 80%;
-        padding: 5%;
-        color: black;
-        background-color: rgba(255, 255, 255, 0.7);
-        border: solid 1px black; }
+        color: #bbbbbb;
+        font-size: 10em;
+        left: 5px;
+        top: 0; }
       .League__Play .Play__bet .Play__bet-item.dropholder {
         background-color: #e0fff5; }
         .League__Play .Play__bet .Play__bet-item.dropholder .Play__rider {
@@ -105,9 +124,13 @@ body {
       line-height: 40px; }
   .League__Play .Play__list {
     position: absolute;
+    z-index: 2;
     right: 0;
-    width: 250px;
-    background-color: #ccc; }
+    width: 40%;
+    min-width: 250px;
+    background-color: #ccc;
+    display: flex;
+    flex-direction: column; }
     .League__Play .Play__list .Play__rider {
       width: 100%;
       height: 40px;
@@ -115,17 +138,27 @@ body {
       padding: 10px 10px 10px 50px;
       border: solid 1px black;
       background-color: white; }
-      .League__Play .Play__list .Play__rider:before {
+      .League__Play .Play__list .Play__rider.dropholder {
+        margin-top: 40px; }
+      .League__Play .Play__list .Play__rider.initdragitem {
+        margin-top: 40px; }
+        .League__Play .Play__list .Play__rider.initdragitem:before {
+          content: '';
+          position: absolute;
+          bottom: 100%;
+          height: 40px;
+          background-color: #f89696;
+          width: 100%;
+          left: 0; }
+      .League__Play .Play__list .Play__rider .rider__drag {
         content: '';
-        background-color: aliceblue;
+        background-color: #ccc;
         position: absolute;
         z-index: 10;
         left: 5px;
         top: 5px;
         bottom: 5px;
         width: 40px; }
-      .League__Play .Play__list .Play__rider.dropholder {
-        margin-top: 40px; }
   .League__Play .Play__rider {
     width: 100%;
     height: 100%;
@@ -153,6 +186,32 @@ body {
     left: 10px;
     right: 30px;
     margin: 0; }
+  @media (min-width: 1024px) {
+    .League__Play .Play__list {
+      width: 55%;
+      height: 100%;
+      flex-direction: row;
+      flex-wrap: wrap;
+      background-color: white;
+      padding: 10px; }
+      .League__Play .Play__list .Play__rider {
+        min-width: 90px;
+        width: 10%;
+        min-height: 110px;
+        padding: 70px 10px 10px;
+        font-size: 12px;
+        margin: 2%;
+        box-sizing: border-box; }
+        .League__Play .Play__list .Play__rider .rider__drag {
+          position: absolute;
+          left: 5px;
+          right: 5px;
+          height: 60px;
+          top: 5px;
+          width: auto;
+          background-color: #ccc; }
+    .League__Play .Play__bet {
+      width: 45%; } }
 
 .User__inputstr {
   animation: fadeindom 2s infinite; }
