@@ -9,7 +9,7 @@ const INIT_DRAG_ITEM_CLASS = 'initdragitem';
 const DRAG_CLASS = 'ondrag';
 const DROP_CLASS = 'dropholder'
 const BET_ITEMS_NUMBER = 15;
-
+const LIST_ITEM_HEIGHT = 40;
 export default class Riders extends ShowHide(Component) {
 
     constructor(className) {
@@ -179,6 +179,22 @@ export default class Riders extends ShowHide(Component) {
 
             if(!this.isListMode()){
                 this.listItemOnDrag.style.left = this.mousePosition.left + 'px';
+            }
+            else {
+                const maxScroll = getOffset(this.$clip.parentNode).height + LIST_ITEM_HEIGHT;
+                const initBottomScrollY = (getOffset(this.$clip).height - LIST_ITEM_HEIGHT);
+
+                if(this.mousePosition.top < LIST_ITEM_HEIGHT){
+                    this.$clip.parentNode.scrollTop-= Math.floor((LIST_ITEM_HEIGHT-this.mousePosition.top)/4);
+                }
+                else if(this.mousePosition.top > getOffset(this.$clip).height- LIST_ITEM_HEIGHT){
+                    this.$clip.parentNode.scrollTop = Math.min(maxScroll, 
+                        this.$clip.parentNode.scrollTop + Math.floor((this.mousePosition.top - initBottomScrollY)/4)
+                    );
+                    console.log("maxScroll ", maxScroll);
+                    console.log("this.$clip.parentNode.scrollTop ", this.$clip.parentNode.scrollTop);
+                    console.log("this.$clip.parentNode.scrollHeight  ", );
+                }
             }
 
             requestAnimationFrame(this.dragListItem.bind(this, initY))
