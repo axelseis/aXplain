@@ -103,12 +103,15 @@ export default class Riders extends ShowHide(Component) {
 
     onMouseUp(ev) {
         const dropItem = this.dropHolderItem
-        this.setDropHolderItem();
-
+        
         if(this.listItemOnDrag){
-            const newPos = this.isListMode() ? getDOMElementIndex(dropItem) : null
             const riderId = parseInt(this.listItemOnDrag.getAttribute('riderId'))
-            if(!newPos || newPos === this.props.bet.indexOf(riderId)){
+            const newPos = this.isListMode() ? getDOMElementIndex(dropItem) : null
+            
+            this.listItemOnDrag.removeAttribute('style')
+            dropItem.parentNode.insertBefore(this.listItemOnDrag, dropItem)
+            
+            if(newPos === this.props.bet.indexOf(riderId)){
                 this.forceRender();
             }
             if(newPos <= BET_ITEMS_NUMBER){
@@ -121,21 +124,23 @@ export default class Riders extends ShowHide(Component) {
             else {
                 this.forceRender();
             }
-
+            
             this.listItemOnDrag = null;
         }
         if(this.betItemOnDrag){
-            const newPos = dropItem ? parseInt(dropItem.getAttribute('position')) : null
-            const riderId = parseInt(this.betItemOnDrag.getAttribute('riderId'))
+            const newPos = dropItem ? parseInt(dropItem.getAttribute('position')) : null;
+            const riderId = parseInt(this.betItemOnDrag.getAttribute('riderId'));
             if(!newPos || newPos === this.props.bet.indexOf(riderId)){
                 this.forceRender();
             }
             dispatchAction(actions.SET_BET_ITEM, {
-                riderId: riderId,
-                position: newPos
+                riderId: newPos ? riderId : null,
+                position: newPos || this.props.bet.indexOf(riderId)
             })
             this.betItemOnDrag = null;
         }
+
+        this.setDropHolderItem();
     }
 
     setDropHolderItem(item){

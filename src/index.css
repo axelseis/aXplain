@@ -80,12 +80,12 @@ body {
         background-color: rgba(255, 255, 255, 0.7);
         border: solid 1px black; }
       .League__Play .Play__bet .Play__bet-item.dropholder {
-        background-color: #d3bdbd; }
+        background-color: #e0fff5; }
         .League__Play .Play__bet .Play__bet-item.dropholder .Play__rider {
           opacity: 0.1;
           transition: opacity 0.15s; }
       .League__Play .Play__bet .Play__bet-item.initdragitem {
-        background-color: #e0fff5; }
+        background-color: #d3bdbd; }
         .League__Play .Play__bet .Play__bet-item.initdragitem .Play__rider {
           opacity: 0.2; }
       @media screen and (max-width: 600px) {

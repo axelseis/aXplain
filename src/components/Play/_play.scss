@@ -42,14 +42,14 @@
                 border: solid 1px black;
             }
             &.dropholder {
-                background-color: rgb(211, 189, 189);
+                background-color: rgb(224, 255, 245);
                 .Play__rider {
                     opacity: 0.1;
                     transition: opacity 0.15s
                 }
             }
             &.initdragitem{
-                background-color: rgb(224, 255, 245);
+                background-color: rgb(211, 189, 189);
                 .Play__rider{
                     opacity: 0.2
                 }

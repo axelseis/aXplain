@@ -100,9 +100,8 @@ export default class Component {
                 if (element.children.length) {
                     this._updateDomElement(oldElement,element)
                 }
-                if (element.innerHTML !== oldElement.innerHTML) {
+                else if (element.innerHTML.trim() !== oldElement.innerHTML.trim()) {
                     oldElement.innerHTML = element.innerHTML;
-
                 }
                 Array.from(element.attributes).forEach(attr => {
                     const oldAttr = oldElement.getAttribute(attr.name);
@@ -131,9 +130,9 @@ export default class Component {
 
         actNodes.forEach(element => {
             Array.from(element.attributes).forEach(attr => {
-                if (!attr.name.indexOf('on')) {
+                if (attr.name.indexOf('on') === 0) {
                     const tempFunc = this[attr.value];
-                    element.removeAttribute(attr.name);
+                    //element.removeAttribute(attr.name);
                     if (tempFunc) {
                         element[attr.name] = tempFunc.bind(this)
                     }
