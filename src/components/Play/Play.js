@@ -142,8 +142,11 @@ export default class Riders extends ShowHide(Component) {
             if (dropItem) {
                 dropItem.appendChild(dragItem)
             }
-            else {
+            else if(this.onDragItemInitPosition) {
                 this.onDragItemInitPosition.parentNode.insertBefore(dragItem, this.onDragItemInitPosition)
+            }
+            else {
+                document.querySelector('.Play__list').appendChild(dragItem)
             }
 
             const oldPos = newBet.indexOf(riderId);
@@ -252,7 +255,7 @@ export default class Riders extends ShowHide(Component) {
 
             this.setDropHolderItem(itemToDrop);
 
-            if (hasClass(this.onDragItemInitPosition.parentNode, 'Play__bet')) {
+            if (this.onDragItemInitPosition && hasClass(this.onDragItemInitPosition.parentNode, 'Play__bet')) {
                 Array.from(this.onDragItemInitPosition.getElementsByClassName('Play__rider')).forEach(element => {
                     this.onDragItemInitPosition.removeChild(element)
                 })
