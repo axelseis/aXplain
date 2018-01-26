@@ -143,7 +143,7 @@ export default class Riders extends ShowHide(Component) {
                 dropItem.appendChild(dragItem)
             }
             else {
-                this.$clip.getElementsByClassName('Play__list')[0].appendChild(dragItem)
+                this.onDragItemInitPosition.parentNode.insertBefore(dragItem, this.onDragItemInitPosition)
             }
 
             const oldPos = newBet.indexOf(riderId);

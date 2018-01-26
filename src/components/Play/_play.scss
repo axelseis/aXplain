@@ -125,19 +125,6 @@
                 margin-top: $riderListItemH;
             }
 
-            &.initdragitem {
-                margin-top: $riderListItemH;
-                &:before {
-                    content: '';
-                    position: absolute;
-                    bottom: 100%;
-                    height: $riderListItemH;
-                    background-color: rgb(248, 150, 150);
-                    width: 100%;
-                    left: 0;
-                }
-            }
-        
             .rider__drag {
                 content: '';
                 background-color: #ccc;
