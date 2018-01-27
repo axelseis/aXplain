@@ -113,6 +113,13 @@
         display: flex;
         flex-direction: column;
 
+        &.removedrop:before {
+            content: '';
+            background-color: blanchedalmond;
+            height: $riderListItemH;
+            width: 100%;
+        }
+
         .Play__rider {
             width: 100%;
             height: $riderListItemH;
@@ -197,6 +204,7 @@
                 margin: 2%;
                 box-sizing: border-box;                
             }
+
             .Play__rider { 
                 min-width: 85px;
                 width: 10%;
