@@ -8,6 +8,7 @@ import { actions, getRiders } from './actions.js'
 const INIT_DRAG_ITEM_CLASS = 'initdragitem';
 const DRAG_CLASS = 'ondrag';
 const DROP_CLASS = 'dropholder'
+const REMOVE_DROP_CLASS = 'removedrop'
 const BET_ITEMS_NUMBER = 15;
 const LIST_ITEM_HEIGHT = 40;
 export default class Riders extends ShowHide(Component) {
@@ -110,6 +111,7 @@ export default class Riders extends ShowHide(Component) {
 
     onMouseUp(ev) {
         const dropItem = this.dropHolderItem
+ console.log("dropItem ", dropItem);
         const dragItem = this.itemOnDrag;
 
         if (!dragItem) {
@@ -118,8 +120,10 @@ export default class Riders extends ShowHide(Component) {
 
         const riderId = parseInt(dragItem.getAttribute('riderId'))
         const newPos = getDOMElementIndex(dropItem);
+ console.log("newPos ", newPos);
 
         let newBet = [...this.props.bet];
+        let oldPos = newBet.indexOf(riderId);
 
         if (this.isListMode()) {
             newBet = newBet.filter(betItem => !!betItem)
@@ -129,16 +133,14 @@ export default class Riders extends ShowHide(Component) {
 
             if (dropItem) {
                 dropItem.parentNode.insertBefore(dragItem, dropItem)
+                oldPos = newBet.indexOf(riderId);
+                    newBet.splice(oldPos, 1)
+                    if(newPos < BET_ITEMS_NUMBER) newBet.splice(newPos, 0, riderId)
             }
             else {
                 document.querySelector('.Play__list').appendChild(dragItem)
             }
 
-            let oldPos = newBet.indexOf(riderId);
-            if (oldPos !== -1 && oldPos !== newPos) {
-                newBet.splice(oldPos, 1)
-                newBet.splice(newPos, 0, riderId)
-            }
         }
 
         else {
@@ -146,13 +148,17 @@ export default class Riders extends ShowHide(Component) {
                 dropItem.appendChild(dragItem)
             }
             else if(this.onDragItemInitPosition) {
-                this.onDragItemInitPosition.parentNode.insertBefore(dragItem, this.onDragItemInitPosition)
-            }
-            else {
-                document.querySelector('.Play__list').appendChild(dragItem)
+                if(newPos !== null || oldPos === -1) {
+                    this.onDragItemInitPosition.parentNode.insertBefore(dragItem, this.onDragItemInitPosition)
+                }
+                else {
+                    const listDiv = document.querySelector('.Play__list');
+                    console.log("document.querySelector('.Play__list') ", document.querySelector('.Play__list'));
+                    listDiv.insertBefore(dragItem, listDiv.children[0])
+                }
             }
 
-            const oldPos = newBet.indexOf(riderId);
+            oldPos = newBet.indexOf(riderId);
 
             newBet[oldPos] = newBet[newPos];
             newBet[newPos] = riderId
@@ -248,7 +254,10 @@ export default class Riders extends ShowHide(Component) {
 
     dragBetItem() {
         if (this.itemOnDrag) {
-            const betItems = this.$clip.querySelector(`.Play__bet`).children;
+            const mouseLeft = this.mousePosition.left + this.$clip.parentNode.scrollLeft
+            const listDiv = this.$clip.querySelector('.Play__list');
+            const betDiv = this.$clip.querySelector('.Play__bet');
+            const betItems = betDiv.children;
             const itemToDrop = Array.from(betItems).find((item) => {
                 return (
                     item.offsetTop + (parseInt(getComputedStyle(item).height)) > this.mousePosition.top
@@ -257,11 +266,14 @@ export default class Riders extends ShowHide(Component) {
             });
 
             this.setDropHolderItem(itemToDrop);
-
+            
             if (this.onDragItemInitPosition && hasClass(this.onDragItemInitPosition.parentNode, 'Play__bet')) {
                 Array.from(this.onDragItemInitPosition.getElementsByClassName('Play__rider')).forEach(element => {
                     this.onDragItemInitPosition.removeChild(element)
                 })
+                
+                removeClass(listDiv,REMOVE_DROP_CLASS)
+
                 if (this.dropHolderItem && this.dropHolderItem !== this.onDragItemInitPosition) {
                     const dropRider = this.dropHolderItem.getElementsByClassName('Play__rider')[0];
 
@@ -269,10 +281,14 @@ export default class Riders extends ShowHide(Component) {
                         this.onDragItemInitPosition.appendChild(dropRider.cloneNode(true))
                     }
                 }
+                else if(mouseLeft > getOffset(betDiv).width) {
+                    console.log('DESDE AKI')
+                    addClass(listDiv,REMOVE_DROP_CLASS)
+                }
             }
 
             this.itemOnDrag.style.top = this.mousePosition.top + this.$clip.parentNode.scrollTop + 'px';
-            this.itemOnDrag.style.left = this.mousePosition.left + this.$clip.parentNode.scrollLeft + 'px';
+            this.itemOnDrag.style.left = mouseLeft + 'px';
 
             requestAnimationFrame(this.dragBetItem.bind(this))
         }

@@ -186,8 +186,19 @@
             background-color: white;
             padding: 10px;
 
-            .Play__rider {
-                min-width: 90px;
+            &.removedrop:before {
+                content: '';
+                background-color: blanchedalmond;
+                min-width: 85px;
+                width: 10%;
+                min-height: 110px;
+                padding: 70px 10px 10px;
+                font-size: 12px;
+                margin: 2%;
+                box-sizing: border-box;                
+            }
+            .Play__rider { 
+                min-width: 85px;
                 width: 10%;
                 min-height: 110px;
                 padding: 70px 10px 10px;
