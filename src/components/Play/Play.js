@@ -39,6 +39,10 @@ export default class Riders extends ShowHide(Component) {
     stateToprops(state) {
         const newBet = [...state.user.bets[state.season.actEvent]]
         const { actOrder, initOrder } = { ...state.ridersOrders }
+        
+        while (newBet.length < 15){
+            newBet[newBet.length] = null
+        } 
 
         return {
             bet: newBet,
@@ -90,7 +94,6 @@ export default class Riders extends ShowHide(Component) {
         this.dragListItem(offsetY || getOffset(riderElement).height / 2);
     }
 
-
     onMouseDownBetMode(riderElement, offsetY) {
         
         let initItemDrag = riderElement.parentNode;
@@ -128,11 +131,11 @@ export default class Riders extends ShowHide(Component) {
                 dropItem.parentNode.insertBefore(dragItem, dropItem)
             }
             else {
-                this.$clip.getElementsByClassName('Play__list')[0].appendChild(dragItem)
+                document.querySelector('.Play__list').appendChild(dragItem)
             }
 
-            const oldPos = newBet.indexOf(riderId);
-            if (oldPos !== newPos) {
+            let oldPos = newBet.indexOf(riderId);
+            if (oldPos !== -1 && oldPos !== newPos) {
                 newBet.splice(oldPos, 1)
                 newBet.splice(newPos, 0, riderId)
             }
@@ -277,18 +280,19 @@ export default class Riders extends ShowHide(Component) {
 
     render() {
         const ridersList = this.props.actOrder;
+        const bet = this.props.bet;
 
         return (`
             <div class="Play__list">
                 ${ridersList.map((riderId, index) => {
-                if (this.isListMode() || this.props.bet.indexOf(parseInt(riderId)) === -1) {
+                if (this.isListMode() || bet.indexOf(parseInt(riderId)) === -1) {
                     return riderTpl(riderId, this.props.riders[riderId])
                 }
             }).join('')}
             </div>
             ${ !this.isListMode() ?
                 `<div class="Play__bet">
-                    ${this.props.bet.map((riderId, position) => {
+                    ${bet.map((riderId, position) => {
                     return betItemTpl(position, riderId, this.props.riders[riderId] || {})
                 }).join('')}
                 </div>` : `<div class="Play__bet-mobile">
