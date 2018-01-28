@@ -95,7 +95,6 @@ export default class Component {
         }
 
         newDomChildren.forEach((element, index) => {
-            
             const oldElement = oldDomChildren[index];
             
             if (!oldElement) {
@@ -120,11 +119,13 @@ export default class Component {
                         oldElement.setAttribute(attr.name, attr.value);
                     }
                 })
-                Array.from(oldElement.attributes || []).forEach(attr => {
-                    if (!element.attributes[attr.name]) {
-                        oldElement.removeAttribute(attr.name);
-                    }
-                })
+                if(oldElement.attributes.length > element.attributes.length){
+                    Array.from(oldElement.attributes || []).forEach(attr => {
+                        if (!element.attributes[attr.name]) {
+                            oldElement.removeAttribute(attr.name);
+                        }
+                    })
+                }
                 if (element.value !== oldElement.value) {
                     oldElement.value = element.value;
                 }
