@@ -45,29 +45,33 @@ export default class Component {
         return `Hello I'm ${this.name} and these are my props: ${this.props}`;
     }
 
-    renderTemplate($domElement, templateStr) {
+    renderTemplate($domElement, templateTpl) {
+        const templateStr = templateTpl;
+
         if(!$domElement || !isDOMElement($domElement)){
             throw new TypeError(`${this.type}: renderTemplate requires a DOMElement and you passed [${$domElement}]`)
         }
         if(!templateStr || !isString(templateStr)){
             throw new TypeError(`${this.type}: renderTemplate requires a string and you passed [${$domElement}]`)
         }
-
         if(!$domElement.children.length){
             $domElement.innerHTML = templateStr;
         }
         else{
-            const tempDom = document.createElement('div');
-            tempDom.innerHTML = templateStr;
+            const $tempDom = document.createElement('div');
+            $tempDom.innerHTML = templateStr;
 
-            if($domElement.innerHTML === tempDom.innerHTML){
+            if($domElement.innerHTML === $tempDom.innerHTML){
                 console.warn(
                     `${this.type}: the updated DOM provided to renderTemplate is equal than
                     actual DOM, maybe your stateToProps function is not well optimized`
                 )
             }
+            else if(!$tempDom.children.length){
+                $domElement.innerHTML = $tempDom.innerHTML
+            }
             else {
-                this._updateDomElement($domElement, tempDom);
+                this._updateDomElement($domElement, $tempDom);
             }
         }
 
@@ -82,38 +86,61 @@ export default class Component {
     }
 
     _updateDomElement(oldDom,newDom) {
-        const newDomChildren = Array.from(newDom.children);
-        const oldDomChildren = Array.from(oldDom.children);
+        const newDomChildren = Array.from(newDom.childNodes);
+        const oldDomChildren = Array.from(oldDom.childNodes);
+        const isTextNode = (node) => node.nodeType === Node.TEXT_NODE;
+
+        for (let iD = oldDomChildren.length-1; iD >= newDomChildren.length; iD--) {
+            oldDom.removeChild(oldDomChildren[iD]);
+        }
 
         newDomChildren.forEach((element, index) => {
+            
             const oldElement = oldDomChildren[index];
+            
             if (!oldElement) {
                 oldDom.appendChild(element.cloneNode(true));
             }
-            else if (element.nodeName !== oldElement.nodeName) {
-                oldElement.outerHTML = element.outerHTML
+            else if (
+                isTextNode(element) && isTextNode(oldElement)
+                && oldElement.nodeValue !== element.nodeValue
+            ) {
+                oldElement.nodeValue = element.nodeValue
             }
-            else if(element.outerHTML !== oldElement.outerHTML){
-                if (element.value !== oldElement.value) {
-                    oldElement.value = element.value;
-                }
-                if (element.children.length) {
-                    this._updateDomElement(oldElement,element)
-                }
-                else if (element.innerHTML.trim() !== oldElement.innerHTML.trim()) {
-                    oldElement.innerHTML = element.innerHTML;
-                }
-                Array.from(element.attributes).forEach(attr => {
+            else if(isTextNode(oldElement)){
+                oldDom.replaceChild(element.cloneNode(true),oldElement);
+            }
+            else if (element.nodeName !== oldElement.nodeName) {
+                oldElement.outerHTML = element.outerHTML || ''
+            }
+            else {
+                Array.from(element.attributes || []).forEach(attr => {
                     const oldAttr = oldElement.getAttribute(attr.name);
                     if (!oldAttr || oldAttr !== attr.value) {
                         oldElement.setAttribute(attr.name, attr.value);
                     }
                 })
+                Array.from(oldElement.attributes || []).forEach(attr => {
+                    if (!element.attributes[attr.name]) {
+                        oldElement.removeAttribute(attr.name);
+                    }
+                })
+                if (element.value !== oldElement.value) {
+                    oldElement.value = element.value;
+                }
+                if (element.childNodes.length) {
+                    this._updateDomElement(oldElement,element)
+                }
+                if (element.innerHTML.replace(/\s+/g, '') !== oldElement.innerHTML.replace(/\s+/g, '')) {
+                    console.warn(`
+                        Need to force innerHTML substitution :(,\n
+                            OLDER: ${oldElement.innerHTML.replace(/\s+/g, '')} \n
+                            NEW: ${element.innerHTML.replace(/\s+/g, '')}
+                        `);
+                    oldElement.innerHTML = element.innerHTML;
+                }
             }
         })
-        for (let iD = oldDomChildren.length-1; iD >= newDomChildren.length; iD--) {
-            oldDom.removeChild(oldDomChildren[iD]);
-        }
     }
 
     _onChangeState() {

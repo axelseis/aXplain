@@ -1,6 +1,7 @@
 import { jest } from 'jest';
 import Component from '../src/lib/Component'
 import { state, initStore, dispatch, dispatchAction } from '../src/lib/store.js';
+import { DOMUpdates } from './DOMUpdates.js';
 
 let tempComponent, $tempClip;
 
@@ -11,17 +12,17 @@ const UNIQUE_PROP = 'UNIQUE_PROP';
 const FAKE_CLASS = 'FAKE_CLASS';
 const FAKE_ONCLICK = 'FAKE_ONCLICK';
 const CONTENT_INIT = 'CONTENT_INIT';
-const CONTENT_UPDATE = 'content updated'
+const CONTENT_UPDATE = DOMUpdates;
 
 const fakeString = 'Esto es el fake content';
 
 const fakeDOMString = (newClass, newInnerHTML, clickEvent) => (`
-    <div class="${newClass}"${clickEvent ? ` onclick=${clickEvent}` : ''}>${newInnerHTML}</div>;
-`)
+    <div class="${newClass}"${clickEvent ? ` onclick=${clickEvent}` : ''}>${newInnerHTML}</div>
+`).trim();
 
 const fakeDOMInit = fakeDOMString(FAKE_CLASS, CONTENT_INIT);
 const fakeDOMClick = fakeDOMString(FAKE_CLASS, CONTENT_INIT, FAKE_ONCLICK)
-const fakeDOMUpdated = fakeDOMString(FAKE_CLASS, CONTENT_UPDATE)
+const fakeDOMUpdated = fakeDOMString(FAKE_CLASS, CONTENT_UPDATE[0])
 
 const fakeReducers = {
     setProps: (state, payload) => ({
@@ -43,13 +44,13 @@ beforeAll(() => {
         <div class="${SHARED_CLASS}"></div>
         <div class="${SHARED_CLASS}"></div>
     `
-
     document.body.appendChild($tempClip);
 })
 
 beforeEach(() => {
     initStore(fakeReducers, fakeState)
     if(tempComponent && tempComponent.dispose){
+        const tem = tempComponent.$clip;
         tempComponent.$clip.innerHTML = ''
         tempComponent.dispose();
         tempComponent = null;
@@ -106,10 +107,15 @@ describe(`_updateDomElement(oldDom,newDom), called internally when renderTemplat
     describe(`do not replace domElements, only updates their contents`, () => {
         test('the innerHTML if has changed', () => {
             tempComponent.renderTemplate(tempComponent.$clip, fakeDOMInit)
-            const tempNode = tempComponent.$clip.querySelector(`.${FAKE_CLASS}`)
-
-            tempComponent.renderTemplate(tempComponent.$clip, fakeDOMUpdated)
-            expect(tempNode.innerHTML).toEqual(CONTENT_UPDATE)
+            var baseDom = document.createElement('div');
+            
+            CONTENT_UPDATE.forEach(update => {
+                tempComponent.renderTemplate(
+                    tempComponent.$clip, 
+                    update
+                )
+                expect(tempComponent.$clip.innerHTML).toEqual(update)
+            })
         })
         test('the value of each attribute that has different value', () => {
             tempComponent.renderTemplate(tempComponent.$clip, fakeDOMInit)
@@ -141,10 +147,10 @@ describe(`_updateDomElement(oldDom,newDom), called internally when renderTemplat
             tempComponent.renderTemplate(tempComponent.$clip, oldDomLotOfChildren)
             expect(tempComponent.$clip.children.length).toEqual(3)
             const firstChild = tempComponent.$clip.children[0]
-
+            
             tempComponent.renderTemplate(tempComponent.$clip, oldDomLessChildren)
             expect(tempComponent.$clip.children.length).toEqual(1)
-
+            
             expect(firstChild.innerHTML).toEqual(CONTENT_INIT)
         })
     })

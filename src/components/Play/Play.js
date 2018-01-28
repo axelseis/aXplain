@@ -117,6 +117,8 @@ export default class Riders extends ShowHide(Component) {
             return;
         }
 
+        dragItem.removeAttribute('style');
+        
         const riderId = parseInt(dragItem.getAttribute('riderId'))
         const newPos = getDOMElementIndex(dropItem);
 
@@ -152,6 +154,9 @@ export default class Riders extends ShowHide(Component) {
                     const listDiv = document.querySelector('.Play__list');
                     listDiv.insertBefore(dragItem, listDiv.children[0])
                 }
+            }
+            else {
+                document.querySelector('.Play__list').appendChild(dragItem)
             }
 
             oldPos = newBet.indexOf(riderId);
