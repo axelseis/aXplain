@@ -1,5 +1,5 @@
 import { state } from './store.js';
-import { isDOMElement, isString } from './utils.js'
+import { isDOMElement, isString, cleanChildNodes } from './utils.js'
 import { actions } from './actions.js';
 
 export default class Component {
@@ -7,13 +7,13 @@ export default class Component {
     constructor(className) {
         const DOMElement = document.querySelectorAll(`.${className}`);
 
-        if(DOMElement.length > 1) {
+        if (DOMElement.length > 1) {
             throw new Error(`${this.type}:
             A Component needs a unique DOM Element to initialize,
             there are ${DOMElement.length} '${className}' at DOM`)
         }
 
-        if(!DOMElement.length) {
+        if (!DOMElement.length) {
             throw new Error(`${this.type}:
                 Component needs to be initializated with a single DOMElement,
                 there are not any '${className}' at DOM`)
@@ -28,16 +28,16 @@ export default class Component {
         document.addEventListener('state', this._stateListener)
     }
 
-    get name(){
+    get name() {
         return this._name;
     }
 
-    get type(){
+    get type() {
         return this.constructor.name
     }
 
     stateToprops(state) {
-        const componentState = (state.Components||[])[this.name]
+        const componentState = (state.Components || [])[this.name]
         return { ...componentState };
     }
 
@@ -48,26 +48,26 @@ export default class Component {
     renderTemplate($domElement, templateTpl) {
         const templateStr = templateTpl.replace(/(?:\r\n|\r|\n)/g, '');
 
-        if(!$domElement || !isDOMElement($domElement)){
+        if (!$domElement || !isDOMElement($domElement)) {
             throw new TypeError(`${this.type}: renderTemplate requires a DOMElement and you passed [${$domElement}]`)
         }
-        if(!templateStr || !isString(templateStr)){
+        if (!templateStr || !isString(templateStr)) {
             throw new TypeError(`${this.type}: renderTemplate requires a string and you passed [${$domElement}]`)
         }
-        if(!$domElement.children.length){
+        if (!$domElement.children.length) {
             $domElement.innerHTML = templateStr;
         }
-        else{
+        else {
             const $tempDom = document.createElement('div');
             $tempDom.innerHTML = templateStr;
 
-            if($domElement.innerHTML === $tempDom.innerHTML){
+            if ($domElement.innerHTML === $tempDom.innerHTML) {
                 console.warn(
                     `${this.type}: the updated DOM provided to renderTemplate is equal than
                     actual DOM, maybe your stateToProps function is not well optimized`
                 )
             }
-            else if(!$tempDom.children.length){
+            else if (!$tempDom.children.length) {
                 $domElement.innerHTML = $tempDom.innerHTML
             }
             else {
@@ -85,18 +85,21 @@ export default class Component {
         }
     }
 
-    _updateDomElement(oldDom,newDom) {
-        const newDomChildren = Array.from(newDom.children);
-        const oldDomChildren = Array.from(oldDom.children);
+    _updateDomElement(oldDom, newDom) {
+        cleanChildNodes(oldDom)
+        cleanChildNodes(newDom)
+
+        const newDomChildren = Array.from(newDom.childNodes);
+        const oldDomChildren = Array.from(oldDom.childNodes);
         const isTextNode = (node) => node.nodeType === Node.TEXT_NODE;
 
-        for (let iD = oldDomChildren.length-1; iD >= newDomChildren.length; iD--) {
+        for (let iD = oldDomChildren.length - 1; iD >= newDomChildren.length; iD--) {
             oldDom.removeChild(oldDomChildren[iD]);
         }
 
         newDomChildren.forEach((element, index) => {
             const oldElement = oldDomChildren[index];
-            
+
             if (!oldElement) {
                 oldDom.appendChild(element.cloneNode(true));
             }
@@ -106,21 +109,21 @@ export default class Component {
             ) {
                 oldElement.nodeValue = element.nodeValue
             }
-            else if(isTextNode(oldElement)){
-                oldDom.replaceChild(element.cloneNode(true),oldElement);
+            else if (isTextNode(oldElement) && !isTextNode(element)) {
+                oldDom.replaceChild(element.cloneNode(true), oldElement);
             }
             else if (element.nodeName !== oldElement.nodeName) {
                 oldElement.outerHTML = element.outerHTML || ''
                 console.warn(`different nodeName ${oldElement.nodeName} != ${element.nodeName}`);
             }
-            else if (element.outerHTML !== oldElement.outerHTML){
+            else if (element.outerHTML !== oldElement.outerHTML) {
                 Array.from(element.attributes || []).forEach(attr => {
                     const oldAttr = oldElement.getAttribute(attr.name);
                     if (!oldAttr || oldAttr !== attr.value) {
                         oldElement.setAttribute(attr.name, attr.value);
                     }
                 })
-                if(oldElement.attributes.length > element.attributes.length){
+                if (oldElement.attributes.length > element.attributes.length) {
                     Array.from(oldElement.attributes || []).forEach(attr => {
                         if (!element.attributes[attr.name]) {
                             oldElement.removeAttribute(attr.name);
@@ -130,24 +133,21 @@ export default class Component {
                 if (element.value !== oldElement.value) {
                     oldElement.value = element.value;
                 }
-                if (element.children.length) {
-                    this._updateDomElement(oldElement,element)
-                }
-                else if(element.innerText != oldElement.innerText){
-                    oldElement.innerText = element.innerText;
-                }
-
-                //Security check
-                if (element.innerHTML.replace(/\s+/g, '') !== oldElement.innerHTML.replace(/\s+/g, '')) {
-                    console.warn(`
-                        Force innerHTML substitution :(
-                            OLD: ${oldElement.innerHTML.replace(/\s+/g, '')}
-                            NEW: ${element.innerHTML.replace(/\s+/g, '')}
-                        `);
-                    oldElement.innerHTML = element.innerHTML;
+                if (element.childNodes.length) {
+                    this._updateDomElement(oldElement, element)
                 }
             }
         })
+
+        //Security check
+        if (newDom.innerHTML.replace(/\s+/g, '') !== oldDom.innerHTML.replace(/\s+/g, '')) {
+            console.warn(`
+                    Force innerHTML substitution :(
+                        OLD: ${oldDom.innerHTML.replace(/\s+/g, '')}
+                        NEW: ${newDom.innerHTML.replace(/\s+/g, '')}
+                    `);
+            oldDom.innerHTML = newDom.innerHTML;
+        }
     }
 
     _onChangeState() {
@@ -158,7 +158,7 @@ export default class Component {
             this.forceRender();
         }
     }
-    
+
     _setDomEvents($domElement) {
         const actNodes = Array.from($domElement.querySelectorAll('*'));
 
@@ -179,7 +179,7 @@ export default class Component {
     }
 
     dispose(){
-        document.removeEventListener('state',this._stateListener);
+        document.removeEventListener('state', this._stateListener);
         for (let prop in this) {
             this[prop] = null;
             delete this[prop]

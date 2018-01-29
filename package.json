@@ -12,6 +12,7 @@
     "build:parcel": "parcel build index.prod.html --public-url ./",
     "build:css": "node-sass-chokidar src/ -o src/ --recursive --source-map true",
     "build": "npm-run-all -p build:*",
+    "debug-prod": "npm-run-all --parallel dev-css prod",
     "prod": "parcel index.prod.html"
   },
   "repository": {
