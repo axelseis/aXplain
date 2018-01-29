@@ -86,8 +86,8 @@ export default class Component {
     }
 
     _updateDomElement(oldDom,newDom) {
-        const newDomChildren = Array.from(newDom.childNodes);
-        const oldDomChildren = Array.from(oldDom.childNodes);
+        const newDomChildren = Array.from(newDom.children);
+        const oldDomChildren = Array.from(oldDom.children);
         const isTextNode = (node) => node.nodeType === Node.TEXT_NODE;
 
         for (let iD = oldDomChildren.length-1; iD >= newDomChildren.length; iD--) {
@@ -112,7 +112,7 @@ export default class Component {
             else if (element.nodeName !== oldElement.nodeName) {
                 oldElement.outerHTML = element.outerHTML || ''
             }
-            else {
+            else if (element.outerHTML !== oldElement.outerHTML){
                 Array.from(element.attributes || []).forEach(attr => {
                     const oldAttr = oldElement.getAttribute(attr.name);
                     if (!oldAttr || oldAttr !== attr.value) {
@@ -129,13 +129,18 @@ export default class Component {
                 if (element.value !== oldElement.value) {
                     oldElement.value = element.value;
                 }
-                if (element.childNodes.length) {
+                if (element.children.length) {
                     this._updateDomElement(oldElement,element)
                 }
+                else if(element.innerText != oldElement.innerText){
+                    oldElement.innerText = element.innerText;
+                }
+
+                //Security check
                 if (element.innerHTML.replace(/\s+/g, '') !== oldElement.innerHTML.replace(/\s+/g, '')) {
                     console.warn(`
-                        Need to force innerHTML substitution :(,\n
-                            OLDER: ${oldElement.innerHTML.replace(/\s+/g, '')} \n
+                        Force innerHTML substitution :(,\n
+                            OLD: ${oldElement.innerHTML.replace(/\s+/g, '')} \n
                             NEW: ${element.innerHTML.replace(/\s+/g, '')}
                         `);
                     oldElement.innerHTML = element.innerHTML;

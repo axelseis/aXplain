@@ -114,7 +114,7 @@ describe(`_updateDomElement(oldDom,newDom), called internally when renderTemplat
                     tempComponent.$clip, 
                     update
                 )
-                expect(tempComponent.$clip.innerHTML).toEqual(update)
+                expect(tempComponent.$clip.innerHTML.replace(/\s+/g, '')).toEqual(update.replace(/\s+/g, ''))
             })
         })
         test('the value of each attribute that has different value', () => {
