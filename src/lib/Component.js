@@ -111,6 +111,7 @@ export default class Component {
             }
             else if (element.nodeName !== oldElement.nodeName) {
                 oldElement.outerHTML = element.outerHTML || ''
+                console.warn(`different nodeName ${oldElement.nodeName} != ${element.nodeName}`);
             }
             else if (element.outerHTML !== oldElement.outerHTML){
                 Array.from(element.attributes || []).forEach(attr => {
@@ -139,8 +140,8 @@ export default class Component {
                 //Security check
                 if (element.innerHTML.replace(/\s+/g, '') !== oldElement.innerHTML.replace(/\s+/g, '')) {
                     console.warn(`
-                        Force innerHTML substitution :(,\n
-                            OLD: ${oldElement.innerHTML.replace(/\s+/g, '')} \n
+                        Force innerHTML substitution :(
+                            OLD: ${oldElement.innerHTML.replace(/\s+/g, '')}
                             NEW: ${element.innerHTML.replace(/\s+/g, '')}
                         `);
                     oldElement.innerHTML = element.innerHTML;
