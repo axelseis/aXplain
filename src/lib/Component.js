@@ -46,7 +46,7 @@ export default class Component {
     }
 
     renderTemplate($domElement, templateTpl) {
-        const templateStr = templateTpl;
+        const templateStr = templateTpl.replace(/(?:\r\n|\r|\n)/g, '');
 
         if(!$domElement || !isDOMElement($domElement)){
             throw new TypeError(`${this.type}: renderTemplate requires a DOMElement and you passed [${$domElement}]`)
