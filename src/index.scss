@@ -1,15 +1,22 @@
 
-$riderListItemH: 40px;
-$menuH: 50px;
+@import "components/animations.scss";
+@import "motogp/motogp_base.scss";
+@import "components/common/gpbutton.scss";
+@import "components/Header/header.scss";
+@import "components/Landing/scrollbars.scss";
+@import "components/Landing/landing.scss";
+@import "components/Enjoy/enjoy.scss";
+@import "components/Feed/feed.scss";
+@import "components/Multiscreen/multiscreen.scss";
+@import "components/Highlights/highlights.scss";
+@import "components/Quality/quality.scss";
+@import "components/Replay/replay.scss";
+@import "components/Sound/sound.scss";
+@import "components/Nospoiler/nospoiler.scss";
+@import "components/Library/Library.scss";
+@import "components/Devices/Devices.scss";
+@import "components/Footer/Footer.scss";
 
-@import "components/League/league.scss";
-@import "components/Play/play.scss";
-@import "components/Results/results.scss";
-
-body {
-    font-size: 14px;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
-}
-*{
-    box-sizing: border-box;
+body,html {
+    min-height: 100%;
 }

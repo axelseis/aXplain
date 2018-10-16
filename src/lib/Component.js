@@ -1,11 +1,24 @@
 import { state } from './store.js';
-import { isDOMElement, isString, cleanChildNodes } from './utils.js'
-import { actions } from './actions.js';
+import { isDOMElement, isString, cleanChildNodes, getAllAttributes, aXplainWarn, mapEvent } from './utils.js'
+
+const uniqueNames = [];
+function getUniqueName(name){
+    const origName = name;
+    let index = 0;
+    while (uniqueNames.indexOf(name) != -1){
+        name = origName + index++
+    }
+    uniqueNames.push(name);
+    return name;
+}
+
+const isTextNode = (node) => node.nodeType === Node.TEXT_NODE;
 
 export default class Component {
 
-    constructor(className) {
-        const DOMElement = document.querySelectorAll(`.${className}`);
+    constructor(initiator, classes2Render) {
+        const className = isDOMElement(initiator) ? this.constructor.name : initiator || this.constructor.name;
+        const DOMElement = isDOMElement(initiator) ? [initiator] : document.querySelectorAll(`.${className}`);
 
         if (DOMElement.length > 1) {
             throw new Error(`${this.type}:
@@ -20,12 +33,17 @@ export default class Component {
         }
 
         this.$clip = DOMElement[0];
-        this._name = className;
+        this._name = getUniqueName(className);
+        this._classes2Render = classes2Render || [];
+        this.props = {};
+        this.domProps = {};
 
-        this.props = this.stateToprops(state);
+        this._components = {};
 
         this._stateListener = this._onChangeState.bind(this);
-        document.addEventListener('state', this._stateListener)
+        document.addEventListener('state', this._stateListener);
+
+        this._stateListener();
     }
 
     get name() {
@@ -34,6 +52,10 @@ export default class Component {
 
     get type() {
         return this.constructor.name
+    }
+
+    getAppProp(propName){
+        return (state.App || {})[propName];
     }
 
     stateToprops(state) {
@@ -46,7 +68,8 @@ export default class Component {
     }
 
     renderTemplate($domElement, templateTpl) {
-        const templateStr = templateTpl.replace(/(?:\r\n|\r|\n)/g, '');
+        const templateStr = templateTpl.replace(/(?:\r\n|\r|\n)/g, '')
+                                        .replace(/onload=/g, 'onload_axplain=');
 
         if (!$domElement || !isDOMElement($domElement)) {
             throw new TypeError(`${this.type}: renderTemplate requires a DOMElement and you passed [${$domElement}]`)
@@ -62,9 +85,9 @@ export default class Component {
             $tempDom.innerHTML = templateStr;
 
             if ($domElement.innerHTML === $tempDom.innerHTML) {
-                console.warn(
+                aXplainWarn(
                     `${this.type}: the updated DOM provided to renderTemplate is equal than
-                    actual DOM, maybe your stateToProps function is not well optimized`
+                    actual DOM, maybe our stateToProps function is not well optimized`
                 )
             }
             else if (!$tempDom.children.length) {
@@ -80,68 +103,107 @@ export default class Component {
 
     forceRender() {
         const tmpStr = this.render();
+
         if (tmpStr) {
             this.renderTemplate(this.$clip, tmpStr)
+            if(this._classes2Render && this._classes2Render.length){
+                requestAnimationFrame(() => {
+                    this._initSubcomponents();
+                })
+            }
+            if(!!this.onEndRender){
+                requestAnimationFrame(() => {
+                    this.onEndRender();
+                })
+            }
         }
+    }
+
+    _initSubcomponents(){
+        this._components = this._components || [];
+
+        this._classes2Render.map(classFunc => {
+            const className = classFunc.prototype.constructor.name;
+            const elements = this.$clip.querySelectorAll(className.toLowerCase());
+            
+            Object.keys(elements).forEach((id,index) => {
+                const tempName = elements[id].getAttribute('id') || className + index;
+                if(!this._components[tempName] || this._components[tempName].$clip !== elements[id]){
+                    elements[id].setAttribute('id', tempName);
+                    this._components[tempName] = new classFunc(elements[id]);
+                }
+                else {
+                    this._components[tempName]._onChangeState()
+                }
+            });
+        })
+    }
+
+    _isSubcomponent(element){
+        return this._classes2Render.find(classFunc => classFunc.prototype.constructor.name.toLowerCase() === element.nodeName.toLowerCase())
     }
 
     _updateDomElement(oldDom, newDom) {
         cleanChildNodes(oldDom)
         cleanChildNodes(newDom)
 
-        const newDomChildren = Array.from(newDom.childNodes);
-        const oldDomChildren = Array.from(oldDom.childNodes);
-        const isTextNode = (node) => node.nodeType === Node.TEXT_NODE;
-
-        for (let iD = oldDomChildren.length - 1; iD >= newDomChildren.length; iD--) {
-            oldDom.removeChild(oldDomChildren[iD]);
+        if(oldDom && !isTextNode(oldDom) && this._isSubcomponent(oldDom)){
+            newDom.innerHTML = oldDom.innerHTML;
         }
-
-        newDomChildren.forEach((element, index) => {
-            const oldElement = oldDomChildren[index];
-
-            if (!oldElement) {
-                oldDom.appendChild(element.cloneNode(true));
+        else {
+            const newDomChildren = Array.from(newDom.childNodes);
+            const oldDomChildren = Array.from(oldDom.childNodes);
+    
+            for (let iD = oldDomChildren.length - 1; iD >= newDomChildren.length; iD--) {
+                oldDom.removeChild(oldDomChildren[iD]);
             }
-            else if (
-                isTextNode(element) && isTextNode(oldElement)
-                && oldElement.nodeValue !== element.nodeValue
-            ) {
-                oldElement.nodeValue = element.nodeValue
-            }
-            else if (isTextNode(oldElement) && !isTextNode(element)) {
-                oldDom.replaceChild(element.cloneNode(true), oldElement);
-            }
-            else if (element.nodeName !== oldElement.nodeName) {
-                oldElement.outerHTML = element.outerHTML || ''
-                console.warn(`different nodeName ${oldElement.nodeName} != ${element.nodeName}`);
-            }
-            else if (element.outerHTML !== oldElement.outerHTML) {
-                Array.from(element.attributes || []).forEach(attr => {
-                    const oldAttr = oldElement.getAttribute(attr.name);
-                    if (!oldAttr || oldAttr !== attr.value) {
-                        oldElement.setAttribute(attr.name, attr.value);
-                    }
-                })
-                if (oldElement.attributes.length > element.attributes.length) {
-                    Array.from(oldElement.attributes || []).forEach(attr => {
-                        if (!element.attributes[attr.name]) {
-                            oldElement.removeAttribute(attr.name);
+    
+            newDomChildren.forEach((element, index) => {
+                let oldElement = oldDomChildren[index];
+                
+                if (!oldElement) {
+                    oldElement = element.cloneNode(true);
+                    oldDom.appendChild(oldElement);
+                }
+                else if (
+                    isTextNode(element) && isTextNode(oldElement)
+                    && oldElement.nodeValue !== element.nodeValue
+                ) {
+                    oldElement.nodeValue = element.nodeValue
+                }
+                else if (isTextNode(oldElement) && !isTextNode(element)) {
+                    oldDom.replaceChild(element.cloneNode(true), oldElement);
+                }
+                else if (element.nodeName !== oldElement.nodeName) {
+                    oldElement.outerHTML = element.outerHTML || ''
+                }
+                else if (element.outerHTML !== oldElement.outerHTML) {
+                    Array.from(element.attributes || []).forEach(attr => {
+                        const oldAttr = oldElement.getAttribute(attr.name);
+                        if (!oldAttr || oldAttr !== attr.value) {
+                            oldElement.setAttribute(attr.name, attr.value);
                         }
                     })
+                    if (oldElement.attributes.length > element.attributes.length) {
+                        Array.from(oldElement.attributes || []).forEach(attr => {
+                            if (!element.attributes[attr.name]) {
+                                oldElement.removeAttribute(attr.name);
+                            }
+                        })
+                    }
+                    if (element.value !== oldElement.value) {
+                        oldElement.value = element.value;
+                    }
+                    if (element.childNodes.length || oldElement.childNodes.length) {
+                        this._updateDomElement(oldElement, element)
+                    }
                 }
-                if (element.value !== oldElement.value) {
-                    oldElement.value = element.value;
-                }
-                if (element.childNodes.length) {
-                    this._updateDomElement(oldElement, element)
-                }
-            }
-        })
+            })
+        }
 
         //Security check
         if (newDom.innerHTML.replace(/\s+/g, '') !== oldDom.innerHTML.replace(/\s+/g, '')) {
-            console.warn(`
+            aXplainWarn(`
                     Force innerHTML substitution :(
                         OLD: ${oldDom.innerHTML.replace(/\s+/g, '')}
                         NEW: ${newDom.innerHTML.replace(/\s+/g, '')}
@@ -149,11 +211,14 @@ export default class Component {
             oldDom.innerHTML = newDom.innerHTML;
         }
     }
-
+    
     _onChangeState() {
-        const newProps = this.stateToprops(state) || {};
+        const newProps = this.stateToprops(state) || null;
+        const newDomProps = getAllAttributes(this.$clip);
 
-        if (JSON.stringify(this.props) !== JSON.stringify(newProps)) {
+        if (newProps && JSON.stringify(this.props) !== JSON.stringify(newProps) ||
+            newDomProps && JSON.stringify(this.domProps) !== JSON.stringify(newDomProps)) {
+            this.domProps = newDomProps;
             this.props = newProps;
             this.forceRender();
         }
@@ -164,11 +229,17 @@ export default class Component {
 
         actNodes.forEach(element => {
             Array.from(element.attributes).forEach(attr => {
-                if (attr.name.indexOf('on') === 0) {
+                if(attr.name === 'id'){
+                    this[`$${attr.value}`] = element
+                }
+                else if (attr.value != '' && attr.name.indexOf('on') === 0) {
                     const tempFunc = this[attr.value];
-                    //element.removeAttribute(attr.name);
                     if (tempFunc) {
-                        element[attr.name] = tempFunc.bind(this)
+                        if(attr.name.indexOf('_axplain') !== -1){
+                            element.removeAttribute(attr.name)
+                        }
+                        const validEvent = 'on' + mapEvent(attr.name.replace('_axplain','').slice(2));
+                        element[validEvent] = tempFunc.bind(this)
                     }
                     else {
                         throw new Error(`function ${attr.value} do not exists in ${this.name}`)
@@ -186,3 +257,4 @@ export default class Component {
         }
     }
 }
+

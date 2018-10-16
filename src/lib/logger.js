@@ -1,7 +1,13 @@
 import { state } from './store.js'
 
-document.addEventListener('state', (ev) => {
-    console.groupCollapsed(ev.detail.type, ev.detail.payload)
-    console.log('state:', state)
-    console.groupEnd();
-})
+if(window.env && env === 'dev'){
+    document.addEventListener('state', (ev) => {
+        const type = ev.detail.type;
+        if(type.indexOf('nolog') === -1){
+            console.groupCollapsed(type, ev.detail.payload)
+            console.log('state:', state)
+            console.groupEnd();
+        }
+    })
+}
+

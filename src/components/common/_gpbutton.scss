@@ -1,0 +1,100 @@
+$blue-color: #0076B3;
+$blue_hover-color: #005580;
+$red-color: #C5003E;
+$red_hover-color: #9F0032;
+$green-color: #5CB85C;
+$green_hover-color: #469E46;
+
+.gpbutton {
+    position: relative;
+    min-width: 160px;
+    min-height: 40px;
+    line-height: 20px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 18px;
+    background-color: $blue-color;
+    font-weight: 300;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+    overflow: hidden;
+    animation-delay: 2.54s;
+    text-transform: capitalize;
+
+    &--S {
+        width: 107px;
+        height: 29px;
+        line-height: 29px;
+    }
+
+    &--green {
+        background-color: $green-color;
+        .gpbutton__hover {
+            background-color: $green_hover-color;
+        }
+    }
+
+    &--red {
+        background-color: $red-color;
+        &:hover {
+            background-color: $red_hover-color;
+        }
+    }
+
+    &__hover {
+        background-color: $blue_hover-color;
+        transform: translateY(-51%)
+                   translateX(-51%)
+                   scale(1.2);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: 2;
+        border-radius: 50%;
+        width: 0;
+        pointer-events: none;
+        
+        &:before {
+            position: relative;
+            content: '';
+            display: block;
+            margin-top: 100%;
+        }
+        
+        &.hover--true {
+            animation: hover 0.678s forwards;
+        }
+        &.hover--false {
+            animation: mouseout 0.278s forwards;
+        }
+    }
+
+    &__label {
+        position: relative;
+        z-index: 3;
+        pointer-events: none;
+    }
+}
+
+@keyframes hover {
+    0% {
+        width: 0%;
+    }
+    100% {
+        top: 50%;
+        left: 50%;
+        width: 100%;
+    }
+}
+
+@keyframes mouseout {
+    0% {
+        width: inherit;
+    }
+    100% {
+        width: 0%;
+        opacity: 0;
+    }
+}
+

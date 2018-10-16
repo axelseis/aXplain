@@ -1,3 +1,5 @@
+import "./Function.name.js"
+import "./Element.children.js"
 import "./Array.find.js"
 import "./Array.from.js"
 import "./CustomEvent.js"

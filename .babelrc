@@ -1,18 +1,6 @@
 {
-    "presets": [
-      [
-        "env",
-        {
-          "targets": {
-            "browsers": [
-              "ie >= 11"
-            ]
-          },
-          "exclude": ["transform-async-to-generator", "transform-regenerator"],
-          "loose": true
-        }
-      ]
-    ],
+    "presets": ["env"],
+    "sourceMaps": true,
     "plugins": [
       "transform-object-rest-spread"
     ]

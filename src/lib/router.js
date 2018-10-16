@@ -1,29 +1,51 @@
 import { state, dispatch } from './store.js';
-import { setLocation } from './actions.js';
+import { setLocation, setRoutes } from './actions.js';
 
 let routes = [];
+let BASE_URL = '';
 
 export function initRouter(routesArr){
+    BASE_URL = window.BASE_URL || '';
     routes = [...routesArr] || [{url:'/'}];
+    dispatch(setRoutes(routes))
 }
 
-export function go(url2go){
+export function go(url2go, addToHistory = true){
+    if(url2go !== state.router.url && setStateLocation(url2go)){
+        const func = addToHistory ? 'pushState' : 'replaceState';
+        history[func](null, '', BASE_URL + url2go);
+    }
+}
+
+export function goOut(url2go, newTab){
+    if(newTab){
+        window.open(url2go, '_system');
+    }
+    else {
+        location.assign(url2go);
+    }
+}
+
+function setStateLocation(url2go){
     let url = url2go || routes[0].url;
     const routeMatch = _matchRoute(url);
 
     if(routeMatch){
+        if(routeMatch.redirect){
+            go(routeMatch.redirect)
+            return false;
+        }
         const {url: urlMatch, ...props} = {...routeMatch}
         const params = _getParams(url, routeMatch.url);
 
-        url = routeMatch.redirect || url;
+        dispatch(setLocation(url2go, url, props, params))
 
-        history.pushState(null, '', url);
-        dispatch(setLocation(url, props, params))
+        return true;
     }
     else {
         const route404 = _matchRoute('404')
         if(route404){
-            go('404')
+            setStateLocation('404')
         }
         else {
             throw(new Error(`
@@ -31,6 +53,8 @@ export function go(url2go){
                 ${routes.map((route) => ` ${route.url} `).join('')}
             `))
         }
+
+        return false
     }
 }
 
@@ -55,4 +79,8 @@ function _getParams(url, urlMatch){
     }
 
     return params
+}
+
+window.onpopstate = (ev) => {
+    setStateLocation(window.location.pathname)
 }
