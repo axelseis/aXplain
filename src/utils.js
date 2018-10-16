@@ -1,14 +1,5 @@
 const isAxelServer = true;
 
-export function getAPIServer() {
-    const key = '361410381e0bb1885ee6ad24c0348007';
-    const method = 'flickr.photos.search';
-    const format = 'json';
-    const text = "archdaily";
-
-    return `https://www.flickr.com/services/rest/?method=${method}&format=${format}&text=${text}&api_key=${key}&nojsoncallback=?`;
-}
-
 export function getAssetsFolder(){
     return window.ASSETS_FOLDER || './';
 }
