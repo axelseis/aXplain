@@ -1,8 +1,8 @@
 {
 	"version": 3,
-	"file": "index.css",
+	"file": "main.css",
 	"sources": [
-		"src/index.scss",
+		"src/main.scss",
 		"src/components/_animations.scss",
 		"src/components/common/_gpbutton.scss",
 		"src/components/Gallery/_scrollbars.scss",
