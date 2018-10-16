@@ -1,13 +1,14 @@
 import Component from '../../lib/Component.js'
 import {mapEvent} from '../../lib/utils.js'
-import {getImages, setWindowSize, setScrollPos} from './actions.js';
-
+import {setWindowSize, setScrollPos} from './actions.js';
+import { parseStringToHTML } from '../../utils.js';
+import Photo from '../Photo/Photo.js';
 import Loader from './Loader.js';
 
 export default class Landing extends Component {
 
     constructor(className) {
-        super(className);
+        super(className, [Photo]);
 
         this.inited = false;
         
@@ -16,7 +17,6 @@ export default class Landing extends Component {
 
         setWindowSize();
         setScrollPos(this.$clip);
-        getImages(1);
     }
 
     stateToprops(state) {
@@ -41,7 +41,7 @@ export default class Landing extends Component {
         
         return (`
             <style>
-                .Gallery__image {
+                .Gallery__photo {
                     width: ${this.props.imageW}px;
                     height: ${this.props.imageW}px;
                 }
@@ -52,10 +52,16 @@ export default class Landing extends Component {
             <div class="Gallery__content">
                 ${loaded ? `
                     ${images.map(image => {
-                        const {farm,server,id,secret} = {...image};
-                        const imageStyle = `background-image:url('${image.url_m}')`
+                        const title = parseStringToHTML(image.title);
+                        const owner = parseStringToHTML(image.ownername);
+                        const imageUrl = image.url_s || image.url_q || image.url_t
                         return(`
-                            <div class="Gallery__image" style="${imageStyle}"></div>
+                            <Photo class="Gallery__photo Photo"
+                                id="${image.id}"
+                                url="${imageUrl}" 
+                                caption="${title}"
+                                owner="${owner}">
+                            </Photo>
                         `)
                     }).join('')}
                 ` : ''}

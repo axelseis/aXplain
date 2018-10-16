@@ -13,7 +13,6 @@ export const modes = {
 }
 
 export function getImages(page) {
-    console.log('getImages:', page)
     dispatchAction(libActions.SET_APP_PROP, {
         pageLoading: page
     })

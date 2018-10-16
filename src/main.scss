@@ -1,10 +1,13 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
 
 @import "./components/animations.scss";
 @import "./components/common/gpbutton.scss";
 @import "./components/Gallery/scrollbars.scss";
 @import "./components/Gallery/gallery.scss";
+@import "./components/Photo/photo.scss";
 
 body,html {
+    font-family: 'Roboto', sans-serif;
     min-height: 100%;
     padding: 0;
     margin: 0;
