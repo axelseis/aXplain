@@ -9,10 +9,10 @@
 .editorconfig
 .npmignore
 /bs-config.js
-/bs-config.prod.js
-/import.html
-/index.css
-/index.css.map
 /index.html
-/index.prod.html
-/league.js
+/main.css
+/index.css.map
+/main.js
+/postcss.config.js
+/README.md
+/webpack.config.js
