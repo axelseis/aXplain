@@ -1,22 +1,11 @@
 
 @import "components/animations.scss";
-@import "motogp/motogp_base.scss";
 @import "components/common/gpbutton.scss";
-@import "components/Header/header.scss";
-@import "components/Landing/scrollbars.scss";
-@import "components/Landing/landing.scss";
-@import "components/Enjoy/enjoy.scss";
-@import "components/Feed/feed.scss";
-@import "components/Multiscreen/multiscreen.scss";
-@import "components/Highlights/highlights.scss";
-@import "components/Quality/quality.scss";
-@import "components/Replay/replay.scss";
-@import "components/Sound/sound.scss";
-@import "components/Nospoiler/nospoiler.scss";
-@import "components/Library/Library.scss";
-@import "components/Devices/Devices.scss";
-@import "components/Footer/Footer.scss";
+@import "components/Gallery/scrollbars.scss";
+@import "components/Gallery/gallery.scss";
 
 body,html {
     min-height: 100%;
+    padding: 0;
+    margin: 0;
 }

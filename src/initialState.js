@@ -1,5 +1,6 @@
 
 export const initialState = {
-    literals: null
+    images: [],
+    perpage:100
 };
 

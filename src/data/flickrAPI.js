@@ -8,8 +8,7 @@ import {
 const apiServer = getAPIServer();
 
 const PROD_ROUTES = {
-    literals: `${apiServer}/literals`,
-    package: `${apiServer}/package`,
+    photos: `${apiServer}&extras=owner_name,url_sq, url_t, url_s, url_q, url_m, url_l`
 };
 
 const API_ROUTES = { ...PROD_ROUTES,
@@ -20,12 +19,8 @@ export function onFetchError(err) {
     console.log("fetch error: ", err);
 }
 
-export function getLiteralsJSON() {
-    return _get(API_ROUTES.literals);
-}
-
-export function getPackageJSON() {
-    return _get(API_ROUTES.package);
+export function getImagesJSON(page) {
+    return _get(`${API_ROUTES.photos}&page=${page||1}`);
 }
 
 function _get(url, config) {
@@ -49,7 +44,7 @@ function _gpFetch(url, config) {
                     });
                 }
 
-                if (contentType.indexOf("text/html") != -1) {
+                if (contentType.indexOf("text/html") != -1 || contentType.indexOf("text/javascript") != -1) {
                     return response
                         .text()
                         .catch(error => Promise.reject(error));

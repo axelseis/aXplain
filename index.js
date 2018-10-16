@@ -3,36 +3,21 @@ import { initRouter } from './src/lib/router.js';
 import "./src/lib/logger.js";
 
 import {initialState} from './src/initialState.js';
+import Gallery from './src/components/Gallery/Gallery.js';
 
-import Header from './src/components/Header/Header.js';
-import Landing from './src/components/Landing/Landing.js';
-import Footer from './src/components/Footer/Footer.js';
-
-import { reducers as LandingReducer } from './src/components/Landing/actions.js';
-import { reducers as HeaderReducer } from './src/components/Header/actions.js';
+import { reducers as GalleryReducer } from './src/components/Gallery/actions.js';
 
 const routes = [
-    { url: "/", redirect: "/Enjoy" },
-    { url: "/Enjoy" },
-    { url: "/Feed" },
-    { url: "/Multiscreen" },
-    { url: "/Highlights" },
-    { url: "/Quality" },
-    { url: "/Replay" },
-    { url: "/Sound" },
-    { url: "/Nospoiler" },
-    { url: "/Library" },
-    { url: "/Devices" },
+    { url: "/" },
+    { url: "/Image/:imageId" },
     { url: "404", redirect: "/" }
 ]
 
-export default function initLanding(){
-    initStore([LandingReducer, HeaderReducer], initialState);
+export default function initGallery(){
+    initStore([GalleryReducer], initialState);
     initRouter(routes, BASE_URL || '');
 
-    const header = new Header('Landing__Header');
-    const landing = new Landing('Landing__content');
-    const footer = new Footer('Landing__Footer');
+    const gallery = new Gallery('Gallery');
 }
 
-document.addEventListener('DOMContentLoaded', initLanding)
+document.addEventListener('DOMContentLoaded', initGallery)

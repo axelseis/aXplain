@@ -18,7 +18,8 @@
     "build:js-parcel": "parcel build index.js --no-minify",
     "build:js-terser": "terser dist/index.js --keep-classnames --output dist/index.js",
     "build:polyfill": "parcel build polyfill/polyfill.js",
-    "buildserver": "set NODE_ENV=prod && lite-server --config bs-config-build.js"
+    "buildserver": "set NODE_ENV=prod && lite-server --config bs-config-build.js",
+    "build:wp": "webpack"
   },
   "repository": {
     "type": "git",
@@ -42,7 +43,9 @@
     "parcel-bundler": "^1.9.7",
     "postcss-cli": "^5.0.0",
     "postcss-modules": "^1.1.0",
-    "regenerator-runtime": "^0.11.1"
+    "regenerator-runtime": "^0.11.1",
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.2"
   },
   "dependencies": {
     "promise-polyfill": "^7.0.0",

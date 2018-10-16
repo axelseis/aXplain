@@ -1,5 +1,5 @@
 
-.Landing {
+.Gallery {
     position: relative;
     width: 100%;
     min-height: 100%;
@@ -24,32 +24,36 @@
         position: relative;
         width: 100%;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    &__image {
+        width: 150px;
+        height: 150px;
+        background-size: cover;
+    }
+    
+    .Loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 50px;
+        z-index: 20;
+        background-color: #E5E5E5;
 
-        .Loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 50px;
-            z-index: 20;
-            background-color: #E5E5E5;
-
-            svg {
-                width: 100px;
-                height: 100px;
-            }
-
-            &--loaded {
-                animation: fadeOut 0.879s forwards;
-            }
+        svg {
+            width: 100px;
+            height: 100px;
         }
 
-        
+        &--loaded {
+            animation: fadeOut 0.879s forwards;
+        }
     }
 
     &__section {
