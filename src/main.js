@@ -9,7 +9,7 @@ import { reducers as GalleryReducer } from './components/Gallery/actions.js';
 
 const routes = [
     { url: "/" },
-    { url: "/Image/:imageId" },
+    { url: "/images/:imageId" },
     { url: "404", redirect: "/" }
 ]
 

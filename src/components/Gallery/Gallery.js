@@ -53,14 +53,17 @@ export default class Landing extends Component {
                 ${loaded ? `
                     ${images.map(image => {
                         const title = parseStringToHTML(image.title);
-                        const owner = parseStringToHTML(image.ownername);
+                        const owner = image.owner;
+                        const ownername = parseStringToHTML(image.ownername);
                         const imageUrl = image.url_s || image.url_q || image.url_t
+                        
                         return(`
                             <Photo class="Gallery__photo Photo"
                                 id="${image.id}"
                                 url="${imageUrl}" 
                                 caption="${title}"
-                                owner="${owner}">
+                                owner="${owner}"
+                                ownername="${ownername}">
                             </Photo>
                         `)
                     }).join('')}

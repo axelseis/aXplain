@@ -54,5 +54,9 @@
         padding-top: 5px;
         border-top: solid 1px white;
         font-size: 0.8em;
+
+        &:hover {
+            color: red;
+        }
     }
 }
