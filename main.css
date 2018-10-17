@@ -368,6 +368,8 @@ backimage {
     padding-top: 5px;
     border-top: solid 1px white;
     font-size: 0.8em; }
+    .Photo__owner:hover {
+      color: red; }
 
 body, html {
   font-family: 'Roboto', sans-serif;

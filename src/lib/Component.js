@@ -130,6 +130,7 @@ export default class Component {
                 const tempName = elements[id].getAttribute('id') || className + index;
                 if(!this._components[tempName] || this._components[tempName].$clip !== elements[id]){
                     elements[id].setAttribute('id', tempName);
+                    elements[id].__axplainComp__ = classFunc;
                     this._components[tempName] = new classFunc(elements[id]);
                 }
                 else {
@@ -225,7 +226,7 @@ export default class Component {
     }
 
     _setDomEvents($domElement) {
-        const actNodes = Array.from($domElement.querySelectorAll('*'));
+        const actNodes = Array.from($domElement.children);
 
         actNodes.forEach(element => {
             Array.from(element.attributes).forEach(attr => {
@@ -246,6 +247,9 @@ export default class Component {
                     }
                 }
             });
+            if(!element.__axplainComp__ && element.children){
+                this._setDomEvents(element);
+            }
         });
     }
 

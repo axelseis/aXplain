@@ -8,6 +8,7 @@
     "dev:server": "lite-server --config bs-config.js",
     "dev:css": "node-sass src/ -o ./ --watch --recursive --source-map true",
     "test": "jest --watch",
+    "build:server": "webpack-dev-server --open",
     "build": "webpack"
   },
   "repository": {
@@ -32,12 +33,15 @@
     "mini-css-extract-plugin": "^0.4.4",
     "node-sass": "^4.9.4",
     "npm-run-all": "^4.1.2",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
     "postcss-cli": "^5.0.0",
     "postcss-loader": "^3.0.0",
     "postcss-modules": "^1.1.0",
     "sass-loader": "^7.1.0",
+    "uglifyjs-webpack-plugin": "^2.0.1",
     "webpack": "^4.20.2",
-    "webpack-cli": "^3.1.2"
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.9"
   },
   "dependencies": {
     "promise-polyfill": "^7.0.0",
