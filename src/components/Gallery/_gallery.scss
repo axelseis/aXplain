@@ -27,10 +27,10 @@
         flex-direction: row;
         flex-wrap: wrap;
     }
-    &__image {
+    &__photo {
+        position: relative;
         width: 150px;
         height: 150px;
-        background-size: cover;
     }
     
     .Loader {

@@ -1,7 +1,3 @@
 node_modules
 .cache
-src/**/*.css
-src/**/*.css.map
-MATERIAL/
-.idea
-.idea/*
+.vscode

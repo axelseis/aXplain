@@ -1,14 +1,5 @@
 const isAxelServer = true;
 
-export function getAPIServer() {
-    const key = '361410381e0bb1885ee6ad24c0348007';
-    const method = 'flickr.photos.search&content_type=1';
-    const format = 'json';
-    const tags = "arquitecture";
-
-    return `https://www.flickr.com/services/rest/?method=${method}&format=${format}&tags=${tags}&api_key=${key}&nojsoncallback=?`;
-}
-
 export function getAssetsFolder(){
     return window.ASSETS_FOLDER || './';
 }
@@ -32,4 +23,13 @@ export function getOffset(el) {
 
 export function getDevicePixelRatio() {
     return parseInt(window.devicePixelRatio || 1);
+}
+
+export function parseStringToHTML(str) {
+    const txt = (str || '').toString()
+    .replace(/"/g, "'")
+    .replace(/'/g, '&apos;') 
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+    return txt;
 }
