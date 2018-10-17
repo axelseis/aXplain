@@ -7,7 +7,8 @@ let BASE_URL = '';
 export function initRouter(routesArr){
     BASE_URL = window.BASE_URL || '';
     routes = [...routesArr] || [{url:'/'}];
-    dispatch(setRoutes(routes))
+    dispatch(setRoutes(routes));
+    setStateLocation(window.location.pathname);
 }
 
 export function go(url2go, addToHistory = true){

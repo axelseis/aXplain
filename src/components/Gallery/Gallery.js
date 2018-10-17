@@ -62,8 +62,8 @@ export default class Landing extends Component {
                                 id="${image.id}"
                                 url="${imageUrl}" 
                                 caption="${title}"
-                                owner="${owner}"
-                                ownername="${ownername}">
+                                ownername="${ownername}"
+                                owner="${owner}">
                             </Photo>
                         `)
                     }).join('')}

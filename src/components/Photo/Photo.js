@@ -1,6 +1,7 @@
 
-import Component from '../../lib/Component.js'
-import { go, goOut } from '../../lib/router.js'
+import Component from '../../lib/Component.js';
+import { goOut, go } from '../../lib/router.js';
+import { setVisorPosition } from './actions.js';
 
 export default class Photo extends Component {
     constructor(className) {
@@ -18,7 +19,13 @@ export default class Photo extends Component {
     }
 
     onClickImage(ev) {
+        setVisorPosition(this.$clip);
         go(`/images/${this.domProps.id}`);
+    }
+    
+    onClickOwner(ev) {
+        ev.stopPropagation();
+        goOut(`https://www.flickr.com/photos/${this.domProps.owner}/${this.domProps.id}`, true);
     }
     
     render() {

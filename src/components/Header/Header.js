@@ -3,7 +3,6 @@ import Component from '../../lib/Component.js'
 import { goOut } from '../../lib/router.js'
 import { getPackage, setLangsMenuState } from './actions.js';
 import { getAssetsFolder, getOffset } from '../../utils.js';
-import GPButton from '../common/GPButton.js';
 
 export default class Header extends Component {
     constructor(className) {

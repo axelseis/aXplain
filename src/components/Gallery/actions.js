@@ -29,7 +29,7 @@ export function setWindowSize(){
     const windowSize = getWindowSize();
 
     dispatchAction(libActions.SET_APP_PROP, {
-        winW: windowSize.width-10,
+        winW: windowSize.width-7,
         winH: windowSize.height,
         mode: windowSize.width > 767 ? modes.DESKTOP : modes.MOBILE 
     })
