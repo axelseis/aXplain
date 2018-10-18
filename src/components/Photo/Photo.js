@@ -13,6 +13,11 @@ export default class Photo extends Component {
         })
     }
     
+    onClickOwner(ev) {
+        ev.stopPropagation();
+        goOut(`https://www.flickr.com/photos/${this.domProps.owner}/${this.domProps.id}`,true);
+    }
+
     onClickImage(ev) {
         setVisorPosition(this.$clip);
         go(`/images/${this.domProps.id}`);

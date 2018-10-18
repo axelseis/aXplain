@@ -12,7 +12,7 @@ function getAPIServer() {
 const apiServer = getAPIServer();
 
 const PROD_ROUTES = {
-    photos: `${apiServer}&extras=owner_name,url_sq, url_t, url_s, url_q, url_m, url_l`
+    photos: `${apiServer}&extras=owner_name,url_sq, url_t,url_s, url_q,url_m,url_l`
 };
 
 const API_ROUTES = { ...PROD_ROUTES,
