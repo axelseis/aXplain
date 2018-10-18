@@ -2,6 +2,8 @@
     cursor: pointer;
     overflow: hidden;
     background-color: gray;
+    border: solid 1px black;
+    box-sizing: border-box;
 
     &:hover &{
         &__image {
@@ -21,6 +23,7 @@
         background-position: center;
         transform: scale(1) rotate(0deg);
         transition: transform 0.288s;
+        opacity: 1;
     }
 
     &__info {

@@ -1,32 +1,25 @@
-import { actions as libActions } from '../../lib/actions.js'
 import { dispatchAction } from '../../lib/store.js';
-import { getPackageJSON } from '../../data/motogpAPI.js';
+import { getImageDataJSON } from '../../data/flickrAPI.js';
 
 export const actions = {
-    GET_PACKAGE: 'GET_PACKAGE'
+    GET_IMAGE_DATA: 'GET_IMAGE_DATA'
 }
 
-export function getPackage() {
-    getPackageJSON()
+export function getImageData() {
+    getImageDataJSON()
         .then(results => {
-            dispatchAction(actions.GET_PACKAGE, results)
+            dispatchAction(actions.GET_IMAGE_DATA, results)
         })
 }
 
-export function setLangsMenuState(opened){
-    dispatchAction(libActions.SET_APP_PROP, {
-        langsOpened: opened || false
-    })
-}
-
 export const reducers = {
-    [actions.GET_PACKAGE]: setPackage
+    [actions.GET_IMAGE_DATA]: addImageData
 }
 
-function setPackage(state, payload) {
+function addImageData(state, imageData) {
     return ({
         ...state,
-        package: {...payload}
+        images: {...state.images, imageData}
     })
 }
 

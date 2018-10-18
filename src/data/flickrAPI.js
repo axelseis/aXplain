@@ -27,6 +27,10 @@ export function getImagesJSON(page) {
     return _get(`${API_ROUTES.photos}&page=${page||1}`);
 }
 
+export function getImageDataJSON(page) {
+    return _get(`${API_ROUTES.photos}&page=${page||1}`);
+}
+
 function _get(url, config) {
     if (isFunction(url)) {
         url = url();
