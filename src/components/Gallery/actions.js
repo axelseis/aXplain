@@ -12,11 +12,13 @@ export const modes = {
     MOBILE: 'mobile'
 }
 
+const searchText = 'archDaily';
+
 export function getImages(page) {
     dispatchAction(libActions.SET_APP_PROP, {
         pageLoading: page
     })
-    getImagesJSON(page)
+    getImagesJSON(searchText,page)
         .then(results => {
             dispatchAction(libActions.SET_APP_PROP, {
                 pageLoading: null,

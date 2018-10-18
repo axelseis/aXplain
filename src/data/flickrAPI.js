@@ -1,34 +1,11 @@
 import { isFunction } from '../lib/utils.js';
 
-function getAPIServer() {
-    const key = '361410381e0bb1885ee6ad24c0348007';
-    const method = 'flickr.photos.search';
-    const format = 'json';
-    const text = "archdaily";
-    const atts = '?sort=relevance&parse_tags=1&content_type=7&lang=es-US&text=archdaily&viewerNSID=&csrf=&hermes=1&hermesClient=1&reqId=4a394135&nojsoncallback=1'
-    return `https://www.flickr.com/services/rest/${atts}&text=${text}&method=${method}&format=${format}&api_key=${key}`;
+export function getImagesJSON(searchTxt,pageNum) {
+    return _get(`/api/getImages/${searchTxt}/${pageNum}`);
 }
 
-const apiServer = getAPIServer();
-
-const PROD_ROUTES = {
-    photos: `${apiServer}&extras=owner_name,url_sq, url_t,url_s, url_q,url_m,url_l`
-};
-
-const API_ROUTES = { ...PROD_ROUTES,
-    ...window.DEV_ROUTES
-}
-
-export function onFetchError(err) {
-    console.log("fetch error: ", err);
-}
-
-export function getImagesJSON(page) {
-    return _get(`${API_ROUTES.photos}&page=${page||1}`);
-}
-
-export function getImageDataJSON(page) {
-    return _get(`${API_ROUTES.photos}&page=${page||1}`);
+export function getImageDataJSON(imageId) {
+    return _get(`/api/getImageData/${imageId}`);
 }
 
 function _get(url, config) {

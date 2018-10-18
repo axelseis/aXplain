@@ -28,7 +28,6 @@ export default class Header extends Component {
 
     render() {
         const {top,left,width,height} = {...this.props.imagePos}
-        console.log('this.props', this.props)
         return(`
             <style>
                 .Visor {

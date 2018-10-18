@@ -4,12 +4,13 @@
   "description": "aXplain - React + redux clone in plain javascript",
   "main": "main.js",
   "scripts": {
-    "start": "set NODE_ENV=dev && npm-run-all --parallel dev:*",
-    "dev:server": "lite-server --config bs-config.js",
+    "start": "set NODE_ENV=prod && node server.js ",
+    "dev": "set NODE_ENV=dev && npm-run-all --parallel dev:*",
+    "dev:server": "node-dev server.js",
     "dev:css": "node-sass src/ -o ./ --watch --recursive --source-map true",
-    "test": "jest --watch",
     "build:server": "webpack-dev-server --open",
-    "build": "webpack"
+    "build": "webpack",
+    "test": "jest --watch"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,9 @@
     "@babel/core": "^7.1.2",
     "@babel/preset-env": "^7.1.0",
     "@types/jest": "^22.0.1",
+    "express": "^4.16.4",
+    "livereload": "^0.7.0",
+    "jest": "^22.1.1",
     "autoprefixer": "^7.2.6",
     "babel-cli": "^6.26.0",
     "babel-jest": "^22.1.0",
@@ -28,9 +32,8 @@
     "copy-webpack-plugin": "^4.5.3",
     "css-loader": "^1.0.0",
     "extract-loader": "^3.0.0",
-    "jest": "^22.1.1",
-    "lite-server": "^2.3.0",
     "mini-css-extract-plugin": "^0.4.4",
+    "node-dev": "^3.1.3",
     "node-sass": "^4.9.4",
     "npm-run-all": "^4.1.2",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
@@ -44,6 +47,7 @@
     "webpack-dev-server": "^3.1.9"
   },
   "dependencies": {
+    "node-fetch": "^2.2.0",
     "promise-polyfill": "^7.0.0",
     "whatwg-fetch": "^2.0.3"
   }
