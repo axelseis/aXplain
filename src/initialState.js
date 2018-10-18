@@ -2,6 +2,6 @@
 export const initialState = {
     images: [],
     perpage:100,
-    page:2
+    page:0
 };
 

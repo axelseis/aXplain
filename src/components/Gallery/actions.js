@@ -55,9 +55,13 @@ export const reducers = {
 
 function setImages(state, payload) {
     const {photo: images, page, perpage} = {...payload}
+    const imagesNew = images.reduce((obj,image) => {
+        obj[image.id] = {...obj[image.id],...image};
+        return obj;
+    }, {...state.images})
     return ({
         ...state,
-        images: [...state.images,...images],
+        images: {...imagesNew},
         page,
         perpage
     })

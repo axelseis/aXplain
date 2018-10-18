@@ -9,14 +9,14 @@ export default class Header extends Component {
     
     stateToprops(state){
         const imageId = state.router && state.router.params && state.router.params.imageId;
-        const images = state.images;
-        const imageData = images.find(image => image.id === imageId);
+        const images = state.images || {};
+        const imageData = images[imageId];
         const {width:winW,height:winH} = {...getWindowSize()}
         const imagePos = (state.App && state.App.visorPosition) || {top:0,left:0,width:winW,height:winH};
         const loaded = state.App && state.App.imageLoaded;
 
-        if(imageId && !imageData){
-            getImageData();
+        if(imageId && (!imageData || !imageData.__EXT)){
+            getImageData(imageId);
         }
 
         return ({

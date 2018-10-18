@@ -1,6 +1,8 @@
 import { state } from './store.js'
 
-if(window.env && env === 'dev'){
+const isDev = window.env && window.env === 'dev';
+
+if(isDev){
     document.addEventListener('state', (ev) => {
         const type = ev.detail.type;
         if(type.indexOf('nolog') === -1){

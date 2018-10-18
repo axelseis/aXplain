@@ -20,7 +20,7 @@ export default class Landing extends Component {
     }
 
     stateToprops(state) {
-        const images = [...(state.images||[])];
+        const images = [...Object.values(state.images||[])];
         const {winW} = {...state.App};
         
         let rows = 10;

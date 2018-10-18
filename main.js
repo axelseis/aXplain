@@ -7,6 +7,7 @@ import Gallery from './src/components/Gallery/Gallery.js';
 import Visor from './src/components/Visor/Visor.js';
 
 import { reducers as GalleryReducer } from './src/components/Gallery/actions.js';
+import { reducers as VisorReducer } from './src/components/Visor/actions.js';
 
 const routes = [
     { url: "/" },
@@ -15,7 +16,7 @@ const routes = [
 ]
 
 export default function initGallery(){
-    initStore([GalleryReducer], initialState);
+    initStore([GalleryReducer,VisorReducer], initialState);
     initRouter(routes, BASE_URL || '');
 
     const gallery = new Gallery('Gallery');
