@@ -31,7 +31,7 @@ export function setWindowSize(){
     const windowSize = getWindowSize();
 
     dispatchAction(libActions.SET_APP_PROP, {
-        winW: windowSize.width-7,
+        winW: windowSize.width,
         winH: windowSize.height,
         mode: windowSize.width > 767 ? modes.DESKTOP : modes.MOBILE 
     })
@@ -43,7 +43,7 @@ export function setScrollPos(clip){
     
     if(offset.top + offset.height < winH*1.9){
         const nextPage = state.page+1;
-        if(nextPage !== state.App.pageLoading){
+        if(nextPage !== (state.App||[]).pageLoading){
             getImages(nextPage)
         }
     }

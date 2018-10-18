@@ -314,78 +314,8 @@ backimage {
   z-index: 20;
   width: 100%;
   height: 100%; }
-  .Visor__slimbar {
-    position: relative;
-    z-index: 10;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    height: 40px;
-    padding: 10px;
-    background-color: white; }
-  .Visor__package {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    align-items: center;
-    height: 68px;
-    background-color: #0076B3;
-    padding: 0 15px;
-    color: white;
-    background-image: url("./assets/img/bg_submenu_2_floors_right.svg"), url("./assets/img/bg_submenu_2_floors_left.svg");
-    background-position: right center, left center;
-    background-position-x: right, left;
-    background-position-y: center, center;
-    background-repeat: no-repeat, no-repeat;
-    background-size: contain, contain; }
-
-.slimbar__logo {
-  cursor: pointer; }
-  .slimbar__logo img {
-    height: 100%; }
-
-.slimbar__langs {
-  color: #9B9B9B;
-  margin-right: 30px; }
-  .slimbar__langs__actLang {
-    user-select: none;
-    cursor: pointer;
-    text-align: right;
-    text-transform: uppercase; }
-    .slimbar__langs__actLang span {
-      padding-right: 5px; }
-  .slimbar__langs__list {
-    background-color: white;
-    overflow: hidden;
-    cursor: pointer; }
-    .slimbar__langs__list * {
-      padding: 10px;
-      user-select: none; }
-      .slimbar__langs__list *:hover {
-        background-color: #9B9B9B;
-        color: white; }
-    .slimbar__langs__list.menu--opened {
-      height: auto; }
-    .slimbar__langs__list.menu--closed {
-      height: 0; }
-
-.package__logo {
-  height: 35px;
-  margin-right: 50px; }
-  .package__logo img {
-    height: 100%; }
-
-.package__title {
-  padding-right: 10px;
-  margin: 0 2% 0 auto; }
-
-@media screen and (max-width: 767px) {
-  .package__logo {
-    margin-right: 10px; } }
+  .Visor__image {
+    background-color: aliceblue; }
 
 body, html {
   font-family: 'Roboto', sans-serif;

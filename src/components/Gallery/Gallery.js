@@ -1,7 +1,7 @@
 import Component from '../../lib/Component.js'
 import {mapEvent} from '../../lib/utils.js'
 import {setWindowSize, setScrollPos} from './actions.js';
-import { parseStringToHTML } from '../../utils.js';
+import { parseStringToHTML, getOffset, getWindowSize } from '../../utils.js';
 import Photo from '../Photo/Photo.js';
 import Loader from './Loader.js';
 
@@ -9,22 +9,19 @@ export default class Landing extends Component {
 
     constructor(className) {
         super(className, [Photo]);
-
-        this.inited = false;
         
-        window.addEventListener(mapEvent('resize'), setWindowSize)
+        window.addEventListener(mapEvent('resize'), () => setWindowSize())
         window.addEventListener('scroll', (ev) => {setScrollPos(this.$clip)});
 
-        setWindowSize();
         setScrollPos(this.$clip);
     }
-
+    
     stateToprops(state) {
         const images = [...Object.values(state.images||[])];
-        const {winW} = {...state.App};
+        const maxW = Math.floor(getOffset(this.$clip).width);
         
         let rows = 10;
-        let imageW = () => Math.floor(winW/rows);
+        let imageW = () => Math.floor(maxW/rows);
         while(imageW()<150){
             rows--;
         }
@@ -35,10 +32,14 @@ export default class Landing extends Component {
         })
     }
 
+    onEndRender(){
+        setWindowSize(this.$clip);            
+    }
+
     render() {
         const images = this.props.images;
         const loaded = images && images.length;
-        
+
         return (`
             <style>
                 .Gallery__photo {

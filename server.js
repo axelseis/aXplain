@@ -39,7 +39,7 @@ const flickrUrl = (params) => {
 app.get('/api/getImages/:searchStr?/:page?', async function(req, res) {
     const params = {
         method: 'flickr.photos.search',
-        sort: "relevance",
+        sort: "date-posted-asc",
         content_type: 7,
         lang: "es-US",
         extras: 'owner_name,url_sq, url_t,url_s, url_q,url_m,url_l',
