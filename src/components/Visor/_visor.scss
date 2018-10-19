@@ -8,12 +8,60 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgba(0,0,0,0.8);
+    background-color: rgba(0, 0, 0, 0.8);
     overflow: hidden;
-    transition: all 0.987s;
+
+    &.loaded {
+        transition: all 0.587s;
+    }
 
     &__image {
         background-color: transparent;
     }
-}
 
+    &__loader {
+        position: absolute;
+        top: 50%;
+        height: 50%;
+    }
+
+    &__closeButton {
+        cursor: pointer;
+        height: 50px;
+        width: 50px;
+        position: absolute;
+        top: 10px;
+        right: 40px;
+        box-sizing: border-box;
+        line-height: 50px;
+        display: inline-block;
+
+        &:before,
+        &:after {
+            transform: rotate(-45deg);
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -10px/2;
+            margin-left: -50px/2;
+            display: block;
+            height: 10px;
+            width: 50px;
+            background-color: #fff;
+            transition: all 0.2s ease-out;
+        }
+
+        &:after {
+            transform: rotate(45deg);
+        }
+
+        &:hover {
+
+            &:before,
+            &:after {
+                transform: rotate(0deg);
+            }
+        }
+    }
+}

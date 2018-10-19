@@ -2,7 +2,7 @@ import { actions as libActions } from '../../lib/actions.js'
 import { dispatchAction } from '../../lib/store.js';
 import { getOffset } from '../../utils.js';
 
-export function setVisorPosition($imageSel){
+export function setImageSelected($imageSel){
     const {top,left,width,height} = {...getOffset($imageSel)}
     const visorPosition = {
         top: `${top}px`,
@@ -12,6 +12,7 @@ export function setVisorPosition($imageSel){
     };
 
     dispatchAction(libActions.SET_APP_PROP, {
-        visorPosition
+        visorPosition,
+        imageLoaded: false
     })
 }

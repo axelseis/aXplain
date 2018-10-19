@@ -30,13 +30,14 @@ export function getImageDetails(imageId) {
     }
 }
 
-export function onImageLoaded(imageUrl){
-    dispatchAction(actions.SET_IMAGE_LOADED, imageUrl);
+export function onImageLoaded(){
+    dispatchAction(libActions.SET_APP_PROP, {
+        imageLoaded: true
+    });
 }
 
 export const reducers = {
     [actions.GET_IMAGE_DATA]: addImageData,
-    [actions.SET_IMAGE_LOADED]: setImageLoaded
 }
 
 function addImageData(state, imageData) {
@@ -46,19 +47,6 @@ function addImageData(state, imageData) {
             ...state.details,
             [imageData.id]: imageData
         }
-    })
-}
-
-function setImageLoaded(state, imageUrl) {
-    const imagesLoaded = [...(state.imagesLoaded || [])];
-    
-    if(imagesLoaded.indexOf(imageUrl) == -1){
-        imagesLoaded.push(imageUrl);
-    }
-
-    return ({
-        ...state,
-        imagesLoaded
     })
 }
 

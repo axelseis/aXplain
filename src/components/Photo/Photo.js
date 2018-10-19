@@ -1,7 +1,7 @@
 
 import Component from '../../lib/Component.js';
 import { goOut, go } from '../../lib/router.js';
-import { setVisorPosition } from './actions.js';
+import { setImageSelected } from './actions.js';
 
 export default class Photo extends Component {
     constructor(className) {
@@ -19,7 +19,7 @@ export default class Photo extends Component {
     }
 
     onClickImage(ev) {
-        setVisorPosition(this.$clip);
+        setImageSelected(this.$clip);
         go(`/images/${this.domProps.id}`);
     }
     

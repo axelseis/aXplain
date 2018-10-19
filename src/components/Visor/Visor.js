@@ -1,10 +1,13 @@
 import Component from '../../lib/Component.js'
 import { getWindowSize } from '../../utils.js';
 import {getImageDetails, onImageLoaded} from './actions.js';
+import { addClass, hasClass, removeClass } from '../../lib/utils.js';
+import { go } from '../../lib/router.js';
+import Loader from '../common/Loader.js';
 
 export default class Header extends Component {
     constructor(className) {
-        super(className);
+        super(className, [Loader]);
     }
     
     stateToprops(state){
@@ -21,8 +24,15 @@ export default class Header extends Component {
                 return maxSize;
             }
         },sizes[0]).source;
-        const imageLoaded = state.imagesLoaded && state.imagesLoaded.indexOf(imageUrl) != -1;
+        const imageLoaded = state.App && state.App.imageLoaded;
         const imagePos = !imageLoaded && state.App && state.App.visorPosition || {top:0,left:0,width:'100%',height:'100%'};
+
+        if(imageLoaded){
+            addClass(this.$clip,'loaded')
+        }
+        else if(hasClass(this.$clip,'loaded')){
+            removeClass(this.$clip,'loaded')
+        }
 
         if(imageId && !imageDetails){
             getImageDetails(imageId);
@@ -41,6 +51,10 @@ export default class Header extends Component {
         onImageLoaded(this.props.imageUrl);
     }
     
+    onClickCloseButton(ev){
+        go('/');
+    }
+    
     render() {
         const {top,left,width,height} = {...this.props.imagePos}
         const title = this.props.imageDetails && this.props.imageDetails.title && this.props.imageDetails.title._content
@@ -55,6 +69,12 @@ export default class Header extends Component {
                     height: ${height};
                 }
             </style>
+            ${this.props.imageLoaded ? `
+                <div class="Visor__closeButton" onClick="onClickCloseButton"></div>
+            ` : `
+                ${Loader(false)}
+            `}
+            <Loader class="Visor__loader"></Loader>
             <div class="Visor__image image--${this.props.imageLoaded ? 'loaded' : 'loading'}">
                 ${this.props.imageUrl ? `
                     <img src="${this.props.imageUrl}" alt="${title}" onload="onLoadImage">
