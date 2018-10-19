@@ -54,15 +54,23 @@ app.get('/api/getImages/:searchStr?/:page?', async function(req, res) {
 })
 
 app.get('/api/getImageData/:imageId?', async function(req, res) {
-    const params = {
+    const paramsInfo = {
         method: 'flickr.photos.getInfo',
         photo_id: req.params.imageId    
     }
+    const paramsSizes = {
+        method: 'flickr.photos.getSizes',
+        photo_id: req.params.imageId    
+    }
 
-    const response = await fetch(flickrUrl(params));
-    const json = await response.json();
+    const responseInfo = await fetch(flickrUrl(paramsInfo));
+    const jsonInfo = await responseInfo.json();
 
-    res.json(json);
+    const responseSizes = await fetch(flickrUrl(paramsSizes));
+    const jsonSizes = await responseSizes.json();
+    
+    const response = {...jsonInfo,...jsonSizes}
+    res.json(response);
 })
 
 app.get('/images/:imageId', function(req,res){

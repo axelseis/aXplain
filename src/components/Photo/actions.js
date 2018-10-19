@@ -3,7 +3,13 @@ import { dispatchAction } from '../../lib/store.js';
 import { getOffset } from '../../utils.js';
 
 export function setVisorPosition($imageSel){
-    const visorPosition = getOffset($imageSel);
+    const {top,left,width,height} = {...getOffset($imageSel)}
+    const visorPosition = {
+        top: `${top}px`,
+        left: `${left}px`,
+        width: `${width}px`,
+        height: `${height}px`,
+    };
 
     dispatchAction(libActions.SET_APP_PROP, {
         visorPosition
