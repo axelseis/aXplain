@@ -4,8 +4,8 @@ import { setLocation, setRoutes } from './actions.js';
 let routes = [];
 let BASE_URL = '';
 
-export function initRouter(routesArr){
-    BASE_URL = window.BASE_URL || '';
+export function initRouter(routesArr, BASE_URL){
+    BASE_URL = BASE_URL || '';
     routes = [...routesArr] || [{url:'/'}];
     dispatch(setRoutes(routes));
     setStateLocation(window.location.pathname);

@@ -4,14 +4,14 @@
   "description": "aXplain - React + redux clone in plain javascript",
   "main": "main.js",
   "scripts": {
-    "start": "set NODE_ENV=prod && node server.js ",
-    "dev": "set NODE_ENV=dev && npm-run-all --parallel dev:*",
-    "dev:server": "node-dev server.js",
-    "dev:css": "node-sass src/ -o ./ --watch --recursive --source-map true",
-    "build:server": "webpack-dev-server --open",
-    "build": "webpack",
-    "test": "jest --watch"
-  },
+      "start": "set NODE_ENV=dev && npm-run-all --parallel dev:*",
+      "dev:server": "node-dev server.js",
+      "dev:css": "node-sass src/ -o ./ --watch --recursive --source-map true",
+      "build:server": "webpack-dev-server --open",
+      "build": "webpack",
+      "prod": "set NODE_ENV=prod && node server.js ",
+      "test": "jest --watch"
+    },
   "repository": {
     "type": "git",
     "url": "git@github.com/axelseis/aXplain.git"
