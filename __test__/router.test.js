@@ -47,9 +47,9 @@ describe('go(url)', () => {
     describe('if url match a route', () => {
         trueUrls.forEach(trueUrl => {
             describe(`url = ${trueUrl.url}`, () => {
-                test(`expect state.router.route toEqual ${trueUrl.url}`, () => {
+                test(`expect state.router.url toEqual ${trueUrl.url}`, () => {
                     go(trueUrl.url);
-                    expect(state.router.route).toEqual(trueUrl.url)
+                    expect(state.router.url).toEqual(trueUrl.url)
                 })
                 test(`expect state.router.params toEqual ${trueUrl.params}`, () => {
                     go(trueUrl.url);

@@ -3,40 +3,46 @@ import { state, initStore, dispatch, dispatchAction } from '../src/lib/store.js'
 import { actions, setLocation, reducers } from '../src/lib/actions.js';
 
  const fakeValues = [
-    '',null,{name:'lalala','lalala':'tu'},[1,2,3], () => 'lalala'
+    '',null,{param1:'param1',param2:'param2'},[1,2,3], () => 'paramfunction'
 ]
 
 describe('Action Creators:', () => {
-    describe('setLocation(route, {params, props})', () => {
-        describe(`expect returns an Action like {type:${actions.SET_ROUTES}, payload:{routes: []}}`, () => {
+    describe('setLocation(url, route, {params, props})', () => {
+        describe(`expect returns an Action like {type:${actions.SET_LOCATION}, payload:{routes: []}}`, () => {
             test(`expect Action.type to be ${actions.SET_LOCATION}`, () => {
-                const action = setLocation([])
+                const action = setLocation('')
                 expect(action.type).toEqual(actions.SET_LOCATION);
             })
         })
-        test(`expect Action.payload contains route & params Object & props Array`, () => {
+        test(`expect Action.payload contains url & route & params Object & props Array`, () => {
             let action;
 
-            fakeValues.forEach((route) => {
-                fakeValues.forEach((props) => {
-                    fakeValues.forEach((params) => {
-                        action = setLocation(route, props, params)
-                        expect(action.payload.route).toEqual(route);
-                        expect({...props, ...action.payload}).toEqual(action.payload);
-                        expect({params, ...action.payload}).toEqual(action.payload);
+            fakeValues.forEach((url) => {
+                fakeValues.forEach((route) => {
+                    fakeValues.forEach((props) => {
+                        fakeValues.forEach((params) => {
+                            action = setLocation(url, route, props, params)
+                            expect(action.payload.url).toEqual(url);
+                            expect(action.payload.route).toEqual(route);
+                            expect(action.payload.props).toEqual(props);
+                            expect(action.payload.params).toEqual({...params});
+                        })
                     })
                 })
             })
         })
         test(`expect dispatch(setLocation(route,props,params)) to add route & {params} & props into state.router with no Error thrown`, () => {
             initStore([],{});
-            fakeValues.forEach((route) => {
-                fakeValues.forEach((props) => {
-                    fakeValues.forEach((params) => {
-                        dispatch(setLocation(route, props, params))
-                        expect(state.router.route).toEqual(route);
-                        expect({...params, ...state.router.params}).toEqual(state.router.params);
-                        expect({...props, ...state.router}).toEqual(state.router);
+            fakeValues.forEach((url) => {
+                fakeValues.forEach((route) => {
+                    fakeValues.forEach((props) => {
+                        fakeValues.forEach((params) => {
+                            dispatch(setLocation(url, route, props, params))
+                            expect(state.router.url).toEqual(url);
+                            expect(state.router.route).toEqual(route);
+                            expect(state.router.params).toEqual({...params});
+                            expect(state.router.props).toEqual(props);
+                        })
                     })
                 })
             })

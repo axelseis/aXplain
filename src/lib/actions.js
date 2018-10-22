@@ -14,10 +14,10 @@ export function setRoutes(routes){
     })
 }
 
-export function setLocation(url, route, props, {...params}){
+export function setLocation(url, route, props, params){
     return({
         type: actions.SET_LOCATION,
-        payload: { url, route, ...props, params }
+        payload: { url, route, props, params: {...params} }
     })    
 }    
 

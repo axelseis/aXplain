@@ -1,7 +1,7 @@
 import Component from '../../lib/Component.js'
 import {mapEvent} from '../../lib/utils.js'
 import {setWindowSize, setScrollPos} from './actions.js';
-import { parseStringToHTML, getOffset, getWindowSize } from '../../utils.js';
+import { parseStringToHTML, getOffset } from '../../utils.js';
 import Photo from '../Photo/Photo.js';
 import Loader from '../common/Loader.js';
 
@@ -19,7 +19,8 @@ export default class Landing extends Component {
     stateToprops(state) {
         const images = [...Object.values(state.images||[])];
         const maxW = Math.floor(getOffset(this.$clip).width);
-        
+        const visorOpened = !(state.router && state.router.params && state.router.params.imageId);
+
         let rows = 10;
         let imageW = () => Math.floor(maxW/rows);
         while(imageW()<150){

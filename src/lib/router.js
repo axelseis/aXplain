@@ -14,7 +14,7 @@ export function initRouter(routesArr){
 export function go(url2go, addToHistory = true){
     if(url2go !== state.router.url && setStateLocation(url2go)){
         const func = addToHistory ? 'pushState' : 'replaceState';
-        history[func](null, '', BASE_URL + url2go);
+        history[func](null, '', BASE_URL + state.router.url);
     }
 }
 
@@ -36,10 +36,10 @@ function setStateLocation(url2go){
             go(routeMatch.redirect)
             return false;
         }
-        const {url: urlMatch, ...props} = {...routeMatch}
+        const {...props} = {...routeMatch}
         const params = _getParams(url, routeMatch.url);
 
-        dispatch(setLocation(url2go, url, props, params))
+        dispatch(setLocation(url, routeMatch.url, props, params))
 
         return true;
     }

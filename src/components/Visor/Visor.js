@@ -33,7 +33,7 @@ export default class Header extends Component {
         else if(hasClass(this.$clip,'loaded')){
             removeClass(this.$clip,'loaded')
         }
-
+        
         if(imageId && !imageDetails){
             getImageDetails(imageId);
         }
@@ -74,7 +74,6 @@ export default class Header extends Component {
             ` : `
                 ${Loader(false)}
             `}
-            <Loader class="Visor__loader"></Loader>
             <div class="Visor__image image--${this.props.imageLoaded ? 'loaded' : 'loading'}">
                 ${this.props.imageUrl ? `
                     <img src="${this.props.imageUrl}" alt="${title}" onload="onLoadImage">

@@ -78,7 +78,7 @@ app.get('/images/:imageId', function(req,res){
 })
 
 app.get('*', function(req,res){
-    res.send('what???', 404);
+    res.status(404).send('what???');
 })    
 
 app.listen(3000, () => console.log('aXplain server listening on port 3000!'));
