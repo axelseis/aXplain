@@ -19,14 +19,11 @@ describe('Action Creators:', () => {
 
             fakeValues.forEach((url) => {
                 fakeValues.forEach((route) => {
-                    fakeValues.forEach((props) => {
-                        fakeValues.forEach((params) => {
-                            action = setLocation(url, route, props, params)
-                            expect(action.payload.url).toEqual(url);
-                            expect(action.payload.route).toEqual(route);
-                            expect(action.payload.props).toEqual(props);
-                            expect(action.payload.params).toEqual({...params});
-                        })
+                    fakeValues.forEach((params) => {
+                        action = setLocation(url, route, params)
+                        expect(action.payload.url).toEqual(url);
+                        expect(action.payload.route).toEqual(route);
+                        expect(action.payload.params).toEqual({...params});
                     })
                 })
             })
@@ -35,14 +32,11 @@ describe('Action Creators:', () => {
             initStore([],{});
             fakeValues.forEach((url) => {
                 fakeValues.forEach((route) => {
-                    fakeValues.forEach((props) => {
-                        fakeValues.forEach((params) => {
-                            dispatch(setLocation(url, route, props, params))
-                            expect(state.router.url).toEqual(url);
-                            expect(state.router.route).toEqual(route);
-                            expect(state.router.params).toEqual({...params});
-                            expect(state.router.props).toEqual(props);
-                        })
+                    fakeValues.forEach((params) => {
+                        dispatch(setLocation(url, route, params))
+                        expect(state.router.url).toEqual(url);
+                        expect(state.router.route).toEqual(route);
+                        expect(state.router.params).toEqual({...params});
                     })
                 })
             })
