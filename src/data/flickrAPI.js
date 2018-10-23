@@ -1,6 +1,6 @@
 import { isFunction } from '../lib/utils.js';
 
-const apiServer = 'http://localhost:3000/api';
+const apiServer = '/api';
 
 export function getImagesJSON(searchTxt,pageNum) {
     return _get(`${apiServer}/getImages/${searchTxt}/${pageNum}`);

@@ -49,13 +49,6 @@ module.exports = (env) => {
                 debug: "debug"
             })
         ],
-        devServer: {
-            hot: true,
-            contentBase: './dist',
-            port: 9000,
-            index: 'index.html',
-            publicPath: ''
-        },
         module: {
             rules: [{
                     test: /\.js$/,

@@ -7,9 +7,9 @@
       "start": "set NODE_ENV=dev && npm-run-all --parallel dev:*",
       "dev:server": "node-dev server.js",
       "dev:css": "node-sass src/ -o ./ --watch --recursive --source-map true",
-      "webpack-dev-server": "webpack-dev-server --open",
       "build": "webpack",
-      "prod": "set NODE_ENV=prod && node server.js ",
+      "prod:server": "node server.js",
+      "prod": "set NODE_ENV=prod && npm-run-all build prod:server",
       "test": "jest --watch"
     },
   "repository": {
