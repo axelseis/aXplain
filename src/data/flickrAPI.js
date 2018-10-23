@@ -1,11 +1,13 @@
 import { isFunction } from '../lib/utils.js';
 
+const apiServer = 'http://localhost:3000/api';
+
 export function getImagesJSON(searchTxt,pageNum) {
-    return _get(`/api/getImages/${searchTxt}/${pageNum}`);
+    return _get(`${apiServer}/getImages/${searchTxt}/${pageNum}`);
 }
 
 export function getImageDataJSON(imageId) {
-    return _get(`/api/getImageData/${imageId}`);
+    return _get(`${apiServer}/getImageData/${imageId}`);
 }
 
 function _get(url, config) {

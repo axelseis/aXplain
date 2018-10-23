@@ -5,24 +5,34 @@ const express = require('express');
 const app = express();
 const env = app.get('env').replace(/\s/g, "");
 
+let port = 8080;
+
 app.set('json spaces', 40);
 
 if(env === 'dev') {
     const livereload = require('livereload');
 
     app.use(express.static(__dirname));
+    app.use(function(req, res, next) {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        next();
+    });
 
     var lrserver = livereload.createServer();
     lrserver.watch([
         __dirname,
         path.join(__dirname,'src')
     ])
+    port = 3000;
 }
 else {
     app.use(express.static(
         path.join(__dirname,'dist')
-    ));    
+    )); 
 }
+
+app.listen(port, () => console.log('aXplain server listening on port ' + port ));
 
 const flickrUrl = (params) => {
     const flikrParams = {
@@ -78,8 +88,7 @@ app.get('/images/:imageId', function(req,res){
 })
 
 app.get('*', function(req,res){
-    res.status(404).send('what???');
+    res.sendFile(path.join(__dirname,'index.html'));
 })    
 
-app.listen(3000, () => console.log('aXplain server listening on port 3000!'));
 

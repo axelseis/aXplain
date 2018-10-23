@@ -1,6 +1,6 @@
 import { state } from './store.js'
 
-const isDev = window.env && window.env === 'dev';
+const isDev = window.location.port == 3000;
 
 if(isDev){
     document.addEventListener('state', (ev) => {

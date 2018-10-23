@@ -1,6 +1,7 @@
 import { state } from './store.js';
 
 export const actions = {
+    SET_ROUTES: 'SET_ROUTES',
     SET_LOCATION: 'SET_LOCATION',
     SET_COMPONENT_PROP: 'SET_COMPONENT_PROP_nolog',
     SET_APP_PROP: 'SET_APP_PROP_nolog',
@@ -9,7 +10,7 @@ export const actions = {
 
 export function setRoutes(routes){
     return({
-        type: actions.SET_LOCATION,
+        type: actions.SET_ROUTES,
         payload: {routes}
     })
 }
@@ -22,6 +23,7 @@ export function setLocation(url, route, params){
 }    
 
 export const reducers = {
+    [actions.SET_ROUTES]: setRouterPayload,
     [actions.SET_LOCATION]: setRouterPayload,
     [actions.SET_COMPONENT_PROP]: setComponentPayload,
     [actions.SET_APP_PROP]: setAppPayload,
