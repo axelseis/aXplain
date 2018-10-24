@@ -1,11 +1,11 @@
 import Component from '../../lib/Component.js'
 import { getWindowSize } from '../../utils.js';
-import {getImageDetails, onImageLoaded} from './actions.js';
-import { addClass, hasClass, removeClass } from '../../lib/utils.js';
+import {getImageDetails, onImageLoaded, onImageClosed} from './actions.js';
+import { addClass, removeClass } from '../../lib/utils.js';
 import { go } from '../../lib/router.js';
 import Loader from '../common/Loader.js';
 
-export default class Header extends Component {
+export default class Visor extends Component {
     constructor(className) {
         super(className, [Loader]);
     }
@@ -14,6 +14,7 @@ export default class Header extends Component {
         const imageId = state.router && state.router.params && state.router.params.imageId;
         const imageDetails = (state.details && state.details[imageId]);
         const sizes = imageDetails && Object.values(imageDetails.size);
+
         const imageUrl = sizes && sizes.reduce((maxSize,size) => {
             const winSize = getWindowSize();
             if((size.width < winSize.width && size.height < winSize.height)
@@ -28,9 +29,11 @@ export default class Header extends Component {
         const imagePos = !imageLoaded && state.App && state.App.visorPosition || {top:0,left:0,width:'100%',height:'100%'};
 
         if(imageLoaded){
-            addClass(this.$clip,'loaded')
+            addClass(this.$clip,'loaded');
+            addClass(document.body,'App--onphoto')
         }
-        else if(hasClass(this.$clip,'loaded')){
+        else{
+            removeClass(document.body,'App--onphoto')
             removeClass(this.$clip,'loaded')
         }
         
@@ -52,12 +55,28 @@ export default class Header extends Component {
     }
     
     onClickCloseButton(ev){
+        onImageClosed();
         go('/');
+    }
+
+    getImageDetails(){
+        const {title,description,taken,name,location} = {...this.props.imageDetails};
+        
+        return(`
+            <div class="Visor__details">
+                <div class="detail__title">${title}</div>
+                <div class="detail__description">${description}</div>
+                <div class="detail__name">${name}</div>
+                <div class="detail__taken">${taken}</div>
+                ${location ? `
+                    <div class="detail__location">${location}</div>
+                ` : ''}
+            </div>            
+        `)
     }
     
     render() {
         const {top,left,width,height} = {...this.props.imagePos}
-        const title = this.props.imageDetails && this.props.imageDetails.title && this.props.imageDetails.title._content
 
         return(`
             <style>
@@ -76,9 +95,10 @@ export default class Header extends Component {
             `}
             <div class="Visor__image image--${this.props.imageLoaded ? 'loaded' : 'loading'}">
                 ${this.props.imageUrl ? `
-                    <img src="${this.props.imageUrl}" alt="${title}" onload="onLoadImage">
+                    <img src="${this.props.imageUrl}" alt="${this.props.imageUrl}" onload="onLoadImage">
                 ` : ''}
             </div>
+            ${this.props.imageLoaded && this.props.imageDetails ? this.getImageDetails() : ''}
         `)
     }
 }

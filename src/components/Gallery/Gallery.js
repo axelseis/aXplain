@@ -5,7 +5,7 @@ import { parseStringToHTML, getOffset } from '../../utils.js';
 import Photo from '../Photo/Photo.js';
 import Loader from '../common/Loader.js';
 
-export default class Landing extends Component {
+export default class Gallery extends Component {
 
     constructor(className) {
         super(className, [Photo]);
