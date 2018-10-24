@@ -9,29 +9,34 @@ module.exports = (env) => {
 
     return {
         mode: mode,
-        entry: [
-            './polyfill/polyfill.js',
-            './main.js',
-            './src/main.scss'
-        ],
+        entry: {
+            polyfill: './polyfill/polyfill.js',
+            main: ['./main.js','./src/main.scss']
+        },
         optimization: {
             minimizer: [
-            new UglifyJsPlugin({
-                cache: true,
-                parallel: true,
-                sourceMap: true,
-                uglifyOptions: {
-                    mangle: true,
-                    keep_fnames: true
+                new UglifyJsPlugin({
+                    cache: true,
+                    parallel: true,
+                    sourceMap: true,
+                    uglifyOptions: {
+                        mangle: true,
+                        keep_fnames: true
+                    }
+                }),
+                new OptimizeCSSAssetsPlugin({})
+            ],
+            splitChunks: {
+                cacheGroups: {
+                  commons: {
+                    test: /[\\/]polyfill[\\/]/,
+                    name: "polyfill",
+                    chunks: "initial",
+                  }
                 }
-            }),
-            new OptimizeCSSAssetsPlugin({})
-            ]
-        },
+              }
+                  },
         plugins: [
-            new webpack.DefinePlugin({
-                mode: JSON.stringify(mode),
-            }),                        
             new MiniCssExtractPlugin({
                 filename: "[name].css",
                 chunkFilename: "[id].css"
@@ -42,7 +47,7 @@ module.exports = (env) => {
                     to: './assets'
                 },
                 {
-                    from: './index.html',
+                    from: './index.prod.html',
                     to: './index.html'
                 } 
             ], {
@@ -50,7 +55,8 @@ module.exports = (env) => {
             })
         ],
         module: {
-            rules: [{
+            rules: [
+                {
                     test: /\.js$/,
                     use: {
                         loader: "babel-loader"
