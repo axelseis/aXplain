@@ -26,16 +26,7 @@ module.exports = (env) => {
                 }),
                 new OptimizeCSSAssetsPlugin({})
             ],
-            splitChunks: {
-                cacheGroups: {
-                  commons: {
-                    test: /[\\/]polyfill[\\/]/,
-                    name: "polyfill",
-                    chunks: "initial",
-                  }
-                }
-              }
-                  },
+        },
         plugins: [
             new MiniCssExtractPlugin({
                 filename: "[name].css",

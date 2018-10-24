@@ -29,7 +29,6 @@
     "babel-loader": "^8.0.4",
     "copy-webpack-plugin": "^4.5.3",
     "css-loader": "^1.0.0",
-    "es7-object-polyfill": "0.0.7",
     "express": "^4.16.4",
     "extract-loader": "^3.0.0",
     "jest": "^22.1.1",
