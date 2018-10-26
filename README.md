@@ -44,7 +44,7 @@ In aXplain you can create components like in React, but with no external depende
     import  SubComponent  from  '../SubComponent/SubComponent.js';
     
     export  default  class  Photo  extends  Component {
-		constructor(element, [classes2Render]) {
+		constructor(element) {
 		    super(element, [SubComponent]);
 	    }
 	    stateToprops(state){
