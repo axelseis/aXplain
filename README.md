@@ -1,4 +1,4 @@
-# aXplain: A React+Redux like library in plain ES6
+# aXplain: React+Redux in Vanilla JS
 
 aXplain is experimental, please use carefully :)
 
