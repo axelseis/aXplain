@@ -20,7 +20,7 @@ From redux documentation:
     initStore([reducer_one,reducer_two], initialState);
 
 # Router
-aXplain contains a simple router that need to be initializated before create the first Component. 
+aXplain contains a simple router that exposes its properties in the state. 
 the router has two functions that can be used to manage navigation: go for internal navigation and goOut for manage external links
 	
     import { initRouter, go, goOut } from  './src/lib/router.js';
