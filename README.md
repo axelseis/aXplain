@@ -68,4 +68,4 @@ aXplain have an example project that you can use like a starter kit
  3. type **npm start**  to start the development server
  4. edit what you want: components are at src folder, index.js and index.html are the starter files
  5. when you are ok with the result the comand **npm run build** creates an minified and transpiled (babel) version of the application at dist/ folder
- 6. **npm run prod** 
+ 6. **npm run prod** runs the server in prod mode
