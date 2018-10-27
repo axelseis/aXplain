@@ -11,12 +11,14 @@ From Redux documentation:
 > They are used to reduce a collection of values down to a single value.
 
     import { initStore } from  './src/lib/store.js';
+	import { reducers as ComponentReducer } from './src/components/Component/actions.js';
+	import { reducers as SubComponentReducer } from './src/components/SubComponent/actions.js';
     
     const reducer_one = (state, payload) => { ...state, ...payload };
     const reducer_two = (state, payload) => { ...state, more: payload.more };
     const initialState = { initValue: 1 };
     
-    initStore([reducer_one,reducer_two], initialState);
+    initStore([ComponentReducer,SubComponentReducer], initialState);
 
 # Router
 aXplain contains a simple router that exposes its properties in the state. 
