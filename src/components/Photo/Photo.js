@@ -6,6 +6,10 @@ import { setImageSelected } from './actions.js';
 export default class Photo extends Component {
     constructor(className) {
         super(className);
+        
+        this.setState({
+            random: Math.round(Math.random()*25)
+        })
     }
     
     stateToprops(state){

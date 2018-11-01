@@ -1,5 +1,6 @@
 import { state } from './store.js';
 import { isDOMElement, isString, cleanChildNodes, getAllAttributes, aXplainWarn, mapEvent } from './utils.js'
+import { setComponentProps } from './actions.js';
 
 const uniqueNames = [];
 function getUniqueName(name){
@@ -33,7 +34,7 @@ export default class Component {
         }
 
         this.$clip = DOMElement[0];
-        this._name = getUniqueName(className);
+        this._name = this.$clip.getAttribute('id') || getUniqueName(className);
         this._classes2Render = classes2Render || [];
         this.props = {};
         this.domProps = {};
@@ -45,7 +46,15 @@ export default class Component {
 
         this._stateListener();
     }
-    
+
+    setState({...props} = {}){
+        setComponentProps(this.name,props)
+    }
+
+    get state() {
+        return state.Components && state.Components[this.name];
+    }
+
     get name() {
         return this._name;
     }
@@ -129,7 +138,7 @@ export default class Component {
             const elements = this.$clip.querySelectorAll(className.toLowerCase());
             
             Object.keys(elements).forEach((id,index) => {
-                const tempName = elements[id].getAttribute('id') || className + index;
+                const tempName = elements[id].getAttribute('id') || getUniqueName(className);
                 if(!this._components[tempName] || this._components[tempName].$clip !== elements[id]){
                     elements[id].setAttribute('id', tempName);
                     elements[id].__axplainComp__ = classFunc;
