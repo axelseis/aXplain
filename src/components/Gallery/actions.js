@@ -14,17 +14,15 @@ export const modes = {
 
 const searchText = 'archDaily';
 
-export function getImages(page) {
-    dispatchAction(libActions.SET_APP_PROP, {
+export async function getImages(page) {
+    await dispatchAction(libActions.SET_APP_PROP, {
         pageLoading: page
     })
-    getImagesJSON(searchText,page)
-        .then(results => {
-            dispatchAction(libActions.SET_APP_PROP, {
-                pageLoading: null,
-            })
-            dispatchAction(actions.GET_IMAGES, results.photos)
-        })
+    const results = await getImagesJSON(searchText,page)
+    await dispatchAction(libActions.SET_APP_PROP, {
+        pageLoading: null,
+    })
+    await dispatchAction(actions.GET_IMAGES, results.photos)
 }
 
 export function setWindowSize(){

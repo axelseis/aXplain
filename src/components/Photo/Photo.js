@@ -5,11 +5,7 @@ import { setImageSelected } from './actions.js';
 
 export default class Photo extends Component {
     constructor(className) {
-        super(className);
-        
-        this.setState({
-            random: Math.round(Math.random()*25)
-        })
+        super(className);        
     }
     
     stateToprops(state){
@@ -25,11 +21,6 @@ export default class Photo extends Component {
     onClickImage(ev) {
         setImageSelected(this.$clip);
         go(`/images/${this.domProps.id}`);
-    }
-    
-    onClickOwner(ev) {
-        ev.stopPropagation();
-        goOut(`https://www.flickr.com/photos/${this.domProps.owner}/${this.domProps.id}`, true);
     }
     
     render() {

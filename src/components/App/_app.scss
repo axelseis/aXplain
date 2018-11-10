@@ -1,0 +1,64 @@
+.Photo {
+    cursor: pointer;
+    overflow: hidden;
+    background-color: gray;
+    box-sizing: border-box;
+
+    &:hover &{
+        &__image {
+            transform: scale(1.5) rotate(10deg);
+            transition: transform 0.568s;
+        }
+        &__info {
+            opacity: 1;
+            transition: opacity 0.568s;
+        }
+    }
+
+    &__image {
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        transform: scale(1) rotate(0deg);
+        transition: transform 0.288s;
+        opacity: 1;
+    }
+
+    &__info {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 10%;
+        color: white;
+        background-color: rgba($color: #000000, $alpha: 0.6);
+        opacity: 0;
+        transition: opacity 0.298s;
+    }
+
+    &__title {
+        text-align: center;
+        font-weight: 600;
+        font-size: 1.2em;
+        max-height: 80%;
+        max-width: 100%;
+        overflow: hidden;
+    }
+
+    &__owner {
+        margin-top: 5px;
+        padding-top: 5px;
+        border-top: solid 1px white;
+        font-size: 0.8em;
+
+        &:hover {
+            color: red;
+        }
+    }
+}
