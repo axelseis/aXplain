@@ -34,7 +34,7 @@ else {
     )); 
 }
 
-app.listen(port, () => console.log('aXplain server listening on port ' + port ));
+app.listen(port, () => console.log(`aXplain ${env} server listening on port ${port}`));
 
 const flickrUrl = (params) => {
     const flikrParams = {
