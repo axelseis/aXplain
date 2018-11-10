@@ -41,7 +41,7 @@ export default class Gallery extends Component {
         const images = this.props.images;
         const loaded = images && images.length;
 
-        return (`
+        return(`
             <style>
                 .Gallery__photo {
                     width: ${this.props.imageW}px;

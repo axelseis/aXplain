@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+$blue: #2D7FE2;
+$grey: #ECEDF2;
+$greyBlack: #7c7c7c;
+$greyDark: #d1d1d1;
+$greyMedium: #F9F9FB;
+$backColor: #F3F2F7;
+
+$maxW: 960px;
+$minW: 560px;
+
+@mixin flexRow(){
+    &:nth-child(1){
+        flex: 0 2 280px;
+    }
+    &:nth-child(2){
+        flex: 0 0 100px;
+        text-align: center;
+    }
+    &:nth-child(3){
+        flex: 0 2 260px;
+        text-align: center;
+    }
+    &:nth-child(4){
+        flex: 1 1 200px;
+        text-align: center;
+    }
+}
+
+body,html {
+    font-family: 'Roboto', sans-serif;
+    min-height: 100%;
+    padding: 0;
+    margin: 0;
+    background-color: $backColor;
+    border-radius: 5px;
+}
+
+@import "./App/app.scss";
+@import "./Header/header.scss";
+@import "./Team/team.scss";
+@import "./User/user.scss";

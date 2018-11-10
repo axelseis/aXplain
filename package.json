@@ -6,7 +6,7 @@
   "scripts": {
     "start": "set NODE_ENV=dev && npm-run-all --parallel dev:*",
     "dev:server": "node-dev server.js",
-    "dev:css": "node-sass src/ -o ./ --watch --recursive --source-map true",
+    "dev:css": "node-sass src/ -o src/ --watch --recursive --source-map true",
     "build": "webpack",
     "prod:server": "node server.js",
     "prod": "set NODE_ENV=prod && npm-run-all build prod:server",
@@ -28,6 +28,7 @@
     "babel-jest": "^22.1.0",
     "babel-loader": "^8.0.4",
     "copy-webpack-plugin": "^4.5.3",
+    "cors-anywhere": "^0.4.1",
     "css-loader": "^1.0.0",
     "express": "^4.16.4",
     "extract-loader": "^3.0.0",
@@ -45,9 +46,11 @@
     "uglifyjs-webpack-plugin": "^2.0.1",
     "webpack": "^4.21.0",
     "webpack-cli": "^3.1.2",
+    "eslint-config-airbnb": "^17.1.0",
     "webpack-dev-server": "^3.1.9"
   },
   "dependencies": {
+    "fs": "0.0.1-security",
     "node-fetch": "^2.2.0",
     "promise-polyfill": "^7.0.0",
     "whatwg-fetch": "^2.0.3"
