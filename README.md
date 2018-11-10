@@ -11,8 +11,8 @@ From Redux documentation:
 > They are used to reduce a collection of values down to a single value.
 
     import { initStore } from  './src/lib/store.js';
-	import { reducers as ComponentReducer } from './src/components/Component/actions.js';
-	import { reducers as SubComponentReducer } from './src/components/SubComponent/actions.js';
+	import { reducers as ComponentReducer } from './src/images_gallery/Component/actions.js';
+	import { reducers as SubComponentReducer } from './src/images_gallery/SubComponent/actions.js';
     
     const initialState = { initValue: 1 };
     

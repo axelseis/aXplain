@@ -8,7 +8,7 @@ import Visor from '../Visor/Visor.js';
 import { reducers as GalleryReducer } from '../Gallery/actions.js';
 import { reducers as VisorReducer } from '../Visor/actions.js';
 
-import {initialState} from '../../initialState.js';
+import {initialState} from '../initialState.js';
 
 const routes = [
     { url: "/" },

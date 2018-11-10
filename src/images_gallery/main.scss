@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+@import "./images_gallery/animations.scss";
+@import "./images_gallery/Gallery/scrollbars.scss";
+@import "./images_gallery/Gallery/gallery.scss";
+@import "./images_gallery/Photo/photo.scss";
+@import "./images_gallery/Visor/visor.scss";
+
+body,html {
+    font-family: 'Roboto', sans-serif;
+    min-height: 100%;
+    padding: 0;
+    margin: 0;
+
+    &.App--onphoto {
+        overflow: hidden;
+    }
+}

@@ -1,5 +1,5 @@
 import { init as initLogger,log } from "./src/lib/logger.js";
-import App from "./src/components/App/App.js";
+import App from "./src/images_gallery/App/App.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     initLogger();
