@@ -19,14 +19,46 @@ export default class Team extends Component {
         super.dispose();
     }
     
+    
+    _filterUsers(users,dateIn,dateOut,filterObj, orderId){
+        const compare = (user1, user2) => {
+            let response = 0;
+    
+            if (filterObj.asc) {
+                response = user1[orderId] > user2[orderId] ? 1 : -1
+            }
+            else {
+                response = user1[orderId] < user2[orderId] ? 1 : -1
+            }
+            return response;
+        }
+        
+        const sortUsers = Object.values(users).sort(compare).map(user => user.UserId);
+        const filteredUsers = sortUsers.filter(UserId => {
+            const userDate = users[UserId].EmployeeStartDate;
+            const isIn = (!dateIn || (dateIn && userDate > dateIn)) && (!dateOut || (dateOut && userDate < dateOut))
+            return isIn;
+        },[]);
+        
+        return filteredUsers;
+    }
+
     stateToprops(state){
-        const {order=[], App:{perpage=1,page=1}} = {...state}
+        const {
+            users,
+            App: { perpage=1, page=1 },
+            filters: { filterSelected, dateIn, dateOut, order:orderFilters }
+        } = {...state}
+        
+        const filterObj = orderFilters.find(filter => filter.id === filterSelected)
+        const order = this._filterUsers(users,dateIn,dateOut,filterObj, filterSelected)
+        
         const indexOut = page*perpage;
         const indexIn = indexOut - perpage;
-        const orderPage = order.slice(indexIn,indexOut);
-
+        const orderPaged = order.slice(indexIn,indexOut);
+        
         return ({
-            order: orderPage,
+            order: orderPaged,
             page,
             maxPages: Math.floor(order.length/perpage)
          })
@@ -53,7 +85,22 @@ export default class Team extends Component {
     
     render() {
         const {order,page,maxPages} = {...this.props};
-
+    
+        // filterSel.asc = !filterSel.asc;
+        //     const compare = (user1, user2) => {
+        //     let response = 0;
+    
+        //     if (filterSel.asc) {
+        //         response = user1[orderId] > user2[orderId] ? 1 : -1
+        //     }
+        //     else {
+        //         response = user1[orderId] < user2[orderId] ? 1 : -1
+        //     }
+        //     return response;
+        // }
+        // const initialOrder = Object.values(state.users).sort(compare).map(user => user.UserId);
+        // const order = _filterByDates(initialOrder,users,dateIn,dateOut)
+    
         return(`
             <div class="Team__list">
                 ${order.map(UserId => `
