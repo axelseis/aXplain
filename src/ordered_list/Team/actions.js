@@ -8,8 +8,9 @@ export function setpageIndex(page) {
 }
 
 export function defineScrollbarWidth(scrollbarWidth = 0){
+    const tmpW = scrollbarWidth < 10 ? 0 : scrollbarWidth;
     dispatchAction(libActions.SET_APP_PROP, {
-        scrollbarWidth: scrollbarWidth + 'px'
+        scrollbarWidth: tmpW + 'px'
     })
 }
 
