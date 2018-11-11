@@ -8,12 +8,11 @@ export const initialState = {
     filters: {
         dateIn: 0,
         dateOut: 0,
-        filterSelected: null,
+        filterSelected: 'FirstName',
         order: [
             {
                 id: 'FirstName',
-                title: "Información personal",
-                asc: false
+                title: "Información personal"
             },
             {
                 id: 'UserId',

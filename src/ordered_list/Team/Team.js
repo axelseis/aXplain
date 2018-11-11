@@ -7,11 +7,17 @@ export default class Team extends Component {
     constructor(className) {
         super(className, [User]);
         
-        window.addEventListener('resize', () =>  {
+        this.onResize = () =>  {
             defineScrollbarWidth(window.innerWidth - this.$clip.clientWidth)
-        })
+        }
+
+        window.addEventListener('resize', this.onResize)
     }
     
+    dispose(){
+        window.removeEventListener('resize', this.onResize);
+        super.dispose();
+    }
     
     stateToprops(state){
         const {order=[], App:{perpage=1,page=1}} = {...state}

@@ -1,6 +1,6 @@
 
 import Component from '../../lib/Component.js'
-import { initStore } from '../../lib/store.js';
+import { initStore, state } from '../../lib/store.js';
 import { initRouter } from '../../lib/router.js';
 import "../../lib/logger.js";
 
@@ -26,7 +26,7 @@ export default class App extends Component {
     }
     
     initApp(){
-        initStore([reducers,headerReducers,userReducers], initialState);
+        initStore([reducers,headerReducers,userReducers], {...state,...initialState});
         initRouter(routes, BASE_URL || '');
 
         getUsers();

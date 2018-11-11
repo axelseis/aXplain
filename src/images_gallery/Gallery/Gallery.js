@@ -10,12 +10,23 @@ export default class Gallery extends Component {
     constructor(className) {
         super(className, [Photo]);
         
-        window.addEventListener(mapEvent('resize'), () => setWindowSize())
-        window.addEventListener('scroll', (ev) => {setScrollPos(this.$clip)});
+        this.onScroll = () => {
+            setScrollPos(this.$clip);
+        }
+
+        window.addEventListener(mapEvent('resize'), setWindowSize)
+        window.addEventListener(mapEvent('scroll'), this.onScroll);
 
         setScrollPos(this.$clip);
     }
     
+    dispose(){
+        window.removeEventListener(mapEvent('resize'), setWindowSize);
+        window.removeEventListener(mapEvent('scroll'), this.onScroll);
+        
+        super.dispose();
+    }
+
     stateToprops(state) {
         const images = [...Object.values(state.images||[])];
         const maxW = Math.floor(getOffset(this.$clip).width);

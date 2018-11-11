@@ -1,14 +1,8 @@
 import { init as initLogger,log } from "./src/lib/logger.js";
-import OLApp from "./src/ordered_list/App/App.js";
-import IGApp from "./src/images_gallery/App/App.js";
-
-const demos = {
-    images_gallery: IGApp,
-    ordered_list: OLApp
-}
+import App from "./src/App.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     initLogger();
-    const app = new demos[window.PROJECT_ID || 'images_gallery'](document.getElementById("App"));
+    const app = new App(document.getElementById("App"));
     log(`inited ${app.name}`)
 })

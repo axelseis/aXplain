@@ -22,9 +22,7 @@ if(env === 'dev') {
         next();
     });
 
-    var lrserver = livereload.createServer({
-        delay: 5000
-    });
+    var lrserver = livereload.createServer();
     lrserver.watch([
         __dirname,
         path.join(__dirname,'src')

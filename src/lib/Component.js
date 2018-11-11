@@ -272,6 +272,10 @@ export default class Component {
 
     dispose(){
         document.removeEventListener('state', this._stateListener);
+        Object.keys(this._components).map(componentId => {
+            this._components[componentId].dispose();
+            delete this._components[componentId];
+        })
         for (let prop in this) {
             this[prop] = null;
             delete this[prop]

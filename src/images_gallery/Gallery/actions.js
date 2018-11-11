@@ -56,7 +56,7 @@ function setImages(state, payload) {
     const imagesNew = Object.values(images);
     return ({
         ...state,
-        images: [...state.images,...imagesNew],
+        images: [...(state.images || []),...imagesNew],
         page,
         perpage
     })
