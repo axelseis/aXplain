@@ -2,6 +2,9 @@
 
 @import "./images_gallery/main.scss";
 @import "./ordered_list/main.scss";
+@import "./wp_frontend/main.scss";
+
+$menuW: 140px;
 
 body,html {
     font-family: 'Roboto', sans-serif;
@@ -16,10 +19,12 @@ body,html {
         top: 0;
         left: 0;
         z-index: 100;
+        width: $menuW;
         background-color: rgba(255, 255, 255, 0.623);
         padding: 10px;
         border-right: solid 5px black;
         border-bottom: solid 5px black;
+        box-sizing: border-box;
 
         &__button {
             background-color: rgba(255, 255, 255, 0);
@@ -31,6 +36,33 @@ body,html {
                 background-color: rgb(89, 89, 104);
                 color: white;
                 transition: background-color, color 0.657s, 0.987s;
+            }
+        }
+
+        &__openclose {
+            position: absolute;
+            top: 0;
+            left: 100%;
+            width: 20px;
+            height: 20px;
+            background-color: black;
+            font-family: "Font Awesome 5 Free";
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: -1;
+        }
+
+        &.menu-- {
+            &visible {
+                left: 0;
+                transition: left 0.567s;
+            }
+            &hidden {
+                left: -$menuW;
+                transition: left 0.567s;
             }
         }
     }

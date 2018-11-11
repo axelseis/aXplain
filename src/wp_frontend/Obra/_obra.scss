@@ -1,0 +1,22 @@
+$obraH: 40px;
+
+.Obra {
+    width: 100%;
+    flex: 0 0 $obraH;
+    display: block;
+    cursor: pointer;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+        background-color: rgb(160, 159, 182);
+    }
+    &__info {
+    }
+
+    &__title {
+        font-weight: 600;
+        font-size: 1.2em;
+    }
+}

@@ -40,7 +40,7 @@ app.listen(port, () => console.log(`aXplain ${env} server listening on port ${po
 require('./APIs/flickrAPI.js')(app);
 require('./APIs/woffuAPI.js')(app);
 
-app.get('*', function(req,res){
+app.get('*/*', function(req,res){
     res.sendFile(path.join(__dirname,'index.html'));
 })    
 

@@ -1,16 +1,11 @@
 @import "./animations.scss";
-@import "./Gallery/scrollbars.scss";
-@import "./Gallery/gallery.scss";
-@import "./Photo/photo.scss";
-@import "./Visor/visor.scss";
+@import "./Portada/scrollbars.scss";
+@import "./Portada/portada.scss";
+@import "./Obra/obra.scss";
 
 body,html {
     font-family: 'Roboto', sans-serif;
     min-height: 100%;
     padding: 0;
     margin: 0;
-
-    &.App--onphoto {
-        overflow: hidden;
-    }
 }

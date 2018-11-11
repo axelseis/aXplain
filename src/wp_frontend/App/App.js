@@ -3,23 +3,23 @@ import { initStore, state } from '../../lib/store.js';
 import { initRouter } from '../../lib/router.js';
 
 import Portada from '../Portada/Portada.js';
-import Visor from '../Visor/Visor.js';
 
-import { reducers as PortadaReducer } from '../Portada/actions.js';
-import { reducers as VisorReducer } from '../Visor/actions.js';
+import { getPosts, reducers as AppReducer } from './actions.js';
 
 const routes = [
     { url: "/" },
-    { url: "/images/:imageId" },
+    { url: "/obra/:obraId" },
     { url: "404", redirect: "/" }
 ]
 
 export default class App extends Component {
     constructor(className) {
-        super(className, [Portada,Visor]);
+        super(className, [Portada]);
         
-        initStore([PortadaReducer,VisorReducer], state);
+        initStore([AppReducer], state);
         initRouter(routes, window.BASE_URL || '');
+
+        getPosts();
     }
     
     stateToprops(state){
@@ -30,7 +30,6 @@ export default class App extends Component {
     render() {
         return(`
             <Portada class="Portada"></Portada>
-            <Visor class="Visor"></Visor>
         `)
     }
 }

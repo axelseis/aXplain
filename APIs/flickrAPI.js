@@ -1,4 +1,5 @@
 const fetch = require('node-fetch');
+const path = require('path');
 
 const flickrUrl = (params) => {
     const flikrParams = {
@@ -51,7 +52,7 @@ module.exports = function(app){
     })
     
     app.get('/images/:imageId', function(req,res){
-        res.sendFile(path.join(__dirname,'index.html'));
+        res.sendFile(path.join(__dirname,'../index.html'));
     })
 
 }    

@@ -3,10 +3,12 @@ import { initStore } from './lib/store.js';
 
 import OLApp from "./ordered_list/App/App.js";
 import IGApp from "./images_gallery/App/App.js";
+import WPApp from "./wp_frontend/App/App.js";
 
 const demos = {
     images_gallery: IGApp,
-    ordered_list: OLApp
+    ordered_list: OLApp,
+    wp_frontend: WPApp
 }
 
 export default class App extends Component {
@@ -14,17 +16,18 @@ export default class App extends Component {
         super(className, [OLApp]);
         initStore([], {});
 
-        this.setDemoId(Object.keys(demos)[1])
+        this.setDemoSelected(Object.keys(demos)[2])
     }
     
     stateToprops(state){
-        const {demoId} = {...this.state}
+        const { demoSelected, menuVisible=false } = {...this.state}
         return ({
-            demoId
+            demoSelected,
+            menuVisible
         })
     }
     
-    setDemoId(demoId){
+    setDemoSelected(demoId){
         const appClass = demos[demoId];
         const actComponent = this._components.App;
         if(actComponent){
@@ -33,19 +36,26 @@ export default class App extends Component {
         this._classes2Render = [appClass];
         
         this.setState({
-            demoId
+            demoSelected: demoId
         })
     }
 
     onClickHeaderButton(ev){
-        this.setDemoId(ev.target.id)
+        this.setDemoSelected(ev.target.id)
+    }
+
+    onClickOpenClose(){
+        this.setState({
+            menuVisible: !this.props.menuVisible
+        })
     }
 
     render() {
+        const {demoSelected, menuVisible} = {...this.props}
         return(`
-            <div class="aXplain__menu">
+            <div class="aXplain__menu menu--${menuVisible ? 'visible' : 'hidden'}">
                 ${Object.keys(demos).map(demoId => {
-                    const selected = demoId === this.props.demoId ? 'selected' : 'unselected';
+                    const selected = demoId === demoSelected ? 'selected' : 'unselected';
 
                     return(`
                         <div id="${demoId}" class="aXplain__menu__button button--${selected}" onClick="onClickHeaderButton">
@@ -53,8 +63,11 @@ export default class App extends Component {
                         </div>
                     `)
                 }).join('')}
+                <div class="aXplain__menu__openclose" onClick="onClickOpenClose">
+                    <i class="fas fa-angle-${menuVisible ? 'left' : 'right'}"></i>
+                </div>
             </div>
-            <App id="App" class="App"></App>
+            <App id="App-demo" class="App-demo"></App>
         `)
     }
 }

@@ -1,64 +1,48 @@
 import { actions as libActions } from '../../lib/actions.js'
 import { dispatchAction, state } from '../../lib/store.js';
-import { getImagesJSON } from '../../data/flickrAPI.js';
-import { getOffset, getWindowSize } from '../../utils.js';
+import { getPostsJSON } from '../../data/nanovaldesAPI.js';
 
 export const actions = {
-    GET_IMAGES: 'GET_IMAGES'
+    GET_POSTS: 'GET_POSTS'
 }
 
-export const modes = {
-    DESKTOP: 'desktop',
-    MOBILE: 'mobile'
-}
-
-const searchText = 'archDaily';
-
-export async function getImages(page) {
+export async function getPosts() {
     await dispatchAction(libActions.SET_APP_PROP, {
-        pageLoading: page
+        loadingPosts: true
     })
-    const results = await getImagesJSON(searchText,page)
+    const results = await getPostsJSON()
     await dispatchAction(libActions.SET_APP_PROP, {
-        pageLoading: null,
+        loadingPosts: false,
     })
-    await dispatchAction(actions.GET_IMAGES, results.photos)
-}
-
-export function setWindowSize(){
-    const windowSize = getWindowSize();
-
-    dispatchAction(libActions.SET_APP_PROP, {
-        winW: windowSize.width,
-        winH: windowSize.height,
-        mode: windowSize.width > 767 ? modes.DESKTOP : modes.MOBILE 
-    })
-}
-
-export function setScrollPos(clip){
-    const offset = getOffset(clip);
-    const winH = getWindowSize().height
-    
-    if(offset.top + offset.height < winH*1.9){
-        const nextPage = state.page+1;
-        if(nextPage !== (state.App||[]).pageLoading){
-            getImages(nextPage)
-        }
-    }
+    await dispatchAction(actions.GET_POSTS, results)
 }
 
 export const reducers = {
-    [actions.GET_IMAGES]: setImages
+    [actions.GET_POSTS]: setPosts
 }
 
-function setImages(state, payload) {
-    const {photo: images, page, perpage} = {...payload}
-    const imagesNew = Object.values(images);
+function setPosts(state, payload = []) {
+    const postsOrder = payload.map(post => post.id)
+    const posts = payload.reduce((postsObj,post) => {
+        const {
+            id,
+            slug,
+            content:{rendered:content},
+            date,
+            excerpt:{rendered:excerpt},
+            title:{rendered:title},
+            featured_media
+        } = {...post}
+        postsObj[id] = {
+            id,slug,content,date,excerpt,title,featured_media
+        }
+        return postsObj
+    },{})
+
     return ({
         ...state,
-        images: [...(state.images || []),...imagesNew],
-        page,
-        perpage
+        postsOrder: postsOrder || [],
+        posts: posts || {}
     })
 }
 
