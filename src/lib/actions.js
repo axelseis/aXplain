@@ -48,7 +48,6 @@ function setAppPayload(state, payload){
 }
 
 function setComponentPayload(state, payload){
-    console.log('setComponentPayload', payload)
     const {componentName, ...props} = {...payload}
     return ({
         ...state,

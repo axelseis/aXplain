@@ -138,7 +138,7 @@ export default class Component {
             const elements = this.$clip.querySelectorAll(className.toLowerCase());
             
             Object.keys(elements).forEach((id,index) => {
-                const tempName = elements[id].getAttribute('id') || getUniqueName(className);
+                const tempName = elements[id].getAttribute('id') || className + index;
                 if(!this._components[tempName] || this._components[tempName].$clip !== elements[id]){
                     elements[id].setAttribute('id', tempName);
                     elements[id].__axplainComp__ = classFunc;

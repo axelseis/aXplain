@@ -26,6 +26,8 @@ export default class App extends Component {
     }
     
     initApp(){
+        
+        initialState.filters = state.filters || initialState.filters;
         initStore([reducers,headerReducers,userReducers], {...state,...initialState});
         initRouter(routes, BASE_URL || '');
 
@@ -34,11 +36,11 @@ export default class App extends Component {
 
     stateToprops(state){
         const {App:{scrollbarWidth}={}} = {...state}
-
         return ({ 
             scrollbarWidth
         })
     }
+
     render() {
         return(/*html*/`
             <style scoped>

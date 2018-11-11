@@ -12,23 +12,24 @@ const demos = {
 export default class App extends Component {
     constructor(className) {
         super(className, [OLApp]);
-        this._classes2Render = [IGApp]
-        
         initStore([], {});
+
+        this.setDemoId(Object.keys(demos)[1])
     }
     
     stateToprops(state){
-        const {demoId = Object.keys(demos)[0]} = {...this.state}
+        const {demoId} = {...this.state}
         return ({
             demoId
         })
     }
     
-    onClickHeaderButton(ev){
-        const demoId = ev.target.id 
+    setDemoId(demoId){
         const appClass = demos[demoId];
-
-        this._components.App.dispose();
+        const actComponent = this._components.App;
+        if(actComponent){
+            actComponent.dispose();
+        }
         this._classes2Render = [appClass];
         
         this.setState({
@@ -36,12 +37,15 @@ export default class App extends Component {
         })
     }
 
+    onClickHeaderButton(ev){
+        this.setDemoId(ev.target.id)
+    }
+
     render() {
         return(`
             <div class="aXplain__menu">
                 ${Object.keys(demos).map(demoId => {
                     const selected = demoId === this.props.demoId ? 'selected' : 'unselected';
-                    console.log('this.props.demoId', this.props.demoId)
 
                     return(`
                         <div id="${demoId}" class="aXplain__menu__button button--${selected}" onClick="onClickHeaderButton">
