@@ -1,4 +1,4 @@
-import { aXpost } from './aXfetch.js';
+import { aXpost } from '../lib/aXfetch.js';
 
 const apiServer = '/api';
 

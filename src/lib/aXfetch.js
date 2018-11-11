@@ -1,3 +1,5 @@
+import { isFunction } from './utils.js';
+
 export function aXget(url, config) {
     if (isFunction(url)) {
         url = url();
