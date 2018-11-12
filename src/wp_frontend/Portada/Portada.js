@@ -81,6 +81,7 @@ export default class Portada extends Component {
 
     onClickObra(ev) {
         go(`/obra/${(ev.currentTarget || ev.target).id}`);
+        this.$media.scrollTop = 0;
     }
 
     goHome(){
@@ -92,7 +93,7 @@ export default class Portada extends Component {
         let actYear;
 
         return(`
-            <div class="Portada__media media--${obraSel ? 'opened' : 'closed'}">
+            <div id="media" class="Portada__media media--${obraSel ? 'opened' : 'closed'}">
                 <div id="gallery" class="media__gallery">
                     ${gallery.map(image => `
                         <div class="gallery__image" style="
@@ -103,7 +104,9 @@ export default class Portada extends Component {
                 <div class="media__bar">
                     <div class="media__nano" onCLick="goHome">NANO VALDES</div>
                     <div class="media__thumbnail" style="background-image:url(${thumb})">
-                        ${title}
+                        ${title ? `
+                            <span>${title}</span>
+                        `: ''}
                     </div>
                     <div class="media__info">${info}</div>
                 </div>

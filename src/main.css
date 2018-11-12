@@ -629,13 +629,16 @@ body {
 
 .Portada__media .media__gallery {
   flex: 1;
-  height: 100%; }
+  height: 100%;
+  padding: 10px; }
 
 .Portada__media .media__gallery .gallery__image {
+  margin: 5px;
   width: 100%;
   height: 100%;
   background-position: center;
-  background-repeat: no-repeat; }
+  background-repeat: no-repeat;
+  background-size: contain; }
 
 .Portada__media .media__bar {
   flex: 0 0 250px;
@@ -662,11 +665,16 @@ body {
   flex: 0 0 250px;
   background-size: cover;
   background-position: center;
-  color: #272d30;
-  font-weight: 600;
-  font-size: 2.5em;
+  color: #141618;
+  font-weight: 800;
+  font-size: 2.0em;
+  line-height: 1.22em;
   text-transform: uppercase;
   word-wrap: break-word; }
+
+.Portada__media .media__thumbnail span {
+  padding: 0 2px;
+  background-color: rgba(255, 255, 255, 0.192); }
 
 .Portada__media .media__info {
   margin-top: 290px; }

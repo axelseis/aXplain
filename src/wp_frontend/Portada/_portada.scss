@@ -32,13 +32,16 @@
             &__gallery {
                 flex: 1;
                 height: 100%;
+                padding: 10px;
 
                 .gallery {
                     &__image {
+                        margin: 5px;
                         width: 100%;
                         height: 100%;
                         background-position: center;
                         background-repeat: no-repeat;
+                        background-size: contain;
                     }
                 }
             }
@@ -67,11 +70,17 @@
                 flex: 0 0 250px;
                 background-size: cover;
                 background-position: center;
-                color: rgb(39, 45, 48);
-                font-weight: 600;
-                font-size: 2.5em;
+                color: rgb(20, 22, 24);
+                font-weight: 800;
+                font-size: 2.0em;
+                line-height: 1.22em;
                 text-transform: uppercase;
                 word-wrap: break-word;
+                
+                span {
+                    padding: 0 2px;
+                    background-color: rgba(255, 255, 255, 0.192);
+                }
             }
             &__info {
                 margin-top: 290px;
