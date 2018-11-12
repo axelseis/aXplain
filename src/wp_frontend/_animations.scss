@@ -1,42 +1,17 @@
-@keyframes slideDown {
-    0% {
-        transform: translateY(0);
-    }
-
-    10% {
-        transform: translateY(-8px);
-    }
-
-    40% {
-        transform: translateY(100px);
-    }
-
-    50% {
-        transform: translateY(-8px);
-    }
-
-    65% {
-        transform: translateY(4px);
-    }
-
-    85% {
-        transform: translateY(-2px);
-    }
-
-    100% {
-        transform: translateY(0);
-    }
-}
-
-@keyframes fadeOut {
+@keyframes goInRight {
 	0% {
-        opacity: 1;
-	}
-	99.9% {
-        opacity: 0;
+        margin-left: 100%;
 	}
 	100% {
-        opacity: 0;
-        z-index: -10;
+        margin-left: 0;
+	}
+}
+
+@keyframes goInBottom {
+	0% {
+        margin-top: 100%;
+	}
+	100% {
+        margin-top: 0;
 	}
 }

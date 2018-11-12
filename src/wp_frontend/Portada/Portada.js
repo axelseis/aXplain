@@ -28,8 +28,12 @@ export default class Portada extends Component {
         const postThumb = postSel || postOver;
 
         if(postSel){
-            const {width:maxW,height:maxH} = {...getOffset(this.$gallery)};
+            const {width:winW,height:winH} = {...getWindowSize()};
+            const {width:barW} = {...getOffset(this.$bar)}
 
+            const maxW = winW - barW;
+            const maxH = winH;
+            
             gallery = Object.keys(postSel.images).map(imageId => {
                 const tempImages = postSel.images[imageId];
                 
@@ -101,7 +105,7 @@ export default class Portada extends Component {
                         "></div>
                     `).join('')}
                 </div>
-                <div class="media__bar">
+                <div id="bar" class="media__bar">
                     <div class="media__nano" onCLick="goHome">NANO VALDES</div>
                     <div class="media__thumbnail" style="background-image:url(${thumb})">
                         ${title ? `
@@ -112,7 +116,7 @@ export default class Portada extends Component {
                 </div>
             </div>
             <div class="Portada__obra">
-                ${postsOrder.map((postId) => {
+                ${postsOrder.map((postId,index) => {
                     const {date} = {...posts[postId]}
                     const postYear = new Date(date).getFullYear();
                     
@@ -124,7 +128,10 @@ export default class Portada extends Component {
 
                     return(`
                         ${isNewYear ? `
-                            <div class="Portada__year">
+                            <div 
+                                class="Portada__year"
+                                style="animation-delay:${index*0.08}s;"
+                            >
                                 ${actYear}
                             </div>
                         `:''}
@@ -134,6 +141,7 @@ export default class Portada extends Component {
                             onMouseOut="onMouseOutObra"
                             onMouseOver="onMouseOverObra"
                             onClick="onClickObra"
+                            style="animation-delay:${index*0.08}s;"
                         ></Obra>
                     `)
                 }).join('')}
