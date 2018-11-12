@@ -31,10 +31,21 @@ function setPosts(state, payload = []) {
             date,
             excerpt:{rendered:excerpt},
             title:{rendered:title},
-            featured_media
+            featured_media,
+            _embedded
         } = {...post}
+        
+        const {media_details:{sizes},source_url} = {..._embedded['wp:featuredmedia'][0]}
+        const featuredMedia = sizes && sizes.thumbnail ? sizes : {
+            thumbnail: {
+                source_url
+            }
+        };
         postsObj[id] = {
-            id,slug,content,date,excerpt,title,featured_media
+            id,slug,content,date,excerpt,title,featured_media,
+            images: {
+                [featured_media]: {...featuredMedia}
+            }
         }
         return postsObj
     },{})

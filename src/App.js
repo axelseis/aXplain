@@ -29,10 +29,12 @@ export default class App extends Component {
     
     setDemoSelected(demoId){
         const appClass = demos[demoId];
-        const actComponent = this._components.App;
+        const actComponent = this._components["App-demo"];
+
         if(actComponent){
             actComponent.dispose();
         }
+        
         this._classes2Render = [appClass];
         
         this.setState({
