@@ -1,4 +1,4 @@
-const webpack = require("webpack");
+
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
@@ -11,7 +11,7 @@ module.exports = (env) => {
         mode: mode,
         entry: {
             polyfill: './polyfill/polyfill.js',
-            main: ['./main.js','./src/main.scss']
+            main: [`./src/${env}/main.js`,`./src/${env}/main.scss`]
         },
         optimization: {
             minimizer: [
@@ -49,9 +49,11 @@ module.exports = (env) => {
             rules: [
                 {
                     test: /\.js$/,
-                    use: {
-                        loader: "babel-loader"
-                    }
+                    use: [
+                        {
+                            loader: "babel-loader"
+                        }
+                    ]
                 },
                 {
                     test: /\.scss$/,

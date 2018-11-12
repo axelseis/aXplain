@@ -1,3 +1,5 @@
+import '../../../node_modules/regenerator-runtime/runtime.js';
+
 import Component from '../../lib/Component.js';
 import { initStore, state } from '../../lib/store.js';
 import { initRouter } from '../../lib/router.js';
