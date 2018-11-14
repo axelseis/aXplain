@@ -53,8 +53,27 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background-color: rgba(0, 0, 0, 0.3); }
 
-.App-demo .video--back {
+.App__back {
   position: fixed; }
+
+.App__loader {
+  position: fixed;
+  z-index: 20;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 75px;
+  color: white;
+  transition: all .7s ease-out;
+  text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.3), 0 3px 5px rgba(0, 0, 0, 0.2), 0 5px 10px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.2), 0 20px 20px rgba(0, 0, 0, 0.15); }
+
+.App--inited.App__loader {
+  text-shadow: 0 0 0 #fff; }
 
 .Portada {
   position: fixed;
@@ -70,13 +89,17 @@ body {
   flex-direction: row; }
 
 .Portada__media {
-  flex: 0 0 50%;
+  flex: 0 0 0;
   background-color: rgba(0, 0, 0, 0.937);
   color: white;
   overflow: hidden;
   transition: all 0.768s;
   text-align: left;
   display: flex; }
+
+.Portada__media.media--closed {
+  flex: 1 0 50%;
+  transition: all 0.768s; }
 
 .Portada__media.media--opened {
   flex: 0 0 100%;
@@ -91,7 +114,8 @@ body {
 .Portada__media .media__gallery .gallery__image {
   width: 100%;
   height: 100%;
-  box-sizing: border-box;
+  margin: 5px;
+  box-sizing: content-box;
   background-position: center 0;
   background-repeat: no-repeat;
   background-size: contain; }
@@ -101,8 +125,7 @@ body {
   padding: 5px;
   display: flex;
   flex-direction: column;
-  justify-content: stretch;
-  opacity: 0.87; }
+  justify-content: stretch; }
 
 .Portada__media .media__nano {
   position: fixed;
@@ -194,7 +217,8 @@ body, html {
   font-family: 'Roboto', sans-serif;
   min-height: 100%;
   padding: 0;
-  margin: 0; }
+  margin: 0;
+  overflow: hidden; }
 
 /*# sourceMappingURL=main.css.map */
 

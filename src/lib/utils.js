@@ -89,7 +89,7 @@ const eventReplacement = {
     "mousedown": "touchstart",
     "mouseup": "touchend",
     "click": "touchstart",
-    "mousemove": "touchmove"
+    "mousemove": "touchmove",
 };
 
 export function mapEvent(eventName){

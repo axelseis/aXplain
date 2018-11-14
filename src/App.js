@@ -20,11 +20,7 @@ export default class App extends Component {
     }
     
     stateToprops(state){
-        const { demoSelected, menuVisible=false } = {...this.state}
-        return ({
-            demoSelected,
-            menuVisible
-        })
+        return ({})
     }
     
     setDemoSelected(demoId){

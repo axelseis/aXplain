@@ -94,10 +94,13 @@ export default class Portada extends Component {
     
     render() {
         const {postsOrder,posts,thumb,info,obraSel,gallery,title} = {...this.props}
+        console.log('showing', this.domProps.showing)
+
+        const mediaClass = this.domProps.showing === 'true' ? obraSel ? 'opened' : 'closed' : 'no-inited'
         let actYear;
 
         return(`
-            <div id="media" class="Portada__media media--${obraSel ? 'opened' : 'closed'}">
+            <div id="media" class="Portada__media media--${mediaClass}">
                 <div id="gallery" class="media__gallery">
                     ${gallery.map(image => `
                         <div class="gallery__image" style="
@@ -106,7 +109,7 @@ export default class Portada extends Component {
                     `).join('')}
                 </div>
                 <div id="bar" class="media__bar">
-                    <div class="media__nano" onCLick="goHome">NANO VALDES</div>
+                    <div class="media__nano" onClick="goHome">NANO VALDES</div>
                     <div class="media__thumbnail" style="background-image:url(${thumb})">
                         ${title ? `
                             <span>${title}</span>

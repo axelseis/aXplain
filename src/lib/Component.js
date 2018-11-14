@@ -38,6 +38,7 @@ export default class Component {
         this._classes2Render = classes2Render || [];
         this.props = {};
         this.domProps = {};
+        console.log('this.domProps', this.domProps)
 
         this._components = {};
 
@@ -49,6 +50,7 @@ export default class Component {
 
     setState({...props} = {}){
         setComponentProps(this.name,props)
+        this.forceRender();
     }
 
     get state() {
@@ -79,7 +81,7 @@ export default class Component {
     renderTemplate($domElement, templateTpl) {
         const templateStr = templateTpl
         .replace(/(?:\r\n|\r|\n)/g, '')
-        .replace(/(onload|onLoad|onerror|onError)=/g, "$1_event=")
+        .replace(/(onload|onLoad|onerror|onError|onMouseOver|onMouseOut|onClick)=/g, "$1_event=")
         //.replace(/()=/g, 'onerror_event=');
         
         if (!$domElement || !isDOMElement($domElement)) {
@@ -160,7 +162,12 @@ export default class Component {
         cleanChildNodes(newDom)
 
         if(oldDom && !isTextNode(oldDom) && this._isSubcomponent(oldDom)){
+            console.log('oldDom', oldDom)
             newDom.innerHTML = oldDom.innerHTML;
+            const oldAttributes = getAllAttributes(oldDom);
+            Object.keys(oldAttributes).forEach(attr => {
+                newDom.setAttribute(attr,oldAttributes[attr]);
+            })
         }
         else {
             const newDomChildren = Array.from(newDom.childNodes);
@@ -256,8 +263,10 @@ export default class Component {
                         if(attr.name.indexOf('_event') !== -1){
                             //element.removeAttribute(attr.name)
                         }
-                        const validEvent = 'on' + mapEvent(attr.name.replace('_event','').slice(2));
-                        element[validEvent] = tempFunc.bind(this)
+                        const validEvent = mapEvent(attr.name.replace('_event','').slice(2));
+                        
+                        this._addEventListenerToElement(element,validEvent,attr.value);
+                        //element[validEvent] = tempFunc.bind(this)
                     }
                     else {
                         throw new Error(`function ${attr.value} do not exists in ${this.name}`)
@@ -268,6 +277,17 @@ export default class Component {
                 this._setDomEvents(element);
             }
         });
+    }
+
+    _addEventListenerToElement(element,event,listener){
+        element.__aXlisteners__ = element.__aXlisteners__ || {};
+        if(!element.__aXlisteners__[event] || element.__aXlisteners__[event] != listener){
+            if(element.__aXlisteners__[event]){
+                element.removeEventListener(event);
+            } 
+            element.addEventListener(event,this[listener].bind(this));
+            element.__aXlisteners__[event] = listener;
+        }
     }
 
     dispose(){

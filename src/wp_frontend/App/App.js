@@ -34,15 +34,7 @@ export default class App extends Component {
     }
     
     onResizeWindow(){
-        const winSize = getWindowSize();
-        this.setState({
-            winW: winSize.width,
-            winH: winSize.height
-        })
-    }
-
-    stateToprops(state){
-        const {winW,winH} = {...this.state}
+        const {width:winW,height:winH} = {...getWindowSize()}
         const winAspect = winW/winH;
         
         let videoW = winW;
@@ -53,24 +45,53 @@ export default class App extends Component {
             videoW = 'auto';
         }
 
-        return ({
+        this.setState({
             videoW,
             videoH
         })
     }
+
+    stateToprops(state){
+        return ({
+            loaded: state.postsOrder && state.postsOrder.length
+        })
+    }
     
+    onEndLoaderTransition(ev) {
+        this.setState({
+            endTransition: true
+        })
+    }
+
+    onEndRender(){
+        if(!this.state.inited){
+            this.setState({
+                inited: true
+            })
+        }
+    }
+
     render() {
-        const {videoW,videoH} = {...this.props};
+        const {videoW,videoH,inited,endTransition} = {...this.state};
+        const {loaded} = {...this.props}
+        const initedClass = inited ? 'App--inited' : '';
 
         return(`
-            <video 
-                class="video--back"
-                autoplay muted loop
-                src="/assets/video/nanoback.mp4"
-                width="${videoW}"
-                height="${videoH}"
-            ></video>
-            <Portada class="Portada"></Portada>
+            ${!endTransition ? `
+                <div id="loader" class="App__loader ${initedClass}" ontransitionend="onEndLoaderTransition">
+                    <span>nano valdes</span>
+                </div>
+            ` : ''}
+            <Portada id="Portada" class="Portada" showing="${endTransition}"></Portada>
+            ${loaded ? `
+                <video 
+                    class="App__back"
+                    autoplay muted loop
+                    src="/assets/video/nanoback.mp4"
+                    width="${videoW}"
+                    height="${videoH}"
+                ></video>
+            ` : ''}
         `)
     }
 }
