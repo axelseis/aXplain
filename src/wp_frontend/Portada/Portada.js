@@ -94,8 +94,6 @@ export default class Portada extends Component {
     
     render() {
         const {postsOrder,posts,thumb,info,obraSel,gallery,title} = {...this.props}
-        console.log('showing', this.domProps.showing)
-
         const mediaClass = this.domProps.showing === 'true' ? obraSel ? 'opened' : 'closed' : 'no-inited'
         let actYear;
 
@@ -114,6 +112,7 @@ export default class Portada extends Component {
                         ${title ? `
                             <span>${title}</span>
                         `: ''}
+                        <div class="media__thumbnail__default"></div>
                     </div>
                     <div class="media__info">${info}</div>
                 </div>

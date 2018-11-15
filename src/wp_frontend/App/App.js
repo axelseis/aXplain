@@ -77,12 +77,12 @@ export default class App extends Component {
         const initedClass = inited ? 'App--inited' : '';
 
         return(`
+            <Portada id="Portada" class="Portada" showing="${endTransition}"></Portada>
             ${!endTransition ? `
                 <div id="loader" class="App__loader ${initedClass}" ontransitionend="onEndLoaderTransition">
                     <span>nano valdes</span>
                 </div>
             ` : ''}
-            <Portada id="Portada" class="Portada" showing="${endTransition}"></Portada>
             ${loaded ? `
                 <video 
                     class="App__back"

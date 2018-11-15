@@ -14,7 +14,6 @@ function getUniqueName(name){
 }
 
 const isTextNode = (node) => node.nodeType === Node.TEXT_NODE;
-
 export default class Component {
 
     constructor(initiator, classes2Render) {
@@ -38,10 +37,9 @@ export default class Component {
         this._classes2Render = classes2Render || [];
         this.props = {};
         this.domProps = {};
-        console.log('this.domProps', this.domProps)
 
         this._components = {};
-
+        this._componentsRemovedFromDom = {};
         this._stateListener = this._onChangeState.bind(this);
         document.addEventListener('state', this._stateListener);
 
@@ -143,8 +141,8 @@ export default class Component {
                 const tempName = elements[id].getAttribute('id') || className + index;
                 if(!this._components[tempName] || this._components[tempName].$clip !== elements[id]){
                     elements[id].setAttribute('id', tempName);
-                    elements[id].__axplainComp__ = classFunc;
                     this._components[tempName] = new classFunc(elements[id]);
+                    elements[id].__aXComp__ = this._components[tempName];
                 }
                 else {
                     this._components[tempName]._onChangeState()
@@ -160,9 +158,8 @@ export default class Component {
     _updateDomElement(oldDom, newDom) {
         cleanChildNodes(oldDom)
         cleanChildNodes(newDom)
-
+         
         if(oldDom && !isTextNode(oldDom) && this._isSubcomponent(oldDom)){
-            console.log('oldDom', oldDom)
             newDom.innerHTML = oldDom.innerHTML;
             const oldAttributes = getAllAttributes(oldDom);
             Object.keys(oldAttributes).forEach(attr => {
@@ -172,11 +169,19 @@ export default class Component {
         else {
             const newDomChildren = Array.from(newDom.childNodes);
             const oldDomChildren = Array.from(oldDom.childNodes);
-    
-            for (let iD = oldDomChildren.length - 1; iD >= newDomChildren.length; iD--) {
-                oldDom.removeChild(oldDomChildren[iD]);
+
+            let tempIndex = 0;
+            while(tempIndex < oldDomChildren.length && oldDomChildren.length > newDomChildren.length){
+                const tempChild = oldDomChildren[tempIndex];
+                const tempId = tempChild.getAttribute('id')
+                if(!tempId || !tempChild.__aXComp__ || !newDomChildren.find(el => el.getAttribute('id') === tempId)){
+                    this._componentsRemovedFromDom[tempId] = oldDomChildren[tempIndex].__aXComp__
+                    oldDom.removeChild(oldDomChildren[tempIndex]);
+                    oldDomChildren.splice(tempIndex,1)
+                }
+                tempIndex++;
             }
-    
+
             newDomChildren.forEach((element, index) => {
                 let oldElement = oldDomChildren[index];
                 
@@ -216,7 +221,14 @@ export default class Component {
                     if (element.childNodes.length || oldElement.childNodes.length) {
                         this._updateDomElement(oldElement, element)
                     }
+                    const tempId = oldElement.getAttribute('id');
+                    if(this._componentsRemovedFromDom[tempId]){
+                        this._componentsRemovedFromDom[tempId].$clip = oldElement;
+                        this._componentsRemovedFromDom[tempId] = null;
+                        delete this._componentsRemovedFromDom[tempId]
+                    }
                 }
+                
             })
         }
 
@@ -260,33 +272,28 @@ export default class Component {
                 else if (attr.value != '' && attr.name.indexOf('on') === 0) {
                     const tempFunc = this[attr.value];
                     if (tempFunc) {
-                        if(attr.name.indexOf('_event') !== -1){
-                            //element.removeAttribute(attr.name)
-                        }
-                        const validEvent = mapEvent(attr.name.replace('_event','').slice(2));
-                        
-                        this._addEventListenerToElement(element,validEvent,attr.value);
-                        //element[validEvent] = tempFunc.bind(this)
+                        this._addEventListenerToElement(element,attr.name,attr.value);
                     }
                     else {
                         throw new Error(`function ${attr.value} do not exists in ${this.name}`)
                     }
                 }
             });
-            if(!element.__axplainComp__ && element.children){
+            if(!element.__aXComp__ && element.children){
                 this._setDomEvents(element);
             }
         });
     }
 
-    _addEventListenerToElement(element,event,listener){
+    _addEventListenerToElement(element,eventName,listener){
+        const validEvent = mapEvent(eventName.replace('_event','').slice(2));
         element.__aXlisteners__ = element.__aXlisteners__ || {};
-        if(!element.__aXlisteners__[event] || element.__aXlisteners__[event] != listener){
-            if(element.__aXlisteners__[event]){
-                element.removeEventListener(event);
+        if(!element.__aXlisteners__[validEvent] || element.__aXlisteners__[validEvent] != listener){
+            if(element.__aXlisteners__[validEvent]){
+                element.removeEventListener(validEvent);
             } 
-            element.addEventListener(event,this[listener].bind(this));
-            element.__aXlisteners__[event] = listener;
+            element.addEventListener(validEvent,this[listener].bind(this));
+            element.__aXlisteners__[validEvent] = listener;
         }
     }
 
