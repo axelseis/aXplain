@@ -26,12 +26,13 @@ export default class Portada extends Component {
         let thumb = 'http://nanovaldes.com/wp-content/uploads/2013/07/nanofoto-240x240.jpg';
         
         const postThumb = postSel || postOver;
+        let maxW;
 
         if(postSel){
             const {width:winW,height:winH} = {...getWindowSize()};
             const {width:barW} = {...getOffset(this.$bar)}
 
-            const maxW = winW - barW;
+            maxW = winW - barW;
             const maxH = winH;
             
             gallery = Object.keys(postSel.images).map(imageId => {
@@ -67,7 +68,8 @@ export default class Portada extends Component {
             info,
             obraSel,
             gallery,
-            title
+            title,
+            maxW
         })
     }
 
@@ -86,38 +88,66 @@ export default class Portada extends Component {
     onClickObra(ev) {
         go(`/obra/${(ev.currentTarget || ev.target).id}`);
         this.$media.scrollTop = 0;
+        this.setState({
+            imagesLoaded: []
+        })
     }
 
     goHome(){
         go('/');
     }
     
+    onLoadGalleryImage(ev){
+        const {imagesLoaded = []} =  {...this.state}
+        this.setState({
+            imagesLoaded: [
+                ...imagesLoaded,
+                ev.target.src
+            ]
+        })
+    }
+
     render() {
-        const {postsOrder,posts,thumb,info,obraSel,gallery,title} = {...this.props}
-        const mediaClass = this.domProps.showing === 'true' ? obraSel ? 'opened' : 'closed' : 'no-inited'
+        const {postsOrder,posts,thumb,info,obraSel,gallery,title,maxW} = {...this.props}
+        const {showing} = {...this.domProps};
+        const {imagesLoaded=[]} = {...this.state}
+        const mediaClass = showing === 'true' ? obraSel ? 'opened' : 'closed' : 'no-inited'
+        const obraClass = `scroll--${showing === 'true' ? 'enabled' : 'disabled'}`;
+
         let actYear;
 
         return(`
-            <div id="media" class="Portada__media media--${mediaClass}">
+            <div id="media" class="Portada__media media--${mediaClass}" >
                 <div id="gallery" class="media__gallery">
-                    ${gallery.map(image => `
-                        <div class="gallery__image" style="
-                            background-image:url(${image.source_url});
-                        "></div>
-                    `).join('')}
+                    ${gallery.map(image => {
+                        const loaded = imagesLoaded.indexOf(image.source_url) === -1;
+                        const imageClass= `image--${loaded? 'loading' : 'loaded'}`;
+                        return(`
+                            <img 
+                                class="gallery__image ${imageClass}" 
+                                src="${image.source_url}" 
+                                onload="onLoadGalleryImage"
+                                style="
+                                    max-width: ${maxW}px;
+                                    max-height: ${maxW*image.height/image.width}px;
+                                "
+                            />
+                        `)
+                    }).join('')}
                 </div>
                 <div id="bar" class="media__bar">
                     <div class="media__nano" onClick="goHome">NANO VALDES</div>
-                    <div class="media__thumbnail" style="background-image:url(${thumb})">
+                    <div class="media__thumbnail">
+                        <div class="media__thumbnail__selected" style="background-image:url(${thumb})"></div>
+                        <div class="media__thumbnail__default"></div>
                         ${title ? `
                             <span>${title}</span>
                         `: ''}
-                        <div class="media__thumbnail__default"></div>
                     </div>
                     <div class="media__info">${info}</div>
                 </div>
             </div>
-            <div class="Portada__obra">
+            <div class="Portada__obra ${obraClass}">
                 ${postsOrder.map((postId,index) => {
                     const {date} = {...posts[postId]}
                     const postYear = new Date(date).getFullYear();

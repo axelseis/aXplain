@@ -36,17 +36,28 @@
         .media {
             &__gallery {
                 flex: 1;
+                width: auto;
                 height: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
 
                 .gallery {
                     &__image {
-                        width: 100%;
-                        height: 100%;
-                        margin: 5px;
                         box-sizing: content-box;
-                        background-position: center 0;
+                        background-position: center;
                         background-repeat: no-repeat;
                         background-size: contain;
+                        margin-bottom: 5px;
+
+                        &.image--loading {
+                            opacity: 0;
+                        }
+                        &.image--loaded {
+                            opacity: 1;
+                            transition: opacity 0.345s;
+                        }
                     }
                 }
             }
@@ -80,8 +91,6 @@
                 display: flex;
                 justify-content: flex-start;
                 align-items: flex-start;
-                background-size: cover;
-                background-position: center;
                 color: rgb(20, 22, 24);
                 font-weight: 800;
                 font-size: 1.98em;
@@ -90,17 +99,32 @@
                 word-wrap: break-word;
                 
                 span {
+                    position: relative;
+                    z-index: 3;
                     padding: 0 5px;
                     background-color: rgba(255, 255, 255, 0.492);
                 }
 
                 &__default {
                     position: absolute;
-                    z-index: -1;
+                    top:0;
+                    left:0;
+                    z-index: 1;
                     background-size: cover;
                     width: 100%;
                     height: 100%;
                     background-image: url('http://nanovaldes.com/wp-content/uploads/2013/07/nanofoto-240x240.jpg')
+                }
+
+                &__selected {
+                    position: absolute;
+                    top:0;
+                    left:0;
+                    z-index: 2;
+                    width: 100%;
+                    height: 100%;
+                    background-size: cover;
+                    background-position: center;
                 }
             }
             &__info {
@@ -108,6 +132,7 @@
                 font-size: 0.85em;
             }
         }
+
         iframe {
             max-width: 100%;
         }
@@ -123,7 +148,11 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        overflow-y: scroll;
+        overflow-y: hidden;
+
+        &.scroll--enabled {
+            overflow-y: scroll;
+        }
     }
     
     &__year {

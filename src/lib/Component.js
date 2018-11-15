@@ -52,7 +52,7 @@ export default class Component {
     }
 
     get state() {
-        return state.Components && state.Components[this.name];
+        return (state.Components && state.Components[this.name]) || {};
     }
 
     get name() {

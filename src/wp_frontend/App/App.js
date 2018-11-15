@@ -53,7 +53,7 @@ export default class App extends Component {
 
     stateToprops(state){
         return ({
-            loaded: state.postsOrder && state.postsOrder.length
+            loaded: false //state.postsOrder && state.postsOrder.length
         })
     }
     

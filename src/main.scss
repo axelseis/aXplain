@@ -11,6 +11,7 @@ body,html {
     min-height: 100%;
     padding: 0;
     margin: 0;
+    background-color: #ccc;
 }
 
 .aXplain {
@@ -20,7 +21,7 @@ body,html {
         left: 0;
         z-index: 100;
         width: $menuW;
-        background-color: rgba(255, 255, 255, 0.623);
+        background-color: white;
         padding: 10px;
         border-right: solid 5px black;
         border-bottom: solid 5px black;

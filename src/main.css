@@ -639,16 +639,26 @@ body {
 
 .Portada__media .media__gallery {
   flex: 1;
-  height: 100%; }
+  width: auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; }
 
 .Portada__media .media__gallery .gallery__image {
-  width: 100%;
-  height: 100%;
-  margin: 5px;
   box-sizing: content-box;
-  background-position: center 0;
+  background-position: center;
   background-repeat: no-repeat;
-  background-size: contain; }
+  background-size: contain;
+  margin-bottom: 5px; }
+
+.Portada__media .media__gallery .gallery__image.image--loading {
+  opacity: 0; }
+
+.Portada__media .media__gallery .gallery__image.image--loaded {
+  opacity: 1;
+  transition: opacity 0.345s; }
 
 .Portada__media .media__bar {
   flex: 0 0 250px;
@@ -680,8 +690,6 @@ body {
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
-  background-size: cover;
-  background-position: center;
   color: #141618;
   font-weight: 800;
   font-size: 1.98em;
@@ -690,16 +698,30 @@ body {
   word-wrap: break-word; }
 
 .Portada__media .media__thumbnail span {
+  position: relative;
+  z-index: 3;
   padding: 0 5px;
   background-color: rgba(255, 255, 255, 0.492); }
 
 .Portada__media .media__thumbnail__default {
   position: absolute;
-  z-index: -1;
+  top: 0;
+  left: 0;
+  z-index: 1;
   background-size: cover;
   width: 100%;
   height: 100%;
   background-image: url("http://nanovaldes.com/wp-content/uploads/2013/07/nanofoto-240x240.jpg"); }
+
+.Portada__media .media__thumbnail__selected {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center; }
 
 .Portada__media .media__info {
   margin-top: 290px;
@@ -718,6 +740,9 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  overflow-y: hidden; }
+
+.Portada__obra.scroll--enabled {
   overflow-y: scroll; }
 
 .Portada__year {
@@ -762,7 +787,8 @@ body, html {
   font-family: 'Roboto', sans-serif;
   min-height: 100%;
   padding: 0;
-  margin: 0; }
+  margin: 0;
+  background-color: #ccc; }
 
 .aXplain__menu {
   position: fixed;
@@ -770,7 +796,7 @@ body, html {
   left: 0;
   z-index: 100;
   width: 140px;
-  background-color: rgba(255, 255, 255, 0.623);
+  background-color: white;
   padding: 10px;
   border-right: solid 5px black;
   border-bottom: solid 5px black;
