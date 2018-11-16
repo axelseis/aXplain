@@ -132,9 +132,12 @@ export default class Portada extends Component {
                         const imageClass= `gallery__image image--${loaded? 'loading' : 'loaded'}`;
                         const vertical = height > width;
                         const aspect = width/height;
+                        const maxImageW = Math.min(maxW, maxH*aspect);
+                        const maxImageH = Math.max(maxH, maxW*aspect);
+
                         const imageStyle = `
-                            max-width: ${vertical ? maxH*aspect : maxW}px;
-                            max-height: ${vertical ? maxH : maxW*aspect}px;
+                            max-width: ${vertical ? maxImageH*aspect : maxImageW}px;
+                            max-height: ${vertical ? maxImageH : maxImageW*aspect}px;
                         `
                         const isFirst = imageId === featured;
                         return(`
