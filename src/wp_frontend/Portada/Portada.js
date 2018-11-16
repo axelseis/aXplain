@@ -27,15 +27,20 @@ export default class Portada extends Component {
         
         const postThumb = postSel || postOver;
         let maxW;
+        let maxH;
 
         if(postSel){
             const {width:winW,height:winH} = {...getWindowSize()};
             const {width:barW} = {...getOffset(this.$bar)}
 
             maxW = winW - barW;
-            const maxH = winH;
-            
-            gallery = Object.keys(postSel.images).map(imageId => {
+            maxH = winH;
+            const compare = (idA,idB) => {
+                const featured = postSel.featured_media;
+                const compared = parseInt(idA) === featured ? -1 : parseInt(idB) === featured ? 1 : 0;
+                return compared
+            }
+            gallery = Object.keys(postSel.images).sort(compare).map(imageId => {
                 const tempImages = postSel.images[imageId];
                 
                 const bestFit = Object.keys(tempImages).reduce((bestFit,sizeId) => {
@@ -69,7 +74,8 @@ export default class Portada extends Component {
             obraSel,
             gallery,
             title,
-            maxW
+            maxW,
+            maxH
         })
     }
 
@@ -108,7 +114,7 @@ export default class Portada extends Component {
     }
 
     render() {
-        const {postsOrder,posts,thumb,info,obraSel,gallery,title} = {...this.props}
+        const {postsOrder,posts,thumb,info,obraSel,gallery,title,maxW,maxH} = {...this.props}
         const featured = posts[obraSel] && posts[obraSel].featured_media;
         const {showing} = {...this.domProps};
         const {imagesLoaded=[]} = {...this.state}
@@ -121,16 +127,19 @@ export default class Portada extends Component {
             <div id="media" class="Portada__media media--${mediaClass}" >
                 <div id="gallery" class="media__gallery">
                     ${gallery.map(image => {
-                        const loaded = imagesLoaded.indexOf(image.source_url) === -1;
+                        const {width,height,source_url,imageId} = {...image}
+                        const loaded = imagesLoaded.indexOf(source_url) === -1;
                         const imageClass= `gallery__image image--${loaded? 'loading' : 'loaded'}`;
+                        const vertical = height > width;
+                        const aspect = width/height;
                         const imageStyle = `
-                            max-width: ${image.width}px;
-                            max-height: ${image.height}px;
+                            max-width: ${vertical ? maxH*aspect : maxW}px;
+                            max-height: ${vertical ? maxH : maxW*aspect}px;
                         `
-                        const isFirst = image.imageId === featured;
+                        const isFirst = imageId === featured;
                         return(`
-                            <div class="${imageClass}" style="${isFirst ? 'order:1' : 'order:2'}; flex:0 0 ${image.height}px">
-                                <img src="${image.source_url}" style="${imageStyle}" onload="onLoadGalleryImage" />
+                            <div class="${imageClass}" style="${isFirst ? 'order:1' : 'order:2'}; flex:0 0 ${height}px">
+                                <img src="${source_url}" style="${imageStyle}" onload="onLoadGalleryImage" />
                             </div>
                         `)
                     }).join('')}
