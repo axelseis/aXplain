@@ -44,12 +44,12 @@ export default class App extends Component {
 
     onClickOpenClose(){
         this.setState({
-            menuVisible: !this.props.menuVisible
+            menuVisible: !this.state.menuVisible
         })
     }
 
     render() {
-        const {demoSelected, menuVisible} = {...this.props}
+        const {demoSelected, menuVisible} = {...this.state}
         return(`
             <div class="aXplain__menu menu--${menuVisible ? 'visible' : 'hidden'}">
                 ${Object.keys(demos).map(demoId => {
@@ -61,7 +61,7 @@ export default class App extends Component {
                         </div>
                     `)
                 }).join('')}
-                <div class="aXplain__menu__openclose" onClick="onClickOpenClose">
+                <div class="aXplain__menu__openclose" onclick="onClickOpenClose">
                     <i class="fas fa-angle-${menuVisible ? 'left' : 'right'}"></i>
                 </div>
             </div>

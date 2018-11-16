@@ -31,6 +31,12 @@
             overflow-y: scroll;
             background-color: rgba(0, 0, 0, 1);
             transition: all 0.768s;
+            .media__nano {
+                &:hover {
+                    color: black;
+                    background-color: white;
+                }
+            }
         }
 
         .media {
@@ -107,6 +113,9 @@
                     z-index: 3;
                     padding: 0 5px;
                     background-color: rgba(255, 255, 255, 0.492);
+                    word-wrap: break-word;
+                    max-width: 100%;
+                    box-sizing: border-box;
                 }
 
                 &__default {

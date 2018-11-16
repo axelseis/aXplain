@@ -47,7 +47,7 @@ export default class Portada extends Component {
                     }
                     else return bestFit
                 })
-                
+                tempImages[bestFit].imageId = parseInt(imageId);
                 return tempImages[bestFit];
             },'thumbnail')
 
@@ -108,14 +108,15 @@ export default class Portada extends Component {
     }
 
     render() {
-        const {postsOrder,posts,thumb,info,obraSel,gallery,title,maxW} = {...this.props}
+        const {postsOrder,posts,thumb,info,obraSel,gallery,title} = {...this.props}
+        const featured = posts[obraSel] && posts[obraSel].featured_media;
         const {showing} = {...this.domProps};
         const {imagesLoaded=[]} = {...this.state}
         const mediaClass = showing === 'true' ? obraSel ? 'opened' : 'closed' : 'no-inited'
         const obraClass = `scroll--${showing === 'true' ? 'enabled' : 'disabled'}`;
 
         let actYear;
-
+        
         return(`
             <div id="media" class="Portada__media media--${mediaClass}" >
                 <div id="gallery" class="media__gallery">
@@ -126,8 +127,9 @@ export default class Portada extends Component {
                             max-width: ${image.width}px;
                             max-height: ${image.height}px;
                         `
+                        const isFirst = image.imageId === featured;
                         return(`
-                            <div class="${imageClass}" style="flex:0 0 ${image.height}px">
+                            <div class="${imageClass}" style="${isFirst ? 'order:1' : 'order:2'}; flex:0 0 ${image.height}px">
                                 <img src="${image.source_url}" style="${imageStyle}" onload="onLoadGalleryImage" />
                             </div>
                         `)
