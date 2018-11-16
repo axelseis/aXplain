@@ -121,17 +121,15 @@ export default class Portada extends Component {
                 <div id="gallery" class="media__gallery">
                     ${gallery.map(image => {
                         const loaded = imagesLoaded.indexOf(image.source_url) === -1;
-                        const imageClass= `image--${loaded? 'loading' : 'loaded'}`;
+                        const imageClass= `gallery__image image--${loaded? 'loading' : 'loaded'}`;
+                        const imageStyle = `
+                            max-width: ${image.width}px;
+                            max-height: ${image.height}px;
+                        `
                         return(`
-                            <img 
-                                class="gallery__image ${imageClass}" 
-                                src="${image.source_url}" 
-                                onload="onLoadGalleryImage"
-                                style="
-                                    max-width: ${maxW}px;
-                                    max-height: ${maxW*image.height/image.width}px;
-                                "
-                            />
+                            <div class="${imageClass}" style="flex:0 0 ${image.height}px">
+                                <img src="${image.source_url}" style="${imageStyle}" onload="onLoadGalleryImage" />
+                            </div>
                         `)
                     }).join('')}
                 </div>
