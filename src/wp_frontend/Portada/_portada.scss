@@ -14,7 +14,7 @@
 
     &__media {
         flex: 0 0 0;
-        background-color: rgba(0, 0, 0, 0.937);
+        background-color: $black-color;
         color: white;
         overflow: hidden;
         transition: all 0.768s;
@@ -76,14 +76,13 @@
             &__nano {
                 position: fixed;
                 width: 250px;
-                background-color: black;
                 top: 0;
                 font-size: 2.1em;
                 font-weight: 600;
                 cursor: pointer;
                 &:hover {
-                    background-color: white;
-                    color: black;
+                    background-color: $white-color;
+                    color: $black-color;
                 }
             }
             &__thumbnail {
@@ -145,7 +144,8 @@
 
     &__obra {
         flex: 0 0 50%;
-        background-color: rgba(255, 255, 255, 0.908);
+        background-color: $white-color;
+        color: $black-color;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
@@ -164,7 +164,7 @@
         height: 0;
         text-align: right;
         border-bottom: solid 1px grey;
-        color: grey;
+        color: $grey-color;
         animation: goInRight 0.54s forwards;
     }
 }

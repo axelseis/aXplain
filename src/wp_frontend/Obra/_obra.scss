@@ -13,10 +13,8 @@ $obraH: 40px;
     animation: goInBottom 0.54s forwards;
 
     &:hover {
-        background-color: rgb(0, 0, 0);
-        color: white;
-    }
-    &__info {
+        background-color: $black-color;
+        color: $white-color;
     }
 
     &__title {

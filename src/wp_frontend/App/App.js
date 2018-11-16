@@ -79,7 +79,7 @@ export default class App extends Component {
         return(`
             <Portada id="Portada" class="Portada" showing="${endTransition}"></Portada>
             ${!endTransition ? `
-                <div id="loader" class="App__loader ${initedClass}" ontransitionend="onEndLoaderTransition">
+                <div id="loader" class="App__loader ${initedClass}" onanimationend="onEndLoaderTransition">
                     <span>nano valdes</span>
                 </div>
             ` : ''}
