@@ -15,7 +15,7 @@ export default class Portada extends Component {
             nano,
             postsOrder=[],
             posts={},
-            router:{params:{obraId:obraSel}}
+            router:{params:{obraId:obraSel} = {}}
         } = {...state};
         
         

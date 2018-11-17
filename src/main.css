@@ -629,7 +629,7 @@ body {
 
 .Portada__media {
   flex: 0 0 0;
-  background-color: #1a232c;
+  background-color: #161415;
   color: white;
   overflow: hidden;
   transition: all 0.768s;
@@ -672,7 +672,7 @@ body {
 
 .Portada__media .media__nano:hover {
   background-color: #f7f7f7;
-  color: #1a232c; }
+  color: #161415; }
 
 .Portada__media .media__thumbnail {
   position: fixed;
@@ -730,7 +730,7 @@ body {
 .Portada__obra {
   flex: 0 0 50%;
   background-color: #f7f7f7;
-  color: #1a232c;
+  color: #161415;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -831,7 +831,7 @@ body {
   flex: 0 0 40px;
   display: block;
   cursor: pointer;
-  color: #1a232c;
+  color: #161415;
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -841,7 +841,7 @@ body {
   transition: color 0.654s ease-out; }
 
 .Obra:hover {
-  background-color: #1a232c;
+  background-color: #161415;
   color: #f7f7f7;
   transition: color 0.654s ease-out; }
 

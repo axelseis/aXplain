@@ -13,7 +13,7 @@ const demos = {
 
 export default class App extends Component {
     constructor(className) {
-        super(className, [OLApp]);
+        super(className, [WPApp]);
         initStore([], {});
 
         this.setDemoSelected(Object.keys(demos)[2])
