@@ -173,7 +173,7 @@ export default class Component {
             let tempIndex = 0;
             while(tempIndex < oldDomChildren.length && oldDomChildren.length > newDomChildren.length){
                 const tempChild = oldDomChildren[tempIndex];
-                const tempId = tempChild.getAttribute('id')
+                const tempId = isTextNode(tempChild) ? null : tempChild.getAttribute('id')
                 if(!tempId || !tempChild.__aXComp__ || !newDomChildren.find(el => el.getAttribute('id') === tempId)){
                     this._componentsRemovedFromDom[tempId] = oldDomChildren[tempIndex].__aXComp__
                     oldDom.removeChild(oldDomChildren[tempIndex]);

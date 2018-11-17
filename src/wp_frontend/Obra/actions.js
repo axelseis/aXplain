@@ -7,20 +7,15 @@ export const actions = {
     GET_POST_IMAGES: 'GET_POST_IMAGES'
 }
 
-export async function getPostImages(postId) {
+export async function getPostImages(postId,postSlug) {
     await dispatchAction(actions.INIT_GET_POST_IMAGES, {
-        postId, 
+        postSlug, 
         loading:true
     })
     const results = await getPostImagesJSON(postId)
     await dispatchAction(actions.GET_POST_IMAGES, {
-        postId,
+        postSlug,
         images: results
-    })
-    await dispatchAction(actions.END_GET_POST_IMAGES, {
-        postId, 
-        loading:false,
-        loaded: true
     })
 }
 
@@ -31,14 +26,14 @@ export const reducers = {
 }
 
 function setPostImagesLoading(state, payload) {
-    const {postId,loading,loaded} = {...payload};
+    const {postSlug,loading,loaded} = {...payload};
 
     return ({
         ...state,
         posts: {
             ...state.posts,
-            [postId]: {
-                ...state.posts[postId],
+            [postSlug]: {
+                ...state.posts[postSlug],
                 imagesLoading: loading,
                 imagesLoaded: loaded
             }
@@ -47,13 +42,15 @@ function setPostImagesLoading(state, payload) {
 }
 
 function setPostImages(state, payload) {
-    const {postId,images:imagesArr} = {...payload};
+    const {postSlug,images:imagesArr} = {...payload};
 
     const images = imagesArr.reduce((imagesObj,image) => {
-        const {id, media_details:{sizes},source_url} = {...image}
+        const {id, media_details:{sizes,width,height},source_url} = {...image}
         imagesObj[id] = sizes && sizes.thumbnail ? {...sizes} : {
             thumbnail: {
-                source_url
+                source_url,
+                width,
+                height
             }
         }
         return imagesObj;
@@ -63,8 +60,8 @@ function setPostImages(state, payload) {
         ...state,
         posts: {
             ...state.posts,
-            [postId]: {
-                ...state.posts[postId],
+            [postSlug]: {
+                ...state.posts[postSlug],
                 images: images
             }
         }

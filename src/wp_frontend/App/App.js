@@ -4,6 +4,8 @@ import Component from '../../lib/Component.js';
 import { initStore, state } from '../../lib/store.js';
 import { initRouter } from '../../lib/router.js';
 
+import {initialState} from '../initialState.js'
+
 import Portada from '../Portada/Portada.js';
 
 import { getPosts, reducers as AppReducer } from './actions.js';
@@ -22,7 +24,7 @@ export default class App extends Component {
     constructor(className) {
         super(className, [Portada]);
         
-        initStore([AppReducer,ObraReducer], state);
+        initStore([AppReducer,ObraReducer], {...state,...initialState});
         initRouter(routes, window.BASE_URL || '');
 
         window.addEventListener('resize', () => {

@@ -1,5 +1,8 @@
+$barW: 250px;
+$iconW: 30px;
 
 .Portada {
+    min-width: 520px;
     position: fixed;
     top: 0;
     left: 0;
@@ -40,38 +43,6 @@
         }
 
         .media {
-            &__gallery {
-                flex: 1;
-                //display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: flex-start;
-
-                .gallery {
-                    &__image {
-                        position: relative;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        box-sizing: content-box;
-                        margin-bottom: 5px;
-                        width: 100%;
-
-                        img {
-                            width: 100%;
-                            height: auto;
-                        }
-                        
-                        &.image--loading {
-                            opacity: 0;
-                        }
-                        &.image--loaded {
-                            opacity: 1;
-                            transition: opacity 0.345s;
-                        }
-                    }
-                }
-            }
             &__bar {
                 flex: 0 0 $barW;
                 padding: 5px;
@@ -81,11 +52,17 @@
             }
             &__nano {
                 position: fixed;
-                width: 250px;
+                width: $barW;
                 top: 0;
-                font-size: 2.1em;
+                font-size: 30px;
                 font-weight: 600;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
                 cursor: pointer;
+                text-transform: uppercase;
+                color: $white-color;
+
                 &:hover {
                     background-color: $white-color;
                     color: $black-color;
@@ -94,16 +71,16 @@
             &__thumbnail {
                 position: fixed;
                 top: 0;
-                width: 250px;
-                height: 250px;
+                width: $barW;
+                height: $barW;
                 margin-top: 40px;
-                flex: 0 0 250px;
+                flex: 0 0 $barW;
                 display: flex;
                 justify-content: flex-start;
                 align-items: flex-start;
                 color: rgb(20, 22, 24);
                 font-weight: 800;
-                font-size: 1.98em;
+                font-size: 25px;
                 line-height: 1.22em;
                 text-transform: uppercase;
                 word-wrap: break-word;
@@ -175,5 +152,62 @@
         border-bottom: solid 1px grey;
         color: $grey-color;
         animation: goInRight 0.54s forwards;
+    }
+}
+
+.plusAnim {
+    position: relative;
+    margin-right: 1px;
+    width: $iconW;
+    height: $iconW;
+    
+    * {
+        background-color: #C4243C;
+        transition-delay: 1s;
+        transition: all 0.876s;
+    }
+
+    .lineH {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        height: 6px;
+        margin-top: -3px;
+        border-radius: 3px;
+    }
+
+    .lineV1 {
+        position: absolute;
+        top: 0;
+        right: $iconW/2-3;
+        height: 50%;
+        width: 6px;
+        margin-left: 3px;
+        border-radius: 3px;
+
+        &.arrow-right {
+            margin-left: -5px;
+            right: 0;
+            transform-origin: center bottom;
+            transform: rotate(-45deg)
+        }
+    }
+
+    .lineV2 {
+        position: absolute;
+        top: 50%;
+        right: $iconW/2-3;
+        height: 50%;
+        width: 6px;
+        margin-left: -3px;
+        border-radius: 3px;
+
+        &.arrow-right {
+            margin-left: -5px;
+            right: 0;
+            transform-origin: center top;
+            transform: rotate(45deg)
+        }
     }
 }

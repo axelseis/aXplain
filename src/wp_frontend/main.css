@@ -84,6 +84,7 @@ body {
   animation: nanoInOut 1.7s ease-out; }
 
 .Portada {
+  min-width: 520px;
   position: fixed;
   top: 0;
   left: 0;
@@ -95,157 +96,186 @@ body {
   margin: 0;
   display: flex;
   flex-direction: row; }
+  .Portada__media {
+    flex: 0 0 0;
+    background-color: #1a232c;
+    color: white;
+    overflow: hidden;
+    transition: all 0.768s;
+    text-align: left;
+    display: flex; }
+    .Portada__media.media--closed {
+      flex: 1 0 50%;
+      transition: all 0.768s; }
+    .Portada__media.media--opened {
+      flex: 0 0 100%;
+      overflow-y: scroll;
+      background-color: black;
+      transition: all 0.768s; }
+      .Portada__media.media--opened .media__nano:hover {
+        color: black;
+        background-color: white; }
+    .Portada__media .media__bar {
+      flex: 0 0 250px;
+      padding: 5px;
+      display: flex;
+      flex-direction: column;
+      justify-content: stretch; }
+    .Portada__media .media__nano {
+      position: fixed;
+      width: 250px;
+      top: 0;
+      font-size: 30px;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      text-transform: uppercase;
+      color: #f7f7f7; }
+      .Portada__media .media__nano:hover {
+        background-color: #f7f7f7;
+        color: #1a232c; }
+    .Portada__media .media__thumbnail {
+      position: fixed;
+      top: 0;
+      width: 250px;
+      height: 250px;
+      margin-top: 40px;
+      flex: 0 0 250px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      color: #141618;
+      font-weight: 800;
+      font-size: 25px;
+      line-height: 1.22em;
+      text-transform: uppercase;
+      word-wrap: break-word; }
+      .Portada__media .media__thumbnail span {
+        position: relative;
+        z-index: 3;
+        padding: 0 5px;
+        background-color: rgba(255, 255, 255, 0.492);
+        word-wrap: break-word;
+        max-width: 100%;
+        box-sizing: border-box; }
+      .Portada__media .media__thumbnail__default {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        background-size: cover;
+        width: 100%;
+        height: 100%;
+        background-image: url("http://nanovaldes.com/wp-content/uploads/2013/07/nanofoto-240x240.jpg"); }
+      .Portada__media .media__thumbnail__selected {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center; }
+    .Portada__media .media__info {
+      margin-top: 290px;
+      font-size: 0.85em; }
+    .Portada__media iframe {
+      max-width: 100%; }
+  .Portada__obra {
+    flex: 0 0 50%;
+    background-color: #f7f7f7;
+    color: #1a232c;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    overflow-y: hidden; }
+    .Portada__obra.scroll--enabled {
+      overflow-y: scroll; }
+  .Portada__year {
+    position: relative;
+    margin-left: 100%;
+    z-index: 2;
+    width: 100%;
+    height: 0;
+    text-align: right;
+    border-bottom: solid 1px grey;
+    color: #949494;
+    animation: goInRight 0.54s forwards; }
 
-.Portada__media {
-  flex: 0 0 0;
-  background-color: #4a4a4a;
-  color: white;
-  overflow: hidden;
-  transition: all 0.768s;
-  text-align: left;
-  display: flex; }
+.plusAnim {
+  position: relative;
+  margin-right: 1px;
+  width: 30px;
+  height: 30px; }
+  .plusAnim * {
+    background-color: #C4243C;
+    transition-delay: 1s;
+    transition: all 0.876s; }
+  .plusAnim .lineH {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    margin-top: -3px;
+    border-radius: 3px; }
+  .plusAnim .lineV1 {
+    position: absolute;
+    top: 0;
+    right: 12px;
+    height: 50%;
+    width: 6px;
+    margin-left: 3px;
+    border-radius: 3px; }
+    .plusAnim .lineV1.arrow-right {
+      margin-left: -5px;
+      right: 0;
+      transform-origin: center bottom;
+      transform: rotate(-45deg); }
+  .plusAnim .lineV2 {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    height: 50%;
+    width: 6px;
+    margin-left: -3px;
+    border-radius: 3px; }
+    .plusAnim .lineV2.arrow-right {
+      margin-left: -5px;
+      right: 0;
+      transform-origin: center top;
+      transform: rotate(45deg); }
 
-.Portada__media.media--closed {
-  flex: 1 0 50%;
-  transition: all 0.768s; }
-
-.Portada__media.media--opened {
-  flex: 0 0 100%;
-  overflow-y: scroll;
-  background-color: black;
-  transition: all 0.768s; }
-
-.Portada__media.media--opened .media__nano:hover {
-  color: black;
-  background-color: white; }
-
-.Portada__media .media__gallery {
+.media__Gallery {
   flex: 1;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start; }
-
-.Portada__media .media__gallery .gallery__image {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-sizing: content-box;
-  margin-bottom: 5px;
-  width: 100%; }
-
-.Portada__media .media__gallery .gallery__image img {
-  width: 100%;
-  height: auto; }
-
-.Portada__media .media__gallery .gallery__image.image--loading {
-  opacity: 0; }
-
-.Portada__media .media__gallery .gallery__image.image--loaded {
-  opacity: 1;
-  transition: opacity 0.345s; }
-
-.Portada__media .media__bar {
-  flex: 0 0 250px;
-  padding: 5px;
-  display: flex;
-  flex-direction: column;
-  justify-content: stretch; }
-
-.Portada__media .media__nano {
-  position: fixed;
-  width: 250px;
-  top: 0;
-  font-size: 2.1em;
-  font-weight: 600;
-  cursor: pointer; }
-
-.Portada__media .media__nano:hover {
-  background-color: #f7f7f7;
-  color: #4a4a4a; }
-
-.Portada__media .media__thumbnail {
-  position: fixed;
-  top: 0;
-  width: 250px;
-  height: 250px;
-  margin-top: 40px;
-  flex: 0 0 250px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  color: #141618;
-  font-weight: 800;
-  font-size: 1.98em;
-  line-height: 1.22em;
-  text-transform: uppercase;
-  word-wrap: break-word; }
-
-.Portada__media .media__thumbnail span {
-  position: relative;
-  z-index: 3;
-  padding: 0 5px;
-  background-color: rgba(255, 255, 255, 0.492);
-  word-wrap: break-word;
-  max-width: 100%;
-  box-sizing: border-box; }
-
-.Portada__media .media__thumbnail__default {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  background-size: cover;
-  width: 100%;
-  height: 100%;
-  background-image: url("http://nanovaldes.com/wp-content/uploads/2013/07/nanofoto-240x240.jpg"); }
-
-.Portada__media .media__thumbnail__selected {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center; }
-
-.Portada__media .media__info {
-  margin-top: 290px;
-  font-size: 0.85em; }
-
-.Portada__media iframe {
-  max-width: 100%; }
-
-.Portada__obra {
-  flex: 0 0 50%;
-  background-color: #f7f7f7;
-  color: #4a4a4a;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  overflow-y: hidden; }
-
-.Portada__obra.scroll--enabled {
-  overflow-y: scroll; }
-
-.Portada__year {
-  position: relative;
-  margin-left: 100%;
-  z-index: 2;
-  width: 100%;
-  height: 0;
-  text-align: right;
-  border-bottom: solid 1px grey;
-  color: #949494;
-  animation: goInRight 0.54s forwards; }
+  .media__Gallery .Gallery__image {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: content-box;
+    margin-bottom: 5px;
+    width: 100%; }
+    .media__Gallery .Gallery__image img {
+      width: 100%;
+      height: auto; }
+    .media__Gallery .Gallery__image.image--loading {
+      opacity: 0; }
+    .media__Gallery .Gallery__image.image--loaded {
+      opacity: 1;
+      transition: opacity 0.345s; }
 
 .Obra {
   width: 100%;
   flex: 0 0 40px;
   display: block;
   cursor: pointer;
-  color: #4a4a4a;
+  color: #1a232c;
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -253,15 +283,13 @@ body {
   margin-top: 100%;
   animation: goInBottom 0.54s forwards;
   transition: color 0.654s ease-out; }
-
-.Obra:hover {
-  background-color: #4a4a4a;
-  color: #f7f7f7;
-  transition: color 0.654s ease-out; }
-
-.Obra__title {
-  font-weight: 600;
-  font-size: 1.2em; }
+  .Obra:hover {
+    background-color: #1a232c;
+    color: #f7f7f7;
+    transition: color 0.654s ease-out; }
+  .Obra__title {
+    font-weight: 600;
+    font-size: 1.2em; }
 
 body, html {
   font-family: 'Roboto', sans-serif;
@@ -269,7 +297,5 @@ body, html {
   padding: 0;
   margin: 0;
   overflow: hidden; }
-
-/*# sourceMappingURL=main.css.map */
 
 /*# sourceMappingURL=main.css.map */

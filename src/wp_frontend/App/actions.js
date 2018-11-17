@@ -1,5 +1,5 @@
 import { actions as libActions } from '../../lib/actions.js'
-import { dispatchAction, state } from '../../lib/store.js';
+import { dispatchAction } from '../../lib/store.js';
 import { getPostsJSON } from '../../data/nanovaldesAPI.js';
 
 export const actions = {
@@ -22,7 +22,7 @@ export const reducers = {
 }
 
 function setPosts(state, payload = []) {
-    const postsOrder = payload.map(post => post.id)
+    const postsOrder = payload.map(post => post.slug)
     const posts = payload.reduce((postsObj,post) => {
         const {
             id,
@@ -41,7 +41,7 @@ function setPosts(state, payload = []) {
                 source_url
             }
         };
-        postsObj[id] = {
+        postsObj[slug] = {
             id,slug,content,date,excerpt,title,featured_media,
             images: {
                 [featured_media]: {...featuredMedia}

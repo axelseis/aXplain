@@ -1,0 +1,32 @@
+.media__Gallery {
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    .Gallery {
+        &__image {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: content-box;
+            margin-bottom: 5px;
+            width: 100%;
+
+            img {
+                width: 100%;
+                height: auto;
+            }
+
+            &.image--loading {
+                opacity: 0;
+            }
+
+            &.image--loaded {
+                opacity: 1;
+                transition: opacity 0.345s;
+            }
+        }
+    }
+}

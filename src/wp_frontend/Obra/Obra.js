@@ -12,11 +12,11 @@ export default class Obra extends Component {
             posts={},
             router:{params:{obraId:obraSel}}
         } = {...state};
-        const {id:myId} = {...this.domProps}
-        const postData = posts[myId]
+        const {id:slug} = {...this.domProps}
+        const postData = posts[slug]
 
-        if(obraSel === myId && !postData.imagesLoaded && !postData.imagesLoading){
-            getPostImages(myId);
+        if(obraSel === slug && !postData.imagesLoaded && !postData.imagesLoading){
+            getPostImages(postData.id,slug);
         }
 
         return ({

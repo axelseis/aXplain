@@ -1,63 +1,31 @@
 import Component from '../../lib/Component.js'
 import { go } from '../../lib/router.js';
 
+import Gallery from '../Gallery/Gallery.js';
 import Obra from '../Obra/Obra.js';
-import { getWindowSize, getOffset } from '../../utils.js';
 
 export default class Portada extends Component {
 
     constructor(className) {
-        super(className, [Obra]);        
+        super(className, [Obra,Gallery]);        
     }
     
     stateToprops(state) {
         const {
+            nano,
             postsOrder=[],
             posts={},
             router:{params:{obraId:obraSel}}
         } = {...state};
         
+        
         const postSel = posts[obraSel] 
         const postOver = posts[this.state && this.state.obraOver];
+        const postThumb = postSel || postOver;
         
         let info = '';
         let title = '';
-        let gallery = [];
         let thumb = 'http://nanovaldes.com/wp-content/uploads/2013/07/nanofoto-240x240.jpg';
-        
-        const postThumb = postSel || postOver;
-        let maxW;
-        let maxH;
-
-        if(postSel){
-            const {width:winW,height:winH} = {...getWindowSize()};
-            const {width:barW} = {...getOffset(this.$bar)}
-
-            maxW = winW - barW;
-            maxH = winH;
-            const compare = (idA,idB) => {
-                const featured = postSel.featured_media;
-                const compared = parseInt(idA) === featured ? -1 : parseInt(idB) === featured ? 1 : 0;
-                return compared
-            }
-            gallery = Object.keys(postSel.images).sort(compare).map(imageId => {
-                const tempImages = postSel.images[imageId];
-                
-                const bestFit = Object.keys(tempImages).reduce((bestFit,sizeId) => {
-                    const {width:tempW,height:tempH} = {...tempImages[sizeId]};
-                    const {width:bestW,height:bestH} = {...tempImages[bestFit]}
-                    
-                    if(bestFit !== sizeId && tempW < maxW && tempH < maxH && (bestW < tempW || bestH < tempH)){
-                        return sizeId
-                    }
-                    else return bestFit
-                })
-                tempImages[bestFit].imageId = parseInt(imageId);
-                return tempImages[bestFit];
-            },'thumbnail')
-
-            title = postSel.title
-        }
 
         if(postThumb){
             const {images, featured_media, content} =  {...postThumb}
@@ -65,17 +33,24 @@ export default class Portada extends Component {
             thumb = postMedia && postMedia.thumbnail && postMedia.thumbnail.source_url
             info = content
         }
-        
+        else {
+            info = `
+                <p class="info__address">${nano.address}</p>
+                <p class="info__mail">${nano.mail}</p>
+                <div class="info__phone">${nano.phone.map(phone => `
+                    <p class="phone">${phone}</p>
+                `).join('')}</div>
+            `
+        }
+
         return ({
             postsOrder,
             posts,
             thumb,
             info,
             obraSel,
-            gallery,
             title,
-            maxW,
-            maxH
+            nano
         })
     }
 
@@ -94,61 +69,40 @@ export default class Portada extends Component {
     onClickObra(ev) {
         go(`/obra/${(ev.currentTarget || ev.target).id}`);
         this.$media.scrollTop = 0;
-        this.setState({
-            imagesLoaded: []
-        })
     }
 
     goHome(){
         go('/');
     }
     
-    onLoadGalleryImage(ev){
-        const {imagesLoaded = []} =  {...this.state}
+    onMouseOverNano() {
         this.setState({
-            imagesLoaded: [
-                ...imagesLoaded,
-                ev.target.src
-            ]
+            nanoHover: true
         })
     }
-
+    
+    onMouseOutNano() {
+        this.setState({
+            nanoHover: false
+        })
+    }
+    
     render() {
-        const {postsOrder,posts,thumb,info,obraSel,gallery,title,maxW,maxH} = {...this.props}
-        const featured = posts[obraSel] && posts[obraSel].featured_media;
+        const {postsOrder,posts,thumb,info,obraSel,title,nano} = {...this.props}
         const {showing} = {...this.domProps};
-        const {imagesLoaded=[]} = {...this.state}
+        const {nanoHover} = {...this.state};
         const mediaClass = showing === 'true' ? obraSel ? 'opened' : 'closed' : 'no-inited'
         const obraClass = `scroll--${showing === 'true' ? 'enabled' : 'disabled'}`;
-
+        const plusStep = obraSel ? 'arrow-right' : 'plus';
         let actYear;
         
         return(`
             <div id="media" class="Portada__media media--${mediaClass}" >
-                <div id="gallery" class="media__gallery">
-                    ${gallery.map(image => {
-                        const {width,height,source_url,imageId} = {...image}
-                        const loaded = imagesLoaded.indexOf(source_url) === -1;
-                        const imageClass= `gallery__image image--${loaded? 'loading' : 'loaded'}`;
-                        const vertical = height > width;
-                        const aspect = width/height;
-                        const maxImageW = Math.min(maxW, maxH*aspect);
-                        const maxImageH = Math.max(maxH, maxW*aspect);
-
-                        const imageStyle = `
-                            max-width: ${vertical ? maxImageH*aspect : maxImageW}px;
-                            max-height: ${vertical ? maxImageH : maxImageW*aspect}px;
-                        `
-                        const isFirst = imageId === featured;
-                        return(`
-                            <div class="${imageClass}" style="${isFirst ? 'order:1' : 'order:2'}; flex:0 0 ${height}px">
-                                <img src="${source_url}" style="${imageStyle}" onload="onLoadGalleryImage" />
-                            </div>
-                        `)
-                    }).join('')}
-                </div>
+                <Gallery id="Gallery" class="media__Gallery"></Gallery>
                 <div id="bar" class="media__bar">
-                    <div class="media__nano" onClick="goHome">NANO VALDES</div>
+                    <div class="media__nano" onClick="goHome" onMouseOver="onMouseOverNano" onMouseOut="onMouseOutNano">
+                        ${nano.name} ${plusAnim(plusStep, nanoHover)}
+                    </div>
                     <div class="media__thumbnail">
                         <div class="media__thumbnail__selected" style="background-image:url(${thumb})"></div>
                         <div class="media__thumbnail__default"></div>
@@ -180,7 +134,7 @@ export default class Portada extends Component {
                             </div>
                         `:''}
                         <Obra 
-                            id="${postId}" 
+                            id="${postId}"
                             class="Obra" 
                             onMouseOut="onMouseOutObra"
                             onMouseOver="onMouseOverObra"
@@ -194,3 +148,12 @@ export default class Portada extends Component {
     }
 }
 
+const plusAnim = (step, hover) => {
+    return(`
+        <div class="plusAnim ${hover ? 'hover' : ''}">
+            <div class="lineH"></div>
+            <div class="lineV1 ${step}"></div>
+            <div class="lineV2 ${step}"></div>
+        </div>
+    `)
+}
