@@ -15,6 +15,7 @@ import { getWindowSize } from '../../utils.js';
 const routes = [
     { url: "/" },
     { url: "/obra/:obraId" },
+    { url: "/exhibitions" },
     { url: "404", redirect: "/" }
 ]
 

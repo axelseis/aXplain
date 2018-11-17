@@ -129,7 +129,7 @@ $iconW: 30px;
     }
 
     &__obra {
-        flex: 0 0 50%;
+        flex: 1 0 50%;
         background-color: $white-color;
         color: $black-color;
         display: flex;
@@ -152,6 +152,10 @@ $iconW: 30px;
         border-bottom: solid 1px grey;
         color: $grey-color;
         animation: goInRight 0.54s forwards;
+    }
+
+    &__exhibitions {
+
     }
 }
 

@@ -15,16 +15,17 @@ export default class Portada extends Component {
             nano,
             postsOrder=[],
             posts={},
-            router:{params:{obraId:obraSel} = {}}
+            router:{url,params:{obraId:obraSel}}
         } = {...state};
         
         
         const postSel = posts[obraSel] 
         const postOver = posts[this.state && this.state.obraOver];
         const postThumb = postSel || postOver;
-        
+        const showExhibitions = url.indexOf('exhibitions') != -1;
+
         let info = '';
-        let title = '';
+        let title = postSel && postSel.title;
         let thumb = 'http://nanovaldes.com/wp-content/uploads/2013/07/nanofoto-240x240.jpg';
 
         if(postThumb){
@@ -32,15 +33,6 @@ export default class Portada extends Component {
             const postMedia = images[featured_media] || images[Object.keys(images)[0]];
             thumb = postMedia && postMedia.thumbnail && postMedia.thumbnail.source_url
             info = content
-        }
-        else {
-            info = `
-                <p class="info__address">${nano.address}</p>
-                <p class="info__mail">${nano.mail}</p>
-                <div class="info__phone">${nano.phone.map(phone => `
-                    <p class="phone">${phone}</p>
-                `).join('')}</div>
-            `
         }
 
         return ({
@@ -50,7 +42,8 @@ export default class Portada extends Component {
             info,
             obraSel,
             title,
-            nano
+            nano,
+            showExhibitions
         })
     }
 
@@ -71,8 +64,13 @@ export default class Portada extends Component {
         this.$media.scrollTop = 0;
     }
 
-    goHome(){
-        go('/');
+    onClickNano(){
+        if(this.props.obraSel){
+            go('/');
+        }
+        else {
+            go('/exhibitions');
+        }
     }
     
     onMouseOverNano() {
@@ -88,19 +86,21 @@ export default class Portada extends Component {
     }
     
     render() {
-        const {postsOrder,posts,thumb,info,obraSel,title,nano} = {...this.props}
+        const {postsOrder,posts,thumb,info,obraSel,title,nano,showExhibitions} = {...this.props}
         const {showing} = {...this.domProps};
         const {nanoHover} = {...this.state};
         const mediaClass = showing === 'true' ? obraSel ? 'opened' : 'closed' : 'no-inited'
         const obraClass = `scroll--${showing === 'true' ? 'enabled' : 'disabled'}`;
         const plusStep = obraSel ? 'arrow-right' : 'plus';
+        const exhibitionsClass = `Portada__exhibitions exhibitions--${showExhibitions ? 'showing' : 'hidden'}`
+        
         let actYear;
         
         return(`
             <div id="media" class="Portada__media media--${mediaClass}" >
                 <Gallery id="Gallery" class="media__Gallery"></Gallery>
                 <div id="bar" class="media__bar">
-                    <div class="media__nano" onClick="goHome" onMouseOver="onMouseOverNano" onMouseOut="onMouseOutNano">
+                    <div class="media__nano" onClick="onClickNano" onMouseOver="onMouseOverNano" onMouseOut="onMouseOutNano">
                         ${nano.name} ${plusAnim(plusStep, nanoHover)}
                     </div>
                     <div class="media__thumbnail">
@@ -110,7 +110,16 @@ export default class Portada extends Component {
                             <span>${title}</span>
                         `: ''}
                     </div>
-                    <div class="media__info">${info}</div>
+                    <div class="media__info">
+                        ${info || `
+                            <p class="info__address">${nano.address}</p>
+                            <p class="info__mail">${nano.mail}</p>
+                            <div class="info__phone">${nano.phone.map(phone => `
+                                <p class="phone">${phone}</p>
+                            `).join('')}</div>
+                            <div class="info__exhibitions" onClick="onClickNano">exhibitions</div>
+                        `}
+                    </div>
                 </div>
             </div>
             <div class="Portada__obra ${obraClass}">
@@ -144,6 +153,7 @@ export default class Portada extends Component {
                     `)
                 }).join('')}
             </div>
+            <div class="${exhibitionsClass}"></div>
         `)
     }
 }
