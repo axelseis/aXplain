@@ -10,6 +10,8 @@
     "build": "webpack --env=wp_frontend",
     "prod:server": "node server.js",
     "prod": "set NODE_ENV=prod && npm-run-all build prod:server",
+    "deploy": "set NODE_ENV=prod && npm-run-all build deploy:firebase",
+    "deploy:firebase": "firebase deploy",
     "test": "jest --watch"
   },
   "repository": {

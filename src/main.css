@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto");
+@import url("https://fonts.googleapis.com/css?family=Roboto");
 @keyframes slideDown {
   0% {
     transform: translateY(0); }
@@ -636,37 +637,79 @@ body {
   display: flex;
   flex-direction: row; }
 
-.Portada__media {
-  flex: 0 0 0;
-  background-color: #161415;
-  color: white;
-  overflow: hidden;
-  transition: all 0.768s;
-  text-align: left;
-  display: flex; }
+.Portada--INIT .Portada__left {
+  flex: 0; }
 
-.Portada__media.media--closed {
+.Portada--INIT .Portada__right {
+  flex: 0 0 100%; }
+
+.Portada--INIT .Portada__obra {
+  width: 100%; }
+
+.Portada--INIT .Portada__exhibitions {
+  width: 0; }
+
+.Portada--OBRA .Portada__left {
+  flex: 1 0 50%; }
+
+.Portada--OBRA .Portada__right {
   flex: 1 0 50%;
-  transition: all 0.468s ease-out; }
+  overflow-y: scroll; }
 
-.Portada__media.media--opened {
+.Portada--OBRA .Portada__obra {
+  width: 100%; }
+
+.Portada--OBRA .Portada__exhibitions {
+  width: 0; }
+
+.Portada--GALLERY .Portada__left {
   flex: 0 0 100%;
   overflow-y: scroll;
-  background-color: black;
-  transition: all 0.768s; }
+  background-color: black; }
 
-.Portada__media.media--opened .media__nano:hover {
+.Portada--GALLERY .Portada__left .media__nano:hover {
   color: black;
   background-color: white; }
 
-.Portada__media .media__bar {
+.Portada--GALLERY .Portada__right {
+  flex: 0 0 0;
+  overflow-y: hidden; }
+
+.Portada--GALLERY .Portada__obra {
+  width: 100%; }
+
+.Portada--GALLERY .Portada__exhibitions {
+  width: 0; }
+
+.Portada--EXHIBITIONS .Portada__left {
+  flex: 0 0 260px; }
+
+.Portada--EXHIBITIONS .Portada__right {
+  flex: 1 0;
+  overflow-y: scroll; }
+
+.Portada--EXHIBITIONS .Portada__obra {
+  width: 30%; }
+
+.Portada--EXHIBITIONS .Portada__exhibitions {
+  width: 70%; }
+
+.Portada__left {
+  background-color: #161415;
+  color: white;
+  overflow: hidden;
+  text-align: left;
+  display: flex;
+  transition: all 0.468s ease-out; }
+
+.Portada__left .media__bar {
   flex: 0 0 250px;
   padding: 5px;
   display: flex;
   flex-direction: column;
   justify-content: stretch; }
 
-.Portada__media .media__nano {
+.Portada__left .media__nano {
   position: fixed;
   width: 250px;
   top: 0;
@@ -679,11 +722,11 @@ body {
   text-transform: uppercase;
   color: #f7f7f7; }
 
-.Portada__media .media__nano:hover {
+.Portada__left .media__nano:hover {
   background-color: #f7f7f7;
   color: #161415; }
 
-.Portada__media .media__thumbnail {
+.Portada__left .media__thumbnail {
   position: fixed;
   top: 0;
   width: 250px;
@@ -700,7 +743,7 @@ body {
   text-transform: uppercase;
   word-wrap: break-word; }
 
-.Portada__media .media__thumbnail span {
+.Portada__left .media__thumbnail span {
   position: relative;
   z-index: 3;
   padding: 0 5px;
@@ -709,7 +752,7 @@ body {
   max-width: 100%;
   box-sizing: border-box; }
 
-.Portada__media .media__thumbnail__default {
+.Portada__left .media__thumbnail__default {
   position: absolute;
   top: 0;
   left: 0;
@@ -717,9 +760,9 @@ body {
   background-size: cover;
   width: 100%;
   height: 100%;
-  background-image: url("http://nanovaldes.com/wp-content/uploads/2013/07/nanofoto-240x240.jpg"); }
+  background-image: url("https://nanovaldes.com/wp-content/uploads/2013/07/nanofoto-240x240.jpg"); }
 
-.Portada__media .media__thumbnail__selected {
+.Portada__left .media__thumbnail__selected {
   position: absolute;
   top: 0;
   left: 0;
@@ -729,28 +772,29 @@ body {
   background-size: cover;
   background-position: center; }
 
-.Portada__media .media__info {
+.Portada__left .media__info {
   margin-top: 290px;
   font-size: 0.85em; }
 
-.Portada__media .media__info a {
+.Portada__left .media__info a {
   color: white;
   display: block; }
 
-.Portada__media iframe {
+.Portada__left iframe {
   max-width: 100%; }
 
+.Portada__right {
+  height: 100%;
+  transition: all 0.468s ease-out; }
+
 .Portada__obra {
-  flex: 1 0 50%;
+  float: left;
   background-color: #f7f7f7;
   color: #161415;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  overflow-y: hidden; }
-
-.Portada__obra.scroll--enabled {
-  overflow-y: scroll; }
+  transition: all 0.468s ease-out; }
 
 .Portada__year {
   position: relative;
@@ -762,6 +806,23 @@ body {
   border-bottom: solid 1px grey;
   color: #949494;
   animation: goInRight 0.54s forwards; }
+
+.Portada__exhibitions {
+  font-size: 13px;
+  background-color: #161415;
+  color: #f7f7f7;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.468s ease-out; }
+
+.Portada__exhibitions p {
+  width: 100%;
+  word-wrap: none;
+  height: 20px;
+  line-height: 15px;
+  margin: 5px;
+  text-align: center; }
 
 .plusAnim {
   position: relative;

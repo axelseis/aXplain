@@ -1,13 +1,15 @@
 import Component from '../../lib/Component.js'
 import { go } from '../../lib/router.js';
 
+import {positions} from '../App/App.js';
 import Gallery from '../Gallery/Gallery.js';
 import Obra from '../Obra/Obra.js';
+import { getOffset } from '../../utils.js';
 
 export default class Portada extends Component {
 
     constructor(className) {
-        super(className, [Obra,Gallery]);        
+        super(className, [Obra,Gallery]);
     }
     
     stateToprops(state) {
@@ -15,14 +17,13 @@ export default class Portada extends Component {
             nano,
             postsOrder=[],
             posts={},
-            router:{url,params:{obraId:obraSel}}
-        } = {...state};
-        
+            router:{params:{obraId:obraSel}},
+            exhibitions
+        } = {...state};  
         
         const postSel = posts[obraSel] 
         const postOver = posts[this.state && this.state.obraOver];
         const postThumb = postSel || postOver;
-        const showExhibitions = url.indexOf('exhibitions') != -1;
 
         let info = '';
         let title = postSel && postSel.title;
@@ -43,7 +44,7 @@ export default class Portada extends Component {
             obraSel,
             title,
             nano,
-            showExhibitions
+            exhibitions
         })
     }
 
@@ -86,18 +87,13 @@ export default class Portada extends Component {
     }
     
     render() {
-        const {postsOrder,posts,thumb,info,obraSel,title,nano,showExhibitions} = {...this.props}
-        const {showing} = {...this.domProps};
+        const {postsOrder,posts,thumb,info,obraSel,title,nano,exhibitions} = {...this.props}
         const {nanoHover} = {...this.state};
-        const mediaClass = showing === 'true' ? obraSel ? 'opened' : 'closed' : 'no-inited'
-        const obraClass = `scroll--${showing === 'true' ? 'enabled' : 'disabled'}`;
         const plusStep = obraSel ? 'arrow-right' : 'plus';
-        const exhibitionsClass = `Portada__exhibitions exhibitions--${showExhibitions ? 'showing' : 'hidden'}`
-        
         let actYear;
         
         return(`
-            <div id="media" class="Portada__media media--${mediaClass}" >
+            <div id="media" class="Portada__left" >
                 <Gallery id="Gallery" class="media__Gallery"></Gallery>
                 <div id="bar" class="media__bar">
                     <div class="media__nano" onClick="onClickNano" onMouseOver="onMouseOverNano" onMouseOut="onMouseOutNano">
@@ -122,38 +118,42 @@ export default class Portada extends Component {
                     </div>
                 </div>
             </div>
-            <div class="Portada__obra ${obraClass}">
-                ${postsOrder.map((postId,index) => {
-                    const {date} = {...posts[postId]}
-                    const postYear = new Date(date).getFullYear();
-                    
-                    let isNewYear = false;
-                    if(postYear != actYear){
-                        isNewYear = true;
-                        actYear = postYear;
-                    }
+            <div class="Portada__right">
+                <div class="Portada__obra">
+                    ${postsOrder.map((postId,index) => {
+                        const {date} = {...posts[postId]}
+                        const postYear = new Date(date).getFullYear();
+                        
+                        let isNewYear = false;
+                        if(postYear != actYear){
+                            isNewYear = true;
+                            actYear = postYear;
+                        }
 
-                    return(`
-                        ${isNewYear ? `
-                            <div 
-                                class="Portada__year"
-                                style="animation-delay:${index*0.08}s;"
-                            >
-                                ${actYear}
-                            </div>
-                        `:''}
-                        <Obra 
-                            id="${postId}"
-                            class="Obra" 
-                            onMouseOut="onMouseOutObra"
-                            onMouseOver="onMouseOverObra"
-                            onClick="onClickObra"
-                            style="animation-delay:${index*0.0598}s;"
-                        ></Obra>
-                    `)
-                }).join('')}
+                        return(`
+                            ${isNewYear ? `
+                                <div 
+                                    class="Portada__year"
+                                    style="animation-delay:${index*0.08}s;"
+                                >
+                                    ${actYear}
+                                </div>
+                            `:''}
+                            <Obra 
+                                id="${postId}"
+                                class="Obra" 
+                                onMouseOut="onMouseOutObra"
+                                onMouseOver="onMouseOverObra"
+                                onClick="onClickObra"
+                                style="animation-delay:${index*0.0598}s;"
+                            ></Obra>
+                        `)
+                    }).join('')}
+                </div>
+                <div id="exhibitions" class="Portada__exhibitions">
+                    ${exhibitions}
+                </div>
             </div>
-            <div class="${exhibitionsClass}"></div>
         `)
     }
 }

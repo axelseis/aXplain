@@ -39,7 +39,7 @@ function setStateLocation(url2go){
         const {...props} = {...routeMatch}
         const params = _getParams(url, routeMatch.url);
 
-        dispatch(setLocation(url, routeMatch.url, params))
+        dispatch(setLocation(url, routeMatch.url, params, props))
 
         return true;
     }

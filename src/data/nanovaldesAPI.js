@@ -10,3 +10,7 @@ export function getPostImagesJSON(postId) {
     return aXget(`${apiServer}/media?parent=${postId}`);
 }
 
+export function getPageJSON(pageId) {
+    return aXget(`${apiServer}/pages/${pageId}`);
+}
+

@@ -22,10 +22,10 @@ export function setRoutes(routes){
     })
 }
 
-export function setLocation(url, route, params){
+export function setLocation(url, route, params, props){
     return({
         type: actions.SET_LOCATION,
-        payload: { url, route, params: {...params} }
+        payload: { url, route, params:{...params}, props:{...props} }
     })    
 }    
 

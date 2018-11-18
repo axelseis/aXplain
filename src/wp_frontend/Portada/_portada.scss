@@ -15,32 +15,92 @@ $iconW: 30px;
     display: flex;
     flex-direction: row;
 
-    &__media {
-        flex: 0 0 0;
+    &--INIT {
+        .Portada {
+            &__left {
+                flex: 0;
+            }
+            &__right {
+                flex: 0 0 100%;
+            }
+            &__obra {
+                width: 100%;
+            }
+            &__exhibitions {
+                width: 0;
+            }
+        }
+    }
+
+    &--OBRA {
+        .Portada {
+            &__left {
+                flex: 1 0 50%;
+            }
+            &__right {
+                flex: 1 0 50%;
+                overflow-y: scroll;
+            }
+            &__obra {
+                width: 100%;
+            }
+            &__exhibitions {
+                width: 0;
+            }
+        }
+    }
+
+    &--GALLERY {
+        .Portada {
+            &__left {
+                flex: 0 0 100%;
+                overflow-y: scroll;
+                background-color: rgba(0, 0, 0, 1);
+                .media__nano {
+                    &:hover {
+                        color: black;
+                        background-color: white;
+                    }
+                }
+            }
+            &__right {
+                flex: 0 0 0;
+                overflow-y: hidden;
+            }
+            &__obra {
+                width: 100%;
+            }
+            &__exhibitions {
+                width: 0;
+            }
+        }
+    }
+
+    &--EXHIBITIONS {
+        .Portada {
+            &__left {
+                flex: 0 0 260px;
+            }
+            &__right {
+                flex: 1 0;
+                overflow-y: scroll;
+            }
+            &__obra {
+                width: 30%;
+            }
+            &__exhibitions {
+                width: 70%;
+            }
+        }
+    }
+
+    &__left {
         background-color: $black-color;
         color: white;
         overflow: hidden;
-        transition: all 0.768s;
         text-align: left;
         display: flex;
-
-        &.media--closed {
-            flex: 1 0 50%;
-            transition: all 0.468s ease-out;
-        }
-
-        &.media--opened {
-            flex: 0 0 100%;
-            overflow-y: scroll;
-            background-color: rgba(0, 0, 0, 1);
-            transition: all 0.768s;
-            .media__nano {
-                &:hover {
-                    color: black;
-                    background-color: white;
-                }
-            }
-        }
+        transition: all 0.468s ease-out;
 
         .media {
             &__bar {
@@ -133,18 +193,19 @@ $iconW: 30px;
         }
     }
 
+    &__right {
+        height: 100%;
+        transition: all 0.468s ease-out;
+    }
+    
     &__obra {
-        flex: 1 0 50%;
+        float: left;
         background-color: $white-color;
         color: $black-color;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        overflow-y: hidden;
-
-        &.scroll--enabled {
-            overflow-y: scroll;
-        }
+        transition: all 0.468s ease-out;
     }
     
     &__year {
@@ -160,7 +221,22 @@ $iconW: 30px;
     }
 
     &__exhibitions {
+        font-size: 13px;
+        background-color: #161415;
+        color: $white-color;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: all 0.468s ease-out;
 
+        p {
+            width: 100%;
+            word-wrap: none;
+            height: 20px;
+            line-height: 15px;
+            margin: 5px;
+            text-align: center;
+        }
     }
 }
 

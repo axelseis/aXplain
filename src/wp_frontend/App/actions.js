@@ -1,9 +1,10 @@
 import { actions as libActions } from '../../lib/actions.js'
 import { dispatchAction } from '../../lib/store.js';
-import { getPostsJSON } from '../../data/nanovaldesAPI.js';
+import { getPostsJSON, getPageJSON } from '../../data/nanovaldesAPI.js';
 
 export const actions = {
-    GET_POSTS: 'GET_POSTS'
+    GET_POSTS: 'GET_POSTS',
+    GET_EXHIBITIONS: 'GET_EXHIBITIONS'
 }
 
 export async function getPosts() {
@@ -17,8 +18,20 @@ export async function getPosts() {
     await dispatchAction(actions.GET_POSTS, results)
 }
 
+export async function getExhibitionsPage() {
+    await dispatchAction(libActions.SET_APP_PROP, {
+        loadingExhibitions: true
+    })
+    const results = await getPageJSON(5)
+    await dispatchAction(actions.GET_EXHIBITIONS, results)
+    await dispatchAction(libActions.SET_APP_PROP, {
+        loadingExhibitions: false,
+    })
+}
+
 export const reducers = {
-    [actions.GET_POSTS]: setPosts
+    [actions.GET_POSTS]: setPosts,
+    [actions.GET_EXHIBITIONS]: setExhibitions
 }
 
 function setPosts(state, payload = []) {
@@ -54,6 +67,14 @@ function setPosts(state, payload = []) {
         ...state,
         postsOrder: postsOrder || [],
         posts: posts || {}
+    })
+}
+
+function setExhibitions(state, payload = {}) {
+    const {content:{rendered:exhibitions}} = {...payload}
+    return ({
+        ...state,
+        exhibitions,
     })
 }
 

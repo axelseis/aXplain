@@ -5,17 +5,23 @@ import { initStore, state } from '../../lib/store.js';
 import { initRouter } from '../../lib/router.js';
 
 import {initialState} from '../initialState.js'
-
 import Portada from '../Portada/Portada.js';
 
-import { getPosts, reducers as AppReducer } from './actions.js';
+import { getPosts, getExhibitionsPage, reducers as AppReducer } from './actions.js';
 import { reducers as ObraReducer } from '../Obra/actions.js';
-import { getWindowSize } from '../../utils.js';
+
+export const positions = {
+    init: 'INIT',
+    obra: 'OBRA',
+    gallery: 'GALLERY',
+    exhibitions: 'EXHIBITIONS'
+}
+
 
 const routes = [
-    { url: "/" },
-    { url: "/obra/:obraId" },
-    { url: "/exhibitions" },
+    { url: "/", position:positions.obra},
+    { url: "/obra/:obraId", position:positions.gallery},
+    { url: "/exhibitions", position:positions.exhibitions},
     { url: "404", redirect: "/" }
 ]
 
@@ -30,9 +36,16 @@ export default class App extends Component {
     }
     
     stateToprops(state){
-        const {posts} = {...state}
+        const {App:{loadingExhibitions} = {}, router:{props:{position}={}}={}} = {...state}
+        const {posts,exhibitions} = {...state}
+
+        if(position === positions.exhibitions && !exhibitions && !loadingExhibitions){
+            getExhibitionsPage();
+        }
+        
         return ({
-            hasPosts: !!posts
+            hasPosts: !!posts,
+            position: !!posts && position || positions.init
         })
     }
     
@@ -52,11 +65,12 @@ export default class App extends Component {
 
     render() {
         const {rendered,endTransition} = {...this.state};
-        const {hasPosts} = {...this.props}
+        const {hasPosts,position} = {...this.props};
+
         const loaderClass = rendered ? 'App--inited' : '';
 
         return(`
-            <Portada id="Portada" class="Portada" showing="${hasPosts}"></Portada>
+            <Portada id="Portada" class="Portada Portada--${position}" showing="${hasPosts}"></Portada>
             ${!hasPosts ? `
                 <div id="loader" class="App__loader ${loaderClass}" onanimationiteration="onEndLoaderTransition">
                     <span>nano valdes</span>
