@@ -34,7 +34,6 @@ export default class App extends Component {
     }
     
     onEndLoaderTransition(ev) {
-        console.log('ev', ev)
         this.setState({
             endTransition: true
         })

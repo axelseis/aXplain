@@ -26,7 +26,7 @@ export default class Portada extends Component {
 
         let info = '';
         let title = postSel && postSel.title;
-        let thumb = 'http://nanovaldes.com/wp-content/uploads/2013/07/nanofoto-240x240.jpg';
+        let thumb = 'https://nanovaldes.com/wp-content/uploads/2013/07/nanofoto-240x240.jpg';
 
         if(postThumb){
             const {images, featured_media, content} =  {...postThumb}
