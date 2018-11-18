@@ -79,7 +79,7 @@ export default class Component {
     renderTemplate($domElement, templateTpl) {
         const templateStr = templateTpl
         .replace(/(?:\r\n|\r|\n)/g, '')
-        .replace(/(onload|onLoad|onerror|onError|onMouseOver|onMouseOut|onClick|onanimationend)=/g, "$1_event=")
+        .replace(/(onload|onLoad|onerror|onError|onMouseOver|onMouseOut|onClick|onanimationend|onanimationiteration)=/g, "$1_event=")
         //.replace(/()=/g, 'onerror_event=');
         
         if (!$domElement || !isDOMElement($domElement)) {

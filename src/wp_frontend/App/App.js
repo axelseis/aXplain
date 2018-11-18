@@ -30,7 +30,10 @@ export default class App extends Component {
     }
     
     stateToprops(state){
-        return ({})
+        const {posts} = {...state}
+        return ({
+            hasPosts: !!posts
+        })
     }
     
     onEndLoaderTransition(ev) {
@@ -49,12 +52,13 @@ export default class App extends Component {
 
     render() {
         const {rendered,endTransition} = {...this.state};
+        const {hasPosts} = {...this.props}
         const loaderClass = rendered ? 'App--inited' : '';
 
         return(`
-            <Portada id="Portada" class="Portada" showing="${endTransition}"></Portada>
-            ${!endTransition ? `
-                <div id="loader" class="App__loader ${loaderClass}" onanimationend="onEndLoaderTransition">
+            <Portada id="Portada" class="Portada" showing="${hasPosts}"></Portada>
+            ${!hasPosts ? `
+                <div id="loader" class="App__loader ${loaderClass}" onanimationiteration="onEndLoaderTransition">
                     <span>nano valdes</span>
                 </div>
             ` : ''}

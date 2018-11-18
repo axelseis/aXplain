@@ -113,9 +113,9 @@ export default class Portada extends Component {
                     <div class="media__info">
                         ${info || `
                             <p class="info__address">${nano.address}</p>
-                            <p class="info__mail">${nano.mail}</p>
+                            <a href="mailto:${nano.mail}" class="info__mail">${nano.mail}</a>
                             <div class="info__phone">${nano.phone.map(phone => `
-                                <p class="phone">${phone}</p>
+                                <a href="tel:${phone.replace(/\s/g,'')}" class="phone">${phone}</a>
                             `).join('')}</div>
                             <div class="info__exhibitions" onClick="onClickNano">exhibitions</div>
                         `}
@@ -148,7 +148,7 @@ export default class Portada extends Component {
                             onMouseOut="onMouseOutObra"
                             onMouseOver="onMouseOverObra"
                             onClick="onClickObra"
-                            style="animation-delay:${index*0.08}s;"
+                            style="animation-delay:${index*0.0598}s;"
                         ></Obra>
                     `)
                 }).join('')}

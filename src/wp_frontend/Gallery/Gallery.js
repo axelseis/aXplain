@@ -4,9 +4,17 @@ import { getWindowSize, getOffset } from '../../utils.js';
 export default class Gallery extends Component {
 
     constructor(className) {
-        super(className);        
+        super(className);      
+
+        window.addEventListener('resize', this.onResize.bind(this));
+        this.onResize();
     }
     
+    onResize(ev){
+        const {width:winW,height:winH} = {...getWindowSize()}
+        this.setState({winW,winH})
+    }
+
     stateToprops(state) {
         const {
             posts={},
@@ -20,7 +28,7 @@ export default class Gallery extends Component {
         let maxH;
 
         if(postSel){
-            const {width:winW,height:winH} = {...getWindowSize()};
+            const {winW,winH} = {...this.state};
             const {width:barW} = {...getOffset(document.getElementById('bar'))}
 
             maxW = winW - barW;
