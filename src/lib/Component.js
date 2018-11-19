@@ -170,16 +170,14 @@ export default class Component {
             const newDomChildren = Array.from(newDom.childNodes);
             const oldDomChildren = Array.from(oldDom.childNodes);
 
-            let tempIndex = 0;
-            while(tempIndex < oldDomChildren.length && oldDomChildren.length > newDomChildren.length){
-                const tempChild = oldDomChildren[tempIndex];
+            while(oldDomChildren.length > newDomChildren.length){
+                const tempChild = oldDomChildren.pop();
                 const tempId = isTextNode(tempChild) ? null : tempChild.getAttribute('id')
                 if(!tempId || !tempChild.__aXComp__ || !newDomChildren.find(el => el.getAttribute('id') === tempId)){
-                    this._componentsRemovedFromDom[tempId] = oldDomChildren[tempIndex].__aXComp__
-                    oldDom.removeChild(oldDomChildren[tempIndex]);
-                    oldDomChildren.splice(tempIndex,1)
+                    this._componentsRemovedFromDom[tempId] = tempChild.__aXComp__
+                    oldDom.removeChild(tempChild);
+                    oldDomChildren.splice(oldDomChildren.length,1)
                 }
-                tempIndex++;
             }
 
             newDomChildren.forEach((element, index) => {
@@ -221,6 +219,7 @@ export default class Component {
                     if (element.childNodes.length || oldElement.childNodes.length) {
                         this._updateDomElement(oldElement, element)
                     }
+
                     const tempId = oldElement.getAttribute('id');
                     if(this._componentsRemovedFromDom[tempId]){
                         this._componentsRemovedFromDom[tempId].$clip = oldElement;
@@ -232,7 +231,13 @@ export default class Component {
             })
         }
 
+        while (this._componentsRemovedFromDom.length){
+            const domEl = document.getElementById(this._componentsRemovedFromDom.pop())
+            domEl.parentNode.removeChild(domEl);
+        }
         //Security check
+        ///think is no more neccesary
+        /*
         if (newDom.innerHTML.replace(/\s+/g, '') !== oldDom.innerHTML.replace(/\s+/g, '')) {
             aXplainWarn(`
                     Force innerHTML substitution :(
@@ -241,6 +246,7 @@ export default class Component {
                     `);
             oldDom.innerHTML = newDom.innerHTML;
         }
+        */
     }
     
     _onChangeState() {

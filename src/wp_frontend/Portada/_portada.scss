@@ -21,7 +21,7 @@ $iconW: 30px;
                 flex: 0;
             }
             &__right {
-                flex: 0 0 100%;
+                flex: 0;
             }
             &__obra {
                 width: 100%;
@@ -53,7 +53,7 @@ $iconW: 30px;
     &--GALLERY {
         .Portada {
             &__left {
-                flex: 0 0 100%;
+                flex: 1;
                 overflow-y: scroll;
                 background-color: rgba(0, 0, 0, 1);
                 .media__nano {
@@ -64,14 +64,16 @@ $iconW: 30px;
                 }
             }
             &__right {
-                flex: 0 0 0;
+                flex: 0;
                 overflow-y: hidden;
             }
             &__obra {
                 width: 100%;
+                //width: 0;
             }
             &__exhibitions {
-                width: 0;
+                width: 100%;
+                //width: 0;
             }
         }
     }
@@ -82,14 +84,14 @@ $iconW: 30px;
                 flex: 0 0 260px;
             }
             &__right {
-                flex: 1 0;
+                flex: 1 ;
                 overflow-y: scroll;
             }
             &__obra {
                 width: 30%;
             }
             &__exhibitions {
-                width: 70%;
+                //width: 70%;
             }
         }
     }
@@ -194,11 +196,16 @@ $iconW: 30px;
     }
 
     &__right {
+        position: relative;
         height: 100%;
         transition: all 0.468s ease-out;
+        text-align: right;
+        background-color: $black-color;
     }
     
     &__obra {
+        position: relative;
+        z-index: 10;
         float: left;
         background-color: $white-color;
         color: $black-color;
@@ -214,6 +221,7 @@ $iconW: 30px;
         z-index: 2;
         width: 100%;
         height: 0;
+        font-size: 13px;
         text-align: right;
         border-bottom: solid 1px grey;
         color: $grey-color;
@@ -221,21 +229,20 @@ $iconW: 30px;
     }
 
     &__exhibitions {
+        position: relative;
+        z-index: 20;
         font-size: 13px;
         background-color: #161415;
         color: $white-color;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
         transition: all 0.468s ease-out;
-
+        overflow: hidden;
+        height: 100%;
         p {
-            width: 100%;
-            word-wrap: none;
+            width: 1000px;
             height: 20px;
             line-height: 15px;
             margin: 5px;
-            text-align: center;
+            text-align: left;
         }
     }
 }
@@ -248,8 +255,7 @@ $iconW: 30px;
     
     * {
         background-color: #C4243C;
-        transition-delay: 1s;
-        transition: all 0.876s;
+        transition: all 0.25s 0.576s;
     }
 
     .lineH {
@@ -268,19 +274,15 @@ $iconW: 30px;
         right: $iconW/2-3;
         height: 50%;
         width: 6px;
-        margin-left: 3px;
         border-radius: 3px;
+        transform-origin: center bottom;
 
-        &.arrow-right {
-            margin-left: -5px;
-            right: 0;
-            transform-origin: center bottom;
-            transform: rotate(-45deg)
+        &.position--EXHIBITIONS {
+            right: $iconW/2-3;
+            transform: rotate(90deg)
         }
-        &.arrow-left {
-            margin-right: -5px;
-            left: 0;
-            transform-origin: center bottom;
+        &.position--GALLERY {
+            right: 80%;
             transform: rotate(45deg)
         }
     }
@@ -291,18 +293,15 @@ $iconW: 30px;
         right: $iconW/2-3;
         height: 50%;
         width: 6px;
-        margin-left: -3px;
         border-radius: 3px;
+        transform-origin: center top;
 
-        &.arrow-right {
-            margin-left: -5px;
-            right: 0;
-            transform-origin: center top;
-            transform: rotate(45deg)
+        &.position--EXHIBITIONS {
+            right: $iconW/2-3;
+            transform: rotate(90deg)
         }
-        &.arrow-left {
-            margin-right: -5px;
-            left: 0;
+        &.position--GALLERY {
+            right: 80%;
             transform-origin: center top;
             transform: rotate(-45deg)
         }

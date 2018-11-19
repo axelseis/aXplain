@@ -80,9 +80,7 @@ export function getAllAttributes(el) {
 }
 
 export function aXplainWarn(message){
-  if(window.env && env === 'dev'){
     console.warn(message)
-  }
 }
 
 const eventReplacement = {

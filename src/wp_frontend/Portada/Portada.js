@@ -1,10 +1,9 @@
 import Component from '../../lib/Component.js'
 import { go } from '../../lib/router.js';
 
-import {positions} from '../App/App.js';
 import Gallery from '../Gallery/Gallery.js';
 import Obra from '../Obra/Obra.js';
-import { getOffset } from '../../utils.js';
+import { positions } from '../App/App.js';
 
 export default class Portada extends Component {
 
@@ -17,7 +16,7 @@ export default class Portada extends Component {
             nano,
             postsOrder=[],
             posts={},
-            router:{params:{obraId:obraSel}},
+            router:{params:{obraId:obraSel},props:{position}},
             exhibitions
         } = {...state};  
         
@@ -25,7 +24,7 @@ export default class Portada extends Component {
         const postOver = posts[this.state && this.state.obraOver];
         const postThumb = postSel || postOver;
 
-        let info = '';
+        let info = null;
         let title = postSel && postSel.title;
         let thumb = 'https://nanovaldes.com/wp-content/uploads/2013/07/nanofoto-240x240.jpg';
 
@@ -41,10 +40,10 @@ export default class Portada extends Component {
             posts,
             thumb,
             info,
-            obraSel,
             title,
             nano,
-            exhibitions
+            exhibitions,
+            position
         })
     }
 
@@ -66,13 +65,18 @@ export default class Portada extends Component {
     }
 
     onClickNano(){
-        if(this.props.obraSel){
-            go('/');
-        }
-        else {
-            go('/exhibitions');
-        }
-    }
+        console.log('this.props.position', this.props.position)
+        switch(this.props.position){
+            case positions.obra: 
+                go('/exhibitions');
+                break;
+            case positions.gallery:
+                go('/');
+                break;
+            case positions.exhibitions:
+                go('/');
+                break;
+        }    }
     
     onMouseOverNano() {
         this.setState({
@@ -87,9 +91,8 @@ export default class Portada extends Component {
     }
     
     render() {
-        const {postsOrder,posts,thumb,info,obraSel,title,nano,exhibitions} = {...this.props}
+        const {postsOrder,posts,thumb,info,title,nano,exhibitions,position} = {...this.props}
         const {nanoHover} = {...this.state};
-        const plusStep = obraSel ? 'arrow-right' : 'plus';
         let actYear;
         
         return(`
@@ -97,7 +100,7 @@ export default class Portada extends Component {
                 <Gallery id="Gallery" class="media__Gallery"></Gallery>
                 <div id="bar" class="media__bar">
                     <div class="media__nano" onClick="onClickNano" onMouseOver="onMouseOverNano" onMouseOut="onMouseOutNano">
-                        ${nano.name} ${plusAnim(plusStep, nanoHover)}
+                        ${nano.name} ${plusAnim(position, nanoHover)}
                     </div>
                     <div class="media__thumbnail">
                         <div class="media__thumbnail__selected" style="background-image:url(${thumb})"></div>
@@ -158,12 +161,12 @@ export default class Portada extends Component {
     }
 }
 
-const plusAnim = (step, hover) => {
+const plusAnim = (position, hover) => {
     return(`
         <div class="plusAnim ${hover ? 'hover' : ''}">
             <div class="lineH"></div>
-            <div class="lineV1 ${step}"></div>
-            <div class="lineV2 ${step}"></div>
+            <div class="lineV1 position--${position}"></div>
+            <div class="lineV2 position--${position}"></div>
         </div>
     `)
 }

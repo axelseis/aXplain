@@ -17,7 +17,6 @@ export const positions = {
     exhibitions: 'EXHIBITIONS'
 }
 
-
 const routes = [
     { url: "/", position:positions.obra},
     { url: "/obra/:obraId", position:positions.gallery},
@@ -49,12 +48,6 @@ export default class App extends Component {
         })
     }
     
-    onEndLoaderTransition(ev) {
-        this.setState({
-            endTransition: true
-        })
-    }
-
     onEndRender(){
         if(!this.state.rendered){
             this.setState({
@@ -64,7 +57,7 @@ export default class App extends Component {
     }
 
     render() {
-        const {rendered,endTransition} = {...this.state};
+        const {rendered} = {...this.state};
         const {hasPosts,position} = {...this.props};
 
         const loaderClass = rendered ? 'App--inited' : '';
@@ -72,7 +65,7 @@ export default class App extends Component {
         return(`
             <Portada id="Portada" class="Portada Portada--${position}" showing="${hasPosts}"></Portada>
             ${!hasPosts ? `
-                <div id="loader" class="App__loader ${loaderClass}" onanimationiteration="onEndLoaderTransition">
+                <div id="loader" class="App__loader ${loaderClass}">
                     <span>nano valdes</span>
                 </div>
             ` : ''}
