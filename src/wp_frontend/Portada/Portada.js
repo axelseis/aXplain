@@ -65,7 +65,6 @@ export default class Portada extends Component {
     }
 
     onClickNano(){
-        console.log('this.props.position', this.props.position)
         switch(this.props.position){
             case positions.obra: 
                 go('/exhibitions');
