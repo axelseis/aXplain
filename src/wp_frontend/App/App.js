@@ -30,8 +30,6 @@ export default class App extends Component {
         
         initStore([AppReducer,ObraReducer], {...state,...initialState});
         initRouter(routes, window.BASE_URL || '');
-
-        getPosts();
     }
     
     stateToprops(state){
@@ -53,6 +51,7 @@ export default class App extends Component {
             this.setState({
                 rendered: true
             })
+            getPosts();
         }
     }
 

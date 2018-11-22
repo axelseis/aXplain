@@ -1,14 +1,15 @@
-$obraH: 40px;
+$obraH: 30px;
 
 .Obra {
     width: 100%;
     text-align: left;
     flex: 0 0 $obraH;
-    display: block;
+    margin-left: 100%;
     cursor: pointer;
     color: $black-color;
     box-sizing: border-box;
     display: flex;
+    align-items: center;
     padding: 0 10px;
     animation: goInRight 0.54s forwards;
     transition: color 0.654s ease-out;
@@ -22,7 +23,7 @@ $obraH: 40px;
     &__title {
         min-width: 300px;
         width: 100%;
-        font-weight: 600;
+        font-weight: 400;
         font-size: 18px;
     }
 }
