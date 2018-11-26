@@ -89,6 +89,7 @@ $iconW: 30px;
             }
             &__obra {
                 width: 30%;
+                min-width: 260px;
             }
             &__exhibitions {
                 //width: 70%;
@@ -236,7 +237,7 @@ $iconW: 30px;
         color: $white-color;
         transition: all 0.468s ease-out;
         overflow: hidden;
-        height: 100%;
+
         p {
             width: 1000px;
             height: 20px;
@@ -273,7 +274,7 @@ $iconW: 30px;
         top: 0;
         right: $iconW/2-3;
         height: 50%;
-        width: 6px;
+        width: 5px;
         border-radius: 3px;
         transform-origin: center bottom;
 
@@ -282,7 +283,8 @@ $iconW: 30px;
             transform: rotate(90deg)
         }
         &.position--GALLERY {
-            right: 80%;
+            top: -1px;
+            right: 85%;
             transform: rotate(45deg)
         }
     }
@@ -292,7 +294,7 @@ $iconW: 30px;
         top: 50%;
         right: $iconW/2-3;
         height: 50%;
-        width: 6px;
+        width: 5px;
         border-radius: 3px;
         transform-origin: center top;
 
@@ -301,8 +303,7 @@ $iconW: 30px;
             transform: rotate(90deg)
         }
         &.position--GALLERY {
-            right: 80%;
-            transform-origin: center top;
+            right: 85%;
             transform: rotate(-45deg)
         }
     }
