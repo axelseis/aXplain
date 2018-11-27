@@ -1,6 +1,8 @@
 import Component from '../../lib/Component.js'
 import { go } from '../../lib/router.js';
 
+import Media from './Media.js';
+
 import Gallery from '../Gallery/Gallery.js';
 import Obra from '../Obra/Obra.js';
 import { positions } from '../App/App.js';
@@ -90,35 +92,13 @@ export default class Portada extends Component {
     }
     
     render() {
-        const {postsOrder,posts,thumb,info,title,nano,exhibitions,position} = {...this.props}
-        const {nanoHover} = {...this.state};
+        const {postsOrder,posts,exhibitions} = {...this.props}
         let actYear;
         
         return(`
             <div id="media" class="Portada__left" >
                 <Gallery id="Gallery" class="media__Gallery"></Gallery>
-                <div id="bar" class="media__bar">
-                    <div class="media__nano" onClick="onClickNano" onMouseOver="onMouseOverNano" onMouseOut="onMouseOutNano">
-                        ${nano.name} ${plusAnim(position, nanoHover)}
-                    </div>
-                    <div class="media__thumbnail">
-                        <div class="media__thumbnail__selected" style="background-image:url(${thumb})"></div>
-                        <div class="media__thumbnail__default"></div>
-                        ${title ? `
-                            <span>${title}</span>
-                        `: ''}
-                    </div>
-                    <div class="media__info">
-                        ${info || `
-                            <p class="info__address">${nano.address}</p>
-                            <a href="mailto:${nano.mail}" class="info__mail">${nano.mail}</a>
-                            <div class="info__phone">${nano.phone.map(phone => `
-                                <a href="tel:${phone.replace(/\s/g,'')}" class="phone">${phone}</a>
-                            `).join('')}</div>
-                            <div class="info__exhibitions" onClick="onClickNano">exhibitions</div>
-                        `}
-                    </div>
-                </div>
+                ${Media(this.props,this.state)}
             </div>
             <div class="Portada__right">
                 <div class="Portada__obra">
@@ -160,12 +140,3 @@ export default class Portada extends Component {
     }
 }
 
-const plusAnim = (position, hover) => {
-    return(`
-        <div class="plusAnim ${hover ? 'hover' : ''}">
-            <div class="lineH"></div>
-            <div class="lineV1 position--${position}"></div>
-            <div class="lineV2 position--${position}"></div>
-        </div>
-    `)
-}

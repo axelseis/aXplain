@@ -184,9 +184,32 @@ $iconW: 30px;
                 margin-top: 290px;
                 font-size: 0.85em;
 
-                a{
-                    color: white;
-                    display: block;
+                .info {
+                    &__mail, &__phone {
+                        color: white;
+                        display: block;
+                        margin-top: 10px;
+                        &:hover {
+                            background-color: $white-color;
+                            color: $black-color;
+                        }
+                    }
+                    &__exhibitions {
+                        margin-top: 20px;
+                        font-size: 30px;
+                        font-weight: 600;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        cursor: pointer;
+                        text-transform: uppercase;
+                        color: $white-color;
+        
+                        &:hover {
+                            background-color: $white-color;
+                            color: $black-color;
+                        }
+                            }
                 }
             }
         }
