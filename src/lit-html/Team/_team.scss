@@ -1,0 +1,56 @@
+.Team {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    min-width: $minW;
+    box-sizing: border-box;
+    padding-bottom: 50px;
+    
+    &__list {
+        position: relative;
+        width: 100%;
+        max-width: $maxW;
+        display: flex;
+        flex-direction: column;
+        margin: 190px auto 0;
+        box-sizing: border-box;
+        background-color: white;
+        box-shadow: 0px -5px 5px 0px $greyDark;
+    }
+
+    &__footer {
+        position: relative;
+        width: 100%;
+        max-width: $maxW;
+        height: 50px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        border-top: solid 1px $grey;
+        background-color: white;
+        margin: 0 auto;
+        box-shadow: 0px 1px 3px 0 $greyDark;
+
+        .footer__button {
+            width: 33px;
+            height: 35px;
+            font-size: 14px;
+            line-height: 35px;
+            border: solid 1px $grey;
+            text-align: center;
+            color: $blue;
+            box-sizing: border-box;
+            cursor: pointer;
+
+            &:nth-child(n+2){
+                border-left: none;
+            }
+            &.button--selected {
+                background-color: $blue;
+                color: white;
+            }
+        }
+    }
+}

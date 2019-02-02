@@ -4,11 +4,13 @@ import { initStore } from './lib/store.js';
 import OLApp from "./ordered_list/App/App.js";
 import IGApp from "./images_gallery/App/App.js";
 import WPApp from "./wp_frontend/App/App.js";
+import LitApp from "./lit-html/App/App.js";
 
 const demos = {
     images_gallery: IGApp,
     ordered_list: OLApp,
-    wp_frontend: WPApp
+    wp_frontend: WPApp,
+    lit_html: LitApp
 }
 
 export default class App extends Component {
@@ -16,7 +18,7 @@ export default class App extends Component {
         super(className, [WPApp]);
         initStore([], {});
 
-        this.setDemoSelected(Object.keys(demos)[2])
+        this.setDemoSelected('lit_html')
     }
     
     stateToprops(state){

@@ -36,6 +36,7 @@
     "express": "^4.16.4",
     "extract-loader": "^3.0.0",
     "jest": "^22.1.1",
+    "lit-html": "^1.0.0-rc.2",
     "livereload": "^0.7.0",
     "mini-css-extract-plugin": "^0.4.4",
     "node-dev": "^3.1.3",

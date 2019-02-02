@@ -116,6 +116,8 @@ export default class Component {
         const tmpStr = this.render();
 
         if (tmpStr) {
+            console.log('tmpStr', tmpStr)
+            /*
             this.renderTemplate(this.$clip, tmpStr)
             if(this._classes2Render && this._classes2Render.length){
                 requestAnimationFrame(() => {
@@ -126,7 +128,7 @@ export default class Component {
                 requestAnimationFrame(() => {
                     this.onEndRender();
                 })
-            }
+            }*/
         }
     }
 
