@@ -1,3 +1,4 @@
+import { html } from '../../lib/lit-html/lit-html.js';
 
 import Component from '../../lib/Component.js'
 import { setImageError } from './actions.js';
@@ -57,16 +58,16 @@ export default class User extends Component {
             year:'numeric'
         }).split(' ')[0];
 
-        return(`
+        return(html`
             <div class="User__info">
                 <div class="User__avatar" style="background-color:${this.departmentColor}">
-                    ${ImageURL && !imageError ? `
+                    ${ImageURL && !imageError ? html`
                         <img src="${ImageURL}" 
                             class="avatar__image" 
                             alt="${name}"
-                            onError="onImageError"
+                            @error="${(ev)=> this.onImageError(ev)}"
                         />
-                    ` : `
+                    ` : html`
                         <div class="avatar__Acronym">${Acronym}</div>
                     `}    
                 </div>

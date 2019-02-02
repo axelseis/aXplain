@@ -1,3 +1,4 @@
+import { html } from '../../lib/lit-html/lit-html.js';
 
 import Component from '../../lib/Component.js'
 import { sortByOrder, filterByDate } from './actions.js';
@@ -28,8 +29,8 @@ export default class Header extends Component {
     }
     
     onChangeDateInput(ev) {
-        const dateIn = this.$dateIn.value;
-        const dateOut = this.$dateOut.value;
+        const dateIn = ev.currentTarget.value;
+        const dateOut = ev.currentTarget.value;
 
         filterByDate(dateIn,dateOut)
     }
@@ -38,42 +39,38 @@ export default class Header extends Component {
         const minDate = new Date(this.props.minTime).toISOString().slice(0,10);
         const maxDate = new Date(this.props.maxTime).toISOString().slice(0,10);
 
-        const inputProps = `
-            type="date" 
-            date-format="dd/mm/yyyy"
-            min="${minDate}" 
-            max="${maxDate}"
-        `
+        const dateInput = (id,className) => html`
+            <input id="${id}"    
+                class="${className}" 
+                type="date" 
+                date-format="dd/mm/yyyy"
+                min="${minDate}" 
+                max="${maxDate}"
+                @change="${(ev)=>this.onChangeDateInput(ev)}"
+            />
+        `;
 
-        return(`
+        return(html`
             <div class="Header__logo"></div>
             <div class="Header__filters">
                 <div class="Header__filters__date">
                     <div class="date__title">EQUIPO</div>
                     <div class="date__label">Filtrar por fecha de incorporación</div>
-                    <div class="date__inputs">
-                        <input ${inputProps}
-                            id="dateIn" 
-                            class="Header__date date--in" 
-                            onChange="onChangeDateInput">
-                        </input>
-                        <input ${inputProps}
-                            id="dateOut" 
-                            class="Header__date date--out" 
-                            onChange="onChangeDateInput">
-                        </input>
+                    <div class="date__inputs">                            
+                        ${dateInput('dateIn', 'Header__date date--in')}
+                        ${dateInput('dateOut', 'Header__date date--out')}
                     </div>    
                 </div>
                 <div class="Header__filters__order">
                     ${this.props.orderFilters.map(filter => {
                         const selected = filter.id === this.props.filterSelected ? 'property--selected' : '';
                         const icon = !selected ? 'fas fa-sort' : filter.asc ? 'fas fa-sort-up' : 'fas fa-sort-down';
-                        return(`
-                            <div class="Header__order ${selected}" asc="${filter.asc}" filterId="${filter.id}" onClick="onClickOrder">
+                        return(html`
+                            <div class="Header__order ${selected}" asc="${filter.asc}" filterId="${filter.id}" @click="${(ev)=>this.onClickOrder(ev)}">
                                 <span class="order__title">${filter.title}</span> <i class="order__icon ${icon}"></i>
                             </div>
                         `)
-                    }).join('')}
+                    })}
                 </div>
             </div>
         `)

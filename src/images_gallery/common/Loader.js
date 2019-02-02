@@ -1,5 +1,7 @@
+import { html } from '../../lib/lit-html/lit-html.js';
+
 export default function Loader(loaded) {
-    return(/*html*/`
+    return(html`
         <div class="Loader Loader--${loaded ? 'loaded' : 'loading'}">
             <svg width="38" height="38" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" stroke="#ac0e35">
                 <g fill="none" fill-rule="evenodd">

@@ -1,4 +1,4 @@
-
+import { html } from '../../lib/lit-html/lit-html.js';
 import Component from '../../lib/Component.js'
 import { initStore, state } from '../../lib/store.js';
 import { initRouter } from '../../lib/router.js';
@@ -42,7 +42,7 @@ export default class App extends Component {
     }
 
     render() {
-        return(/*html*/`
+        return(html`
             <style scoped>
                 .Header {
                     right: ${this.props.scrollbarWidth}

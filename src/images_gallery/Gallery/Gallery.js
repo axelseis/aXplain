@@ -1,3 +1,5 @@
+import { html } from '../../lib/lit-html/lit-html.js';
+
 import Component from '../../lib/Component.js'
 import {mapEvent} from '../../lib/utils.js'
 import {setWindowSize, setScrollPos} from './actions.js';
@@ -52,7 +54,7 @@ export default class Gallery extends Component {
         const images = this.props.images;
         const loaded = images && images.length;
 
-        return(`
+        return(html`
             <style>
                 .Gallery__photo {
                     width: ${this.props.imageW}px;
@@ -63,14 +65,13 @@ export default class Gallery extends Component {
             <div class="Gallery__header">
             </div>
             <div class="Gallery__content">
-                ${loaded ? `
-                    ${images.map(image => {
+                ${loaded ? images.map(image => {
                         const title = parseStringToHTML(image.title);
                         const owner = image.owner;
                         const ownername = parseStringToHTML(image.ownername);
                         const imageUrl = image.url_s || image.url_q || image.url_t
                         
-                        return(`
+                        return(html`
                             <Photo class="Gallery__photo Photo"
                                 id="${image.id}"
                                 url="${imageUrl}" 
@@ -79,8 +80,8 @@ export default class Gallery extends Component {
                                 owner="${owner}">
                             </Photo>
                         `)
-                    }).join('')}
-                ` : ''}
+                    })
+                 : ''}
             </div>
             <div class="Gallery__footer">
             </div>

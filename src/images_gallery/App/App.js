@@ -1,3 +1,5 @@
+import { html } from '../../lib/lit-html/lit-html.js';
+
 import Component from '../../lib/Component.js';
 import { initStore, state } from '../../lib/store.js';
 import { initRouter } from '../../lib/router.js';
@@ -28,7 +30,7 @@ export default class App extends Component {
     }
     
     render() {
-        return(`
+        return(html`
             <Gallery class="Gallery"></Gallery>
             <Visor class="Visor"></Visor>
         `)

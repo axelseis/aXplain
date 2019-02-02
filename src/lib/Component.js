@@ -1,3 +1,5 @@
+import { render } from './lit-html/lit-html.js';
+
 import { state } from './store.js';
 import { isDOMElement, isString, cleanChildNodes, getAllAttributes, aXplainWarn, mapEvent } from './utils.js'
 import { setComponentProps } from './actions.js';
@@ -116,9 +118,7 @@ export default class Component {
         const tmpStr = this.render();
 
         if (tmpStr) {
-            console.log('tmpStr', tmpStr)
-            /*
-            this.renderTemplate(this.$clip, tmpStr)
+            console.log('tmpStr', tmpStr);
             if(this._classes2Render && this._classes2Render.length){
                 requestAnimationFrame(() => {
                     this._initSubcomponents();
@@ -128,16 +128,22 @@ export default class Component {
                 requestAnimationFrame(() => {
                     this.onEndRender();
                 })
-            }*/
+            }
+            render(tmpStr,this.$clip);
+            /*
+            this.renderTemplate(this.$clip, tmpStr)
+          */
         }
     }
 
     _initSubcomponents(){
         this._components = this._components || [];
-
+        
         this._classes2Render.map(classFunc => {
             const className = classFunc.prototype.constructor.name;
+            console.log('className', className)
             const elements = this.$clip.querySelectorAll(className.toLowerCase());
+            console.log('elements', elements)
             
             Object.keys(elements).forEach((id,index) => {
                 const tempName = elements[id].getAttribute('id') || className + index;
@@ -151,6 +157,7 @@ export default class Component {
                 }
             });
         })
+        console.log('this._components', this._components)
     }
 
     _isSubcomponent(element){

@@ -1,3 +1,5 @@
+import { html } from '../../lib/lit-html/lit-html.js';
+import { repeat } from '../../lib/lit-html/directives/repeat.js';
 
 import Component from '../../lib/Component.js'
 import User from '../User/User.js'
@@ -86,37 +88,22 @@ export default class Team extends Component {
     render() {
         const {order,page,maxPages} = {...this.props};
     
-        // filterSel.asc = !filterSel.asc;
-        //     const compare = (user1, user2) => {
-        //     let response = 0;
-    
-        //     if (filterSel.asc) {
-        //         response = user1[orderId] > user2[orderId] ? 1 : -1
-        //     }
-        //     else {
-        //         response = user1[orderId] < user2[orderId] ? 1 : -1
-        //     }
-        //     return response;
-        // }
-        // const initialOrder = Object.values(state.users).sort(compare).map(user => user.UserId);
-        // const order = _filterByDates(initialOrder,users,dateIn,dateOut)
-    
-        return(`
+        return(html`
             <div class="Team__list">
-                ${order.map(UserId => `
-                    <User id="${UserId}" class="User Team__user"></User>
-                `).join('')}
+                ${repeat(order, (userId) => userId, (userId) => html`
+                    <User id="${userId}" class="User Team__user"></User>
+                `)}
             </div>
             <div class="Team__footer">
-                ${maxPages > 0 ? `
-                    <div class="footer__button button--prev" onClick="onClickPrevButton"><</div>
+                ${maxPages > 0 ? html`
+                    <div class="footer__button button--prev" @click="${(ev)=>this.onClickPrevButton(ev)}"><</div>
                     ${[...Array(maxPages)].map((x,index) => {
                         const selected = (index+1) == page ? 'button--selected' : '';
-                        return(`
-                            <div class="footer__button button--page ${selected}" pageindex="${index+1}" onClick="onClickPageButton">${index+1}</div>
+                        return(html`
+                            <div class="footer__button button--page ${selected}" pageindex="${index+1}" @click="${(ev)=>this.onClickPageButton(ev)}">${index+1}</div>
                         `)
-                    }).join('')}
-                    <div class="footer__button button--next" onClick="onClickNextButton">></div>
+                    })}
+                    <div class="footer__button button--next" @click="${(ev)=>this.onClickNextButton(ev)}">></div>
                 ` : ''}
             </div>
         `)

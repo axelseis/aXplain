@@ -1,3 +1,5 @@
+import { html } from '../../lib/lit-html/lit-html.js';
+
 import Component from '../../lib/Component.js'
 import { getWindowSize } from '../../utils.js';
 import {getImageDetails, onImageLoaded, onImageClosed} from './actions.js';
@@ -51,7 +53,9 @@ export default class Visor extends Component {
     }
 
     onLoadImage(ev){
+        console.log('ev', ev)
         onImageLoaded(this.props.imageUrl);
+        console.log('this.props.imageUrl', this.props.imageUrl)
     }
     
     onClickCloseButton(ev){
@@ -62,13 +66,13 @@ export default class Visor extends Component {
     getImageDetails(){
         const {title,description,taken,name,location} = {...this.props.imageDetails};
         
-        return(`
+        return(html`
             <div class="Visor__details">
                 <div class="detail__title">${title}</div>
                 <div class="detail__description">${description}</div>
                 <div class="detail__name">${name}</div>
                 <div class="detail__taken">${taken}</div>
-                ${location ? `
+                ${location ? html`
                     <div class="detail__location">${location}</div>
                 ` : ''}
             </div>            
@@ -78,7 +82,7 @@ export default class Visor extends Component {
     render() {
         const {top,left,width,height} = {...this.props.imagePos}
 
-        return(`
+        return(html`
             <style>
                 .Visor {
                     z-index: ${this.props.showing ? 10 : -1};            
@@ -88,14 +92,12 @@ export default class Visor extends Component {
                     height: ${height};
                 }
             </style>
-            ${this.props.imageLoaded ? `
-                <div class="Visor__closeButton" onClick="onClickCloseButton"></div>
-            ` : `
-                ${Loader(false)}
-            `}
+            ${this.props.imageLoaded ? html`
+                <div class="Visor__closeButton" @click="${(ev)=>this.onClickCloseButton(ev)}"></div>
+            ` : Loader(false)}
             <div class="Visor__image image--${this.props.imageLoaded ? 'loaded' : 'loading'}">
-                ${this.props.imageUrl ? `
-                    <img src="${this.props.imageUrl}" alt="${this.props.imageUrl}" onload="onLoadImage">
+                ${this.props.imageUrl ? html`
+                    <img src="${this.props.imageUrl}" alt="${this.props.imageUrl}" @load="${(ev)=>this.onLoadImage(ev)}">
                 ` : ''}
             </div>
             ${this.props.imageLoaded && this.props.imageDetails ? this.getImageDetails() : ''}
