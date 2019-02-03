@@ -1,7 +1,7 @@
 import { render } from './lit-html/lit-html.js';
 
 import { state } from './store.js';
-import { isDOMElement, isString, cleanChildNodes, getAllAttributes, aXplainWarn, mapEvent } from './utils.js'
+import { isDOMElement, cleanChildNodes, getAllAttributes, mapEvent } from './utils.js'
 import { setComponentProps } from './actions.js';
 
 const uniqueNames = [];
@@ -43,14 +43,14 @@ export default class Component {
         this._components = {};
         this._componentsRemovedFromDom = {};
         this._stateListener = this._onChangeState.bind(this);
+                
         document.addEventListener('state', this._stateListener);
-
         this._stateListener();
     }
 
     setState({...props} = {}){
         setComponentProps(this.name,props)
-        this.forceRender();
+        this._forceRender();
     }
 
     get state() {
@@ -78,47 +78,10 @@ export default class Component {
         return `Hello I'm ${this.name} and these are my props: ${this.props}`;
     }
 
-    renderTemplate($domElement, templateTpl) {
-        const templateStr = templateTpl
-        .replace(/(?:\r\n|\r|\n)/g, '')
-        .replace(/(onload|onLoad|onerror|onError|onMouseOver|onMouseOut|onClick|onanimationend|onanimationiteration)=/g, "$1_event=")
-        //.replace(/()=/g, 'onerror_event=');
-        
-        if (!$domElement || !isDOMElement($domElement)) {
-            throw new TypeError(`${this.type}: renderTemplate requires a DOMElement and you passed [${$domElement}]`)
-        }
-        if (!templateStr || !isString(templateStr)) {
-            throw new TypeError(`${this.type}: renderTemplate requires a string and you passed [${$domElement}]`)
-        }
-        if (!$domElement.children.length) {
-            $domElement.innerHTML = templateStr;
-        }
-        else {
-            const $tempDom = document.createElement('div');
-            $tempDom.innerHTML = templateStr;
-
-            if ($domElement.innerHTML === $tempDom.innerHTML) {
-                aXplainWarn(
-                    `${this.type}: the updated DOM provided to renderTemplate is equal than
-                    actual DOM, maybe our stateToProps function is not well optimized`
-                )
-            }
-            else if (!$tempDom.children.length) {
-                $domElement.innerHTML = $tempDom.innerHTML
-            }
-            else {
-                this._updateDomElement($domElement, $tempDom);
-            }
-        }
-
-        this._setDomEvents($domElement);
-    }
-
-    forceRender() {
+    _forceRender() {
         const tmpStr = this.render();
 
         if (tmpStr) {
-            console.log('tmpStr', tmpStr);
             if(this._classes2Render && this._classes2Render.length){
                 requestAnimationFrame(() => {
                     this._initSubcomponents();
@@ -130,9 +93,6 @@ export default class Component {
                 })
             }
             render(tmpStr,this.$clip);
-            /*
-            this.renderTemplate(this.$clip, tmpStr)
-          */
         }
     }
 
@@ -141,9 +101,7 @@ export default class Component {
         
         this._classes2Render.map(classFunc => {
             const className = classFunc.prototype.constructor.name;
-            console.log('className', className)
             const elements = this.$clip.querySelectorAll(className.toLowerCase());
-            console.log('elements', elements)
             
             Object.keys(elements).forEach((id,index) => {
                 const tempName = elements[id].getAttribute('id') || className + index;
@@ -157,7 +115,6 @@ export default class Component {
                 }
             });
         })
-        console.log('this._components', this._components)
     }
 
     _isSubcomponent(element){
@@ -273,7 +230,7 @@ export default class Component {
             force = true;
         }
         
-        if(force) this.forceRender();
+        if(force) this._forceRender();
     }
 
     _setDomEvents($domElement) {

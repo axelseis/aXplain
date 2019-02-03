@@ -18,7 +18,7 @@ export default class App extends Component {
         super(className, [WPApp]);
         initStore([], {});
 
-        this.setDemoSelected('ordered_list')
+        this.setDemoSelected('wp_frontend')
     }
     
     stateToprops(state){

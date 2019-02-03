@@ -3,7 +3,7 @@ import { state, dispatchAction } from './store.js';
 export const actions = {
     SET_ROUTES: 'SET_ROUTES',
     SET_LOCATION: 'SET_LOCATION',
-    SET_COMPONENT_PROP: 'SET_COMPONENT_PROP_nolog',
+    SET_COMPONENT_PROP: 'SET_COMPONENT_PROP',
     SET_APP_PROP: 'SET_APP_PROP_nolog',
     SET_APP_PROP_LOG: 'SET_APP_PROP',
 }

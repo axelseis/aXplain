@@ -107,6 +107,7 @@ $iconW: 30px;
 
         .media {
             &__bar {
+                position: relative;
                 flex: 0 0 $barW;
                 padding: 5px;
                 display: flex;
@@ -114,8 +115,8 @@ $iconW: 30px;
                 justify-content: stretch;
             }
             &__nano {
-                position: fixed;
-                width: $barW;
+                position: absolute;
+                width: 100%;
                 top: 0;
                 font-size: 30px;
                 font-weight: 600;
@@ -132,9 +133,9 @@ $iconW: 30px;
                 }
             }
             &__thumbnail {
-                position: fixed;
+                position: absolute;
                 top: 0;
-                width: $barW;
+                width: 100%;
                 height: $barW;
                 margin-top: 40px;
                 flex: 0 0 $barW;

@@ -1,5 +1,9 @@
 
+import { html } from '../../lib/lit-html/lit-html.js';
+
 import Component from '../../lib/Component.js';
+import { stringToDom } from '../../lib/utils.js'
+
 import { getPostImages } from './actions.js';
 
 export default class Obra extends Component {
@@ -27,9 +31,9 @@ export default class Obra extends Component {
     render() {
         const {title} = {...this.props};
 
-        return(`
+        return(html`
             <div class="Obra__info">
-                <div class="Obra__title">${title}</div>
+                <div class="Obra__title">${stringToDom(title)}</div>
             </div>
         `)
     }

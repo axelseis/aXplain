@@ -48,7 +48,7 @@ function setPosts(state, payload = []) {
             _embedded
         } = {...post}
         
-        const {media_details:{sizes},source_url} = {..._embedded['wp:featuredmedia'][0]}
+        const {media_details:{sizes}={},source_url} = {...(_embedded['wp:featuredmedia'] || [])[0]}
         const featuredMedia = sizes && sizes.thumbnail ? sizes : {
             thumbnail: {
                 source_url

@@ -21,11 +21,13 @@
 
             &.image--loading {
                 opacity: 0;
+                transform: scale(0);
             }
 
             &.image--loaded {
                 opacity: 1;
-                transition: opacity 0.345s;
+                transform: scale(1);
+                transition: opacity, transform-scale, 0.645s;
             }
         }
     }

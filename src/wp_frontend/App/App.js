@@ -1,3 +1,5 @@
+import { html } from '../../lib/lit-html/lit-html.js';
+import { repeat } from '../../lib/lit-html/directives/repeat.js';
 import '../../../node_modules/regenerator-runtime/runtime.js';
 
 import Component from '../../lib/Component.js';
@@ -61,9 +63,9 @@ export default class App extends Component {
 
         const loaderClass = rendered ? 'App--inited' : '';
 
-        return(`
+        return(html`
             <Portada id="Portada" class="Portada Portada--${position}" showing="${hasPosts}"></Portada>
-            ${!hasPosts ? `
+            ${!hasPosts ? html`
                 <div id="loader" class="App__loader ${loaderClass}">
                     <span>nano valdes</span>
                 </div>

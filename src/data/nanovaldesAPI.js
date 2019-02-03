@@ -7,7 +7,7 @@ export function getPostsJSON() {
 }
 
 export function getPostImagesJSON(postId) {
-    return aXget(`${apiServer}/media?parent=${postId}`);
+    return aXget(`${apiServer}/media?parent=${postId}&per_page=100`);
 }
 
 export function getPageJSON(pageId) {

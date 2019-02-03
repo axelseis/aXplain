@@ -1,3 +1,5 @@
+import { html } from '../../lib/lit-html/lit-html.js';
+
 import Component from '../../lib/Component.js'
 import { getWindowSize, getOffset } from '../../utils.js';
 
@@ -29,7 +31,7 @@ export default class Gallery extends Component {
 
         if(postSel){
             const {winW,winH} = {...this.state};
-            const {width:barW} = {...getOffset(document.getElementById('bar'))}
+            const {width:barW} = {...getOffset(document.getElementById('InfoBar'))}
 
             maxW = winW - barW;
             maxH = winH-5;
@@ -86,28 +88,32 @@ export default class Gallery extends Component {
         const {gallery,featured,maxW,maxH} = {...this.props}
         const {imagesLoaded=[]} = {...this.state}
         
-        return(`
+        return(html`
             <div class="media__Gallery">
                 ${gallery.map(image => {
                     const {width,height,source_url,imageId} = {...image}
+                    
                     const loaded = imagesLoaded.indexOf(source_url) === -1;
                     const imageClass= `Gallery__image image--${loaded? 'loading' : 'loaded'}`;
+                    const isFirst = imageId === featured;
+                    
                     const vertical = height > width;
                     const aspect = width/height;
-                    const maxImageW = Math.min(maxW, maxH*aspect);
                     const maxImageH = maxW*aspect > maxH ? maxH : Math.max(maxH, maxW*aspect);
-        
-                    const imageStyle = `
-                        max-width: ${vertical ? maxImageH*aspect : maxImageW}px;
-                        max-height: ${vertical ? maxImageH : maxImageW*aspect}px;
-                    `
-                    const isFirst = imageId === featured;
-                    return(`
+                    const maxImageW = vertical ? maxImageH*aspect : Math.min(maxW, maxH*aspect);
+
+                    return(html`
                         <div class="${imageClass}" style="${isFirst ? 'order:1' : 'order:2'}; flex:0 0 ${height}px">
-                            <img src="${source_url}" style="${imageStyle}" onload="onLoadGalleryImage" />
+                            <img src="${source_url}" 
+                                style="
+                                    max-width: ${maxImageW}px;
+                                    max-height: ${maxImageH}px;                        
+                                " 
+                                @load="${(ev)=>this.onLoadGalleryImage(ev)}"
+                            />
                         </div>
                     `)
-                }).join('')}
+                })}
             </div>
         `)
     }
