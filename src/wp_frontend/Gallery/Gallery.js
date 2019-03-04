@@ -1,6 +1,5 @@
 import Component from '../../lib/Component.js'
 import { getWindowSize, getOffset } from '../../utils.js';
-
 export default class Gallery extends Component {
 
     constructor(className) {
@@ -82,6 +81,12 @@ export default class Gallery extends Component {
         })
     }
 
+    onClickImage(ev){
+        console.log('ev.target', ev.currentTarget)
+        ev.currentTarget.requestFullscreen();
+        console.log('ev', ev);
+    }
+
     render() {
         const {gallery,featured,maxW,maxH} = {...this.props}
         const {imagesLoaded=[]} = {...this.state}
@@ -103,7 +108,7 @@ export default class Gallery extends Component {
                     `
                     const isFirst = imageId === featured;
                     return(`
-                        <div class="${imageClass}" style="${isFirst ? 'order:1' : 'order:2'}; flex:0 0 ${height}px">
+                        <div onClick="onClickImage" class="${imageClass}" style="${isFirst ? 'order:1' : 'order:2'}; flex:0 0 ${height}px">
                             <img src="${source_url}" style="${imageStyle}" onload="onLoadGalleryImage" />
                         </div>
                     `)

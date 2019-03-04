@@ -54,6 +54,7 @@
   },
   "dependencies": {
     "fs": "0.0.1-security",
+    "fullscreen-polyfill": "^1.0.2",
     "node-fetch": "^2.2.0",
     "promise-polyfill": "^7.0.0",
     "whatwg-fetch": "^2.0.3"

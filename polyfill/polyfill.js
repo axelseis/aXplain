@@ -1,3 +1,4 @@
+import "./fullscreen-api.js"
 import "./Element.children.js"
 import "./Object.values.js"
 import "./Function.name.js"
